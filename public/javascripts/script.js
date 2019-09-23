@@ -4,13 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 }, false);
 
-
 // Initialize and add the map
 function initMap() {
   // The location of Building Co
-  var park = {
-      lat: 25.723354,
-      lng: -80.321624
+  var building = {
+      lat: 25.766675,
+      lng: -80.196130
+
+       
   };
   // var lake = {
   //     lat: 25.719614,
@@ -21,11 +22,11 @@ function initMap() {
   var map = new google.maps.Map(
       document.getElementById('map'), {
           zoom: 11,
-          center: park
+          center: building
       });
   // The marker, positioned at park
   var marker = new google.maps.Marker({
-      position: park,
+      position: building,
       map: map
   });
   //To make multiple markers
