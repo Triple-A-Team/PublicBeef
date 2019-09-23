@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+//************START GOOGLE MAPS CODE************
 
 //Object of locations
-
 var locations={
   building:{
     center: {
@@ -23,7 +23,7 @@ function initMap() {
 
   var map = new google.maps.Map(
       document.getElementById('map'), {
-          zoom: 17,
+          zoom: 16,
           center: {lat: 25.766675, lng:-80.196130}
       });
 
@@ -39,7 +39,7 @@ function initMap() {
             fillOpacity: 0.35,
             map: map,
             center: {lat: 25.766675, lng:-80.196130},
-            radius: 50 //Math.sqrt(citymap[city].population) * 100
+            radius: 80 //Math.sqrt(citymap[city].population) * 100
               
           });
         }
@@ -56,3 +56,4 @@ function initMap() {
   // });
 
 }
+////************END OF GOOGLE MAPS CODE//************
