@@ -1,7 +1,7 @@
 <div align=center>
     <h1 align=center>
         <img align=center
-            src="https://github.com/Triple-A-Team/PublicBeef/blob/master/public/images/icon/android-chrome-192x192.png?raw=true"
+            src="https://github.com/Triple-A-Team/PublicBeef/blob/master/public/images/android-chrome-192x192.png?raw=true"
             alt="PublicBeef logo">
         <br>
         PublicBeef
