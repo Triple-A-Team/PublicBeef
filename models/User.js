@@ -30,6 +30,10 @@ const userSchema = new Schema({
             if (value.toLowerCase().includes('password')) throw new Error('Password cannot contain "password"')
         }
     },
+    profilePicture: {
+        type: String,
+        default: 'http://www.pngall.com/wp-content/uploads/2/Beef-PNG-High-Quality-Image.png'
+    },
     location: {
         type: pointSchema,
     },
