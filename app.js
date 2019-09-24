@@ -82,6 +82,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use('/', require('./routes/index'));
 app.use(`/api/`, require('./routes/api/auth'))
 app.use(`/api/users`, require('./routes/api/user'))
+app.use(`/api/posts`, require('./routes/api/post'))
 
 // For any routes that starts with "/api", catch 404 and forward to error handler
 app.use('/api/*', (req, res, next) => {

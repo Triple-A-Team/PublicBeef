@@ -37,6 +37,19 @@ const userSchema = new Schema({
         type: String,
         enum: ['Admin', 'User', 'Guest'],
         default: 'User'
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value) {
+            if (!validator.isEmail(value)) throw new Error('Email is invalid')
+        }
+    },
+    avatar: {
+        type: Buffer
     }
 }, {
     timestamps: {
