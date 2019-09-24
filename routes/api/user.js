@@ -1,6 +1,6 @@
 const express = require('express')
-const User = require('../models/User')
-const { isLoggedIn } = require('../middleware/auth')
+const User = require('../../models/User')
+const { isLoggedIn } = require('../../middleware/auth')
 const router = express.Router()
 
 /** 
@@ -10,7 +10,6 @@ const router = express.Router()
  * GET /api/users/search?lat=20&lon=-60
  * GET /api/users/search?lat=20&lon=-60&maxDist=100
  * */
-// Route to get all users
 router.get('/search', (req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716

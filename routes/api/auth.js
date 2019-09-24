@@ -3,11 +3,16 @@ const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const bcryptSalt = 10
 const router = express.Router()
-const User = require('../models/User')
+const User = require('../../models/User')
 
+/**
+ * Create a user and log that user in
+ * @example
+ * POST /api/signup
+ */
 router.post('/signup', (req, res, next) => {
     const salt = bcrypt.genSaltSync(bcryptSalt)
-    const { username, password, hazardNotifications, role } = req.body
+    const { username, password, location, role } = req.body
 
     User.findOne({ username })
         .then(userDoc => {
@@ -15,7 +20,8 @@ router.post('/signup', (req, res, next) => {
                 res.status(409).json({ message: 'The username already exists' })
                 return
             }
-            const newUser = new User({ username, password: bcrypt.hashSync(password, salt), hazardNotifications, role })
+            const userData = { username, password: bcrypt.hashSync(password, salt), location, role }
+            const newUser = new User(userData)
             return newUser.save()
         })
         .then(userSaved => {
@@ -27,6 +33,11 @@ router.post('/signup', (req, res, next) => {
         .catch(err => next(err))
 })
 
+/**
+ * Log in a user using passport.authenticate
+ * @example
+ * POST /api/login
+ */
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, failureDetails) => {
         if (err) {
@@ -50,6 +61,11 @@ router.post('/login', (req, res, next) => {
     })(req, res, next)
 })
 
+/**
+ * Log out a user using passport.logout
+ * @example
+ * POST /api/login
+ */
 router.get('/logout', (req, res) => {
     req.logout()
     res.json({ message: 'You are out!' })

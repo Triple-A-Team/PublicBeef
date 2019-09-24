@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const Schema = mongoose.Schema
 
@@ -12,6 +10,7 @@ const pointSchema = new mongoose.Schema({
     coordinates: {
         type: [Number],
         index: '2dsphere',
+        default: [25.766111, -80.196183],
         required: true
     }
 });
@@ -33,7 +32,6 @@ const userSchema = new Schema({
     },
     location: {
         type: pointSchema,
-        required: true
     },
     role: {
         type: String,
@@ -67,6 +65,7 @@ userSchema.statics.findByCredentials = async(email, password) => {
     if (!isMatch) throw new Error('Unable to login')
     return user
 }
+
 userSchema.methods.validPassword = function validPassword(password) {
     return !bcrypt.compareSync(password, this.password)
 }
@@ -76,9 +75,8 @@ userSchema.pre('save', async function(next) {
     next()
 })
 
-// Delete user groups when user is removed
 userSchema.pre('remove', async function(next) {
-    // await Hazard.deleteMany({ creator: this._id })
+    // await Hazard.deleteMany({ creator: this._id }) // Delete user groups when user is removed
     next()
 })
 

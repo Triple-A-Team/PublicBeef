@@ -1,35 +1,28 @@
 const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, '../.env') })
-
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const cookieParser = require('cookie-parser')
 const express = require('express')
 const mongoose = require('mongoose')
+
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const logger = require('morgan')
+const favicon = require('express-favicon');
 const nocache = require('nocache')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('./models/User')
-const connection = require('./configs/database').connectToDB()
 
-mongoose
-    .connect('mongodb://localhost/publicbeef', { useNewUrlParser: true })
-    .then(x => {
-        console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-    })
-    .catch(err => {
-        console.error('Error connecting to mongo', err)
-    });
+const User = require('./models/User')
+const connectToDB = require('./configs/database')
+connectToDB()
 
 // default value for title local
-app.locals.title = 'Public Beef';
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
-
 const app = express();
+app.locals.title = 'Public Beef';
 
 // Set "Access-Control-Allow-Origin" header
 app.use(
@@ -88,7 +81,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.use('/', require('./routes/index'));
 app.use(`/api/`, require('./routes/api/auth'))
-app.use(`/api/users`, require('./routes/user'))
+app.use(`/api/users`, require('./routes/api/user'))
 
 // For any routes that starts with "/api", catch 404 and forward to error handler
 app.use('/api/*', (req, res, next) => {
