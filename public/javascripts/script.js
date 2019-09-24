@@ -5,6 +5,24 @@ document.addEventListener('DOMContentLoaded', () => {
 }, false);
 
 
+//*****************Axios Code */
+
+import axios from 'axios';
+const publicFeed= document.getElementById('public-feed')
+/**
+ * Sets the publicFeed equal to that div from index
+ * gets the username and message from those input forms
+ * appends the publicFeed with those two things
+ */
+axios.post('/chat/add', (req, res, next)=>{
+  let username= req.body.username;
+  let message= req.body.message
+})
+.then((newMessage)=>{
+  publicFeed.append(newMessage)
+})
+
+
 
 //************START GOOGLE MAPS CODE************
 
