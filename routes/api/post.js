@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
  * Get a specific post
  * GET /api/posts/:id
  */
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async(req, res, next) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()

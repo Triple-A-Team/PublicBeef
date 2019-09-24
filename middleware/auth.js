@@ -1,3 +1,5 @@
+const multer = require('multer')
+
 /**
  * Middleware that returns a 403 error if not logged in. 
  */
