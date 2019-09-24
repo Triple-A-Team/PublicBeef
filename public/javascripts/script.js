@@ -13,6 +13,7 @@ const publicFeed= document.getElementById('public-feed')
  * Sets the publicFeed equal to that div from index
  * gets the username and message from those input forms
  * appends the publicFeed with those two things
+ * 
  */
 axios.post('/chat/add', (req, res, next)=>{
   let username= req.body.username;
@@ -21,8 +22,6 @@ axios.post('/chat/add', (req, res, next)=>{
 .then((newMessage)=>{
   publicFeed.append(newMessage)
 })
-
-
 
 //************START GOOGLE MAPS CODE************
 
