@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
 const Schema = mongoose.Schema
+const validator = require('validator')
 
 const pointSchema = new mongoose.Schema({
     type: {
@@ -55,7 +56,7 @@ const userSchema = new Schema({
         }
     },
     avatar: {
-        type: Buffer
+        type: String,
     }
 }, {
     timestamps: {

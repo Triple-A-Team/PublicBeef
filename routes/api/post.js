@@ -1,7 +1,6 @@
 const express = require('express')
-const path = require('path')
 const { isLoggedIn } = require('../../middleware/auth')
-const { Resize, upload } = require('../../configs/cloudinary')
+const { upload } = require('../../configs/cloudinary')
 const User = require('../../models/User')
 const Post = require('../../models/Post')
 const router = express.Router()
@@ -46,31 +45,6 @@ router.post('/', upload.single('image'), async(req, res, next) => {
         if (!req.file) res.status(401).json({ error: 'Please provide an image' })
         const { title, content, author } = req.body
         const postData = { title, content, author: author || req.user_id, image: req.file.url }
-        console.log(postData)
-        const newPost = await new Post(postData)
-        await newPost.save()
-        res.status(201).json(newPost)
-    } catch (err) {
-        next(err)
-    }
-})
-
-
-/**
- * Create a post
- * @example POST /api/posts
- */
-router.post('/', upload.single('image'), async(req, res, next) => {
-    try {
-        const imagePath = path.join(__dirname, '/public/images');
-        const fileUpload = new Resize(imagePath);
-        if (!req.file) res.status(401).json({ error: 'Please provide an image' })
-
-        const filename = await fileUpload.save(req.file.buffer);
-        const { title, content, author } = req.body
-        const postData = { title, content, author }
-        postData.author = author || req.user._id
-        console.log(postData)
         const newPost = await new Post(postData)
         await newPost.save()
         res.status(201).json(newPost)

@@ -7,7 +7,7 @@ const router = express.Router();
  * GET /signup
  */
 router.get('/signup', (req, res, next) => {
-    res.render('./signup-views/signup');
+    res.render('signup-views/signup');
 });
 
 /**
@@ -16,7 +16,7 @@ router.get('/signup', (req, res, next) => {
  * GET /create-post
  */
 router.get('/create-post', (req, res, next) => {
-    res.render('./post-views/new');
+    res.render('post-views/new');
 });
 
 module.exports = router;
