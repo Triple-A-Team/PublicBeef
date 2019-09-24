@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
 const Schema = mongoose.Schema
-const validator = require('validator')
 
 const pointSchema = new mongoose.Schema({
     type: {
