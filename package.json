@@ -8,6 +8,7 @@
     "dev-windows": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bad-words": "^3.0.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "connect-mongo": "^3.0.0",
@@ -17,6 +18,7 @@
     "express": "^4.16.3",
     "express-favicon": "^2.0.1",
     "express-session": "^1.16.2",
+    "faker": "^4.1.0",
     "hbs": "^4.0.1",
     "mongodb": "^3.3.2",
     "mongoose": "^5.2.10",
@@ -27,6 +29,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.5.0",
+    "shortid": "^2.2.15",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
