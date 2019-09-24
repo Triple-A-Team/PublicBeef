@@ -4,8 +4,8 @@ const Schema = mongoose.Schema
 
 const chatSchema = new Schema({
    message:[{
-    username: 'Alex',
-    message: 'Starting Public Beef'
+    username: String,
+    message: String
   }]
 })
 

@@ -15,12 +15,30 @@ const publicFeed= document.getElementById('public-feed')
  * appends the publicFeed with those two things
  * 
  */
-axios.post('/chat/add', (req, res, next)=>{
-  let username= req.body.username;
-  let message= req.body.message
-})
-.then((newMessage)=>{
-  publicFeed.append(newMessage)
+setInterval(() => {
+  axios.get('/message/all')
+  .then(allMessages => {
+    publicFeed.innerHTML = ''
+
+    allMessages.forEach(oneMessage => {
+      publicFeed.innerHTML.append(`
+      <div class="messageBox">
+        <h4>${oneMeesage.username}</h4>
+        <h6>${oneMessage.message}</h6>
+      </div>
+      `)
+    })
+
+  }).catch(err => console.log("error getting all messages >>> ", err))
+},1000)
+
+
+document.querySelector('#messageSubmitButton').click(() => {
+  axios.post('/post/add', {message: document.querySelector('#messageInput').value})
+  .then((newMessage)=>{
+    document.querySelector('#messageInput').value = '';
+    console.log("new message created ------ ", newMessage);
+  }).catch(err => console.log("error posting message <<<< ", err))
 })
 
 //************START GOOGLE MAPS CODE************
