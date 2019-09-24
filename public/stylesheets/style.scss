@@ -1,6 +1,35 @@
 body {
-  padding: 50px;
+  margin:0px;
+  padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.navbar {
+  background-color: white;
+
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  .nav-link,
+  .navbar-brand {
+    color: black;
+  }
+
+  .nav-link:hover,
+  .navbar-brand:hover {
+    color: red;
+  }
+
+  .fas {
+    color: black;
+    font-size: 30px;
+  }
+
+  .fas:hover {
+    color: red;
+  }
 }
 
 a {
