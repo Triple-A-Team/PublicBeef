@@ -45,10 +45,10 @@ function initMap() {
         }
 
   // The marker, positioned at park
-  var marker = new google.maps.Marker({
-      position: building,
-      map: map
-  });
+  // var marker = new google.maps.Marker({
+  //     position: building,
+  //     map: map
+  // });
   //To make multiple markers
   // var marker2 = new google.maps.Marker({
   //     position: lake,
