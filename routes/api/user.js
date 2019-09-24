@@ -1,5 +1,6 @@
 const express = require('express')
-const { upload, isLoggedIn } = require('../../middleware/auth')
+const { isLoggedIn } = require('../../middleware/auth')
+const { Resize, upload } = require('../../middleware/image')
 const User = require('../../models/User')
 const router = express.Router()
 

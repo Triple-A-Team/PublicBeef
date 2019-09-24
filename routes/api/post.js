@@ -1,5 +1,7 @@
 const express = require('express')
-const { upload, isLoggedIn } = require('../../middleware/auth')
+const path = require('path')
+const { isLoggedIn } = require('../../middleware/auth')
+const { Resize, upload } = require('../../middleware/image')
 const User = require('../../models/User')
 const Post = require('../../models/Post')
 const router = express.Router()
@@ -7,18 +9,54 @@ const router = express.Router()
 
 /**
  * Create a post
- * POST /api/posts
+ * @example POST /api/posts
  */
-router.post('/', (req, res, next) => { 
-    const postData = { title, content, image } = req.body
-    postData.author = req.user._id
-    const newPost = new Post(postData)
-    return newPost.save()
+router.post('/', upload.single('image'), async(req, res, next) => {
+    try {
+        const imagePath = path.join(__dirname, '/public/images');
+        const fileUpload = new Resize(imagePath);
+        if (!req.file) res.status(401).json({ error: 'Please provide an image' })
+
+        const filename = await fileUpload.save(req.file.buffer);
+        const { title, content, author } = req.body
+        const postData = { title, content, author }
+        postData.author = author || req.user._id
+        console.log(postData)
+        const newPost = await new Post(postData)
+        await newPost.save()
+        res.status(201).json(newPost)
+    } catch (err) {
+        next(err)
+    }
+})
+
+
+/**
+ * Create a post
+ * @example POST /api/posts
+ */
+router.post('/', upload.single('image'), async(req, res, next) => {
+    try {
+        const imagePath = path.join(__dirname, '/public/images');
+        const fileUpload = new Resize(imagePath);
+        if (!req.file) res.status(401).json({ error: 'Please provide an image' })
+
+        const filename = await fileUpload.save(req.file.buffer);
+        const { title, content, author } = req.body
+        const postData = { title, content, author }
+        postData.author = author || req.user._id
+        console.log(postData)
+        const newPost = await new Post(postData)
+        await newPost.save()
+        res.status(201).json(newPost)
+    } catch (err) {
+        next(err)
+    }
 })
 
 /**
- * Get a specific post
- * GET /api/posts/:id
+ * Get a specific post 
+ * @example GET /api/posts/:id
  */
 router.get('/:id', async(req, res, next) => {
     try {
@@ -32,7 +70,7 @@ router.get('/:id', async(req, res, next) => {
 
 /**
  * Delete a specific post
- * DELETE /api/posts/:id
+ * @example DELETE /api/posts/:id
  */
 router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
@@ -45,12 +83,11 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
     }
 })
 
-
 /**
  * Update a specific post
- * POST /api/posts/:id
+ * @example POST /api/posts/:id
  */
-router.patch(`/:id`, isLoggedIn, async(req, res) => {
+router.patch(`/:id`, async(req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'location', 'role']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))

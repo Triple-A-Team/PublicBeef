@@ -9,24 +9,7 @@ function isLoggedIn(req, res, next) {
 }
 
 
-/** 
- * Uploads an avatar file
- */
-const upload = multer({
-    limits: {
-        fileSize: 1000000
-    },
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            return cb(new Error('Please upload an image'))
-        }
-
-        cb(undefined, true)
-    }
-})
-
 
 module.exports = {
-    isLoggedIn,
-    upload
+    isLoggedIn
 }
