@@ -15,7 +15,7 @@ var pos = {};
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: pos.lat, lng: pos.lng },
-    zoom: 13
+    zoom: 16
   });
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
