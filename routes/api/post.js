@@ -9,7 +9,7 @@ const router = express.Router()
  * Create a post
  * POST /api/posts
  */
-router.post('/', (req, res, next) => {
+router.post('/', (req, res, next) => { 
     const postData = { title, content, image } = req.body
     postData.author = req.user._id
     const newPost = new Post(postData)

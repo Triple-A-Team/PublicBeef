@@ -79,7 +79,12 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+//Frontend Routes
 app.use('/', require('./routes/index'));
+app.use('/', require('./routes/login'));
+app.use('/', require('./routes/signup'));
+
+//Backend Routes
 app.use(`/api/`, require('./routes/api/auth'))
 app.use(`/api/users`, require('./routes/api/user'))
 app.use(`/api/posts`, require('./routes/api/post'))
