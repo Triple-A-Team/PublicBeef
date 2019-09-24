@@ -83,6 +83,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/login'));
 app.use('/', require('./routes/signup'));
+app.use('/', require('./routes/beef'));
 
 //Backend Routes
 app.use(`/api/`, require('./routes/api/auth'))
