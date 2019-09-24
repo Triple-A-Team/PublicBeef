@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Chatbox = require('../models/ChatBox');
+const Post = require('../models/Post');
 
-/* GET home page */
-router.get('/login', (req, res, next) => {
-    res.render('./login-views/login');
-});
 
-router.post('/post/add', (req, res, next)=>{
-  Chatbox.create({
+router.post('/api/post', (req, res, next)=>{
+  Post.create({
     username: req.user.username,
     message: req.body.message
   })
@@ -19,7 +15,7 @@ router.post('/post/add', (req, res, next)=>{
 })
 
 router.get('/messages/all', (req, res, next)=>{
-  Chatbox.find()
+  Post.find()
   .then(allMessages => {
     res.json(allMessages);
   }).catch(err => next(err))

@@ -23,7 +23,7 @@ setInterval(() => {
     allMessages.forEach(oneMessage => {
       publicFeed.innerHTML.append(`
       <div class="messageBox">
-        <h4>${oneMeesage.username}</h4>
+        <h4>${oneMessage.username}</h4>
         <h6>${oneMessage.message}</h6>
       </div>
       `)
@@ -34,7 +34,7 @@ setInterval(() => {
 
 
 document.querySelector('#messageSubmitButton').click(() => {
-  axios.post('/post/add', {message: document.querySelector('#messageInput').value})
+  axios.post('/api/post', {message: document.querySelector('#messageInput').value})
   .then((newMessage)=>{
     document.querySelector('#messageInput').value = '';
     console.log("new message created ------ ", newMessage);
