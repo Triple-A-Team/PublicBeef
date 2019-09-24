@@ -22,11 +22,28 @@ connectToDB()
 // default value for title local
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
-const app = express();
-app.locals.title = 'Public Beef';
 
+const app = express();
+// ,server = require('http').createServer(app)
+// , io = io.listen(server);
+app.locals.title = 'Public Beef';
+var io = require('socket.io')
 //Socket IO
-var http = require('http').Server(app)
+// var http = require('http').Server(app)
+
+// var socket = io();
+
+
+// http.listen(3000, function(){
+//     console.log('HTTP APP CHAT LISTENING ON*:7000');
+//   });
+
+  //IO Connection
+  io.on('connection', function(socket){
+    console.log('a user connected >>>>>>>>>> ', socket);
+  });
+
+
 
 // Set "Access-Control-Allow-Origin" header
 app.use(
