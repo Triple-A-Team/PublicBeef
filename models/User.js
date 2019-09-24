@@ -16,6 +16,7 @@ const pointSchema = new mongoose.Schema({
     }
 });
 
+
 const userSchema = new Schema({
     username: {
         type: String,
@@ -70,6 +71,26 @@ userSchema.methods.toJSON = function() {
     delete userObject.avatar
 
     return userObject
+}
+
+userSchema.methods.findNearby = async function(lat, lon, maxDist) {
+    return await User.find({
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lon, lat]
+                    },
+                    $maxDistance: maxDist
+                }
+            }
+        })
+        .then(users => {
+            return users
+        })
+        .catch(e => {
+            return e
+        })
 }
 
 userSchema.statics.findByCredentials = async(email, password) => {

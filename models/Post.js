@@ -3,7 +3,8 @@ const Schema = mongoose.Schema
 
 const postSchema = new Schema({
     title: {
-        type: String
+        type: String,
+        required: true
     },
     content: {
         type: String,
@@ -11,9 +12,12 @@ const postSchema = new Schema({
         trim: true,
     },
     image: {
-        type: Buffer
+        type: String
     },
-    author: { type: Schema.Types.ObjectID, ref: "User" }
+    author: { 
+        type: Schema.Types.ObjectID, 
+        ref: "User" 
+    }
 }, {
     timestamps: {
         createdAt: 'created_at',

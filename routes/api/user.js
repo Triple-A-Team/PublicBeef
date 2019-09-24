@@ -1,15 +1,15 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { Resize, upload } = require('../../middleware/image')
+const { upload } = require('../../configs/cloudinary')
 const User = require('../../models/User')
+const Post = require('../../models/Post')
 const router = express.Router()
 
 /** 
  * Get all users within a specific distance.
- * TODO: Change this to a post so we can input a distance.
  * @example
- * GET /api/users/search?lat=20&lon=-60
- * GET /api/users/search?lat=20&lon=-60&maxDist=100
+ * GET /api/posts/search?lat=20&lon=-60
+ * GET /api/posts/search?lat=20&lon=-60&maxDist=100
  * */
 router.get('/search', (req, res, next) => {
     const lat = req.query.lat || 25.756365
@@ -29,7 +29,9 @@ router.get('/search', (req, res, next) => {
             }
         })
         .then(users => {
-            res.json(users)
+            let posts = []
+            users.forEach(user => posts = posts.concat(Post.find({ author: user._id }).populate('author')))
+            res.json(posts)
         })
         .catch(err => next(err))
 })
@@ -50,7 +52,7 @@ router.get(`/me`, isLoggedIn, async(req, res) => {
  */
 router.patch(`/me`, isLoggedIn, async(req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password']
+    const allowedUpdates = ['name', 'email', 'password', 'location']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
