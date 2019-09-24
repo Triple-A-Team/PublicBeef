@@ -39,6 +39,7 @@
 | SESSION_SECRET               | (Optional) Secret phrase for Session                |
 
 # Authors
+- [Alejandro Gomez](https://github.com/alegomez1)
 - [Andres Weber](https://github.com/AndresMWeber)
 - [Adrian Vesnieski](https://github.com/adriansdk)
-- [Alejandro Gomez](https://github.com/alegomez1)
+

@@ -13,7 +13,7 @@ const postSchema = new Schema({
     image: {
         type: Buffer
     },
-    author: { type: Schema.types.ObjectID, ref: "User" }
+    author: { type: Schema.Types.ObjectID, ref: "User" }
 }, {
     timestamps: {
         createdAt: 'created_at',
