@@ -1,24 +1,7 @@
 const express = require('express')
-const multer = require('multer')
+const { upload, isLoggedIn } = require('../../middleware/auth')
 const User = require('../../models/User')
-const { isLoggedIn } = require('../../middleware/auth')
 const router = express.Router()
-
-/** 
- * Uploads an avatar file
- */
-const upload = multer({
-    limits: {
-        fileSize: 1000000
-    },
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            return cb(new Error('Please upload an image'))
-        }
-
-        cb(undefined, true)
-    }
-})
 
 /** 
  * Get all users within a specific distance.
@@ -55,8 +38,8 @@ router.get('/search', (req, res, next) => {
  * @example
  * GET /api/users/me
  */
-router.get(`/me`, async(req, res) => {
-    res.send(req.user)
+router.get(`/me`, isLoggedIn, async(req, res) => {
+    res.json(req.user)
 })
 
 /** 
@@ -64,7 +47,7 @@ router.get(`/me`, async(req, res) => {
  * @example
  * PATCH /api/users/me 
  */
-router.patch(`/me`, async(req, res) => {
+router.patch(`/me`, isLoggedIn, async(req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -74,7 +57,7 @@ router.patch(`/me`, async(req, res) => {
     try {
         updates.forEach((update) => req.user[update] = req.body[update])
         await req.user.save()
-        res.send(req.user)
+        res.json(req.user)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -85,7 +68,7 @@ router.patch(`/me`, async(req, res) => {
  * @example
  * POST /api/users/me/avatar "avatar.jpg"
  */
-router.post(`/me/avatar`, upload.single('avatar'), async(req, res) => {
+router.post(`/me/avatar`, isLoggedIn, upload.single('avatar'), async(req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
@@ -115,7 +98,7 @@ router.get(`/:id/avatar`, async(req, res) => {
  * @example
  * DELETE /api/users/me/avatar
  */
-router.delete(`/me/avatar`, async(req, res) => {
+router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
     req.user.avatar = undefined
     await req.user.save()
     res.send()
