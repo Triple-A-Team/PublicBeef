@@ -8,6 +8,9 @@ function isLoggedIn(req, res, next) {
     else next({ status: 403, message: 'Unauthorized' })
 }
 
+/**
+ * Middleware that redirects based on if the user is an admin
+ */
 const adminAuth = (req, res, next) => {
     if (!req.user) {
         req.flash('failure', 'please log in to use this feature')
