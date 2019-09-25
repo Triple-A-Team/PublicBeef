@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 }, false);
 
-//************START GOOGLE MAPS CODE************
-
 var map, infoWindow;
 var pos = {};
 
@@ -51,5 +49,3 @@ function initMap() {
         infoWindow.open(map);
       }
 }
-
-////************END OF GOOGLE MAPS CODE//************
