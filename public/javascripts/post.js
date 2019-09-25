@@ -43,4 +43,3 @@ document.querySelector('#messageSubmitButton').click(() => {
   }).catch(err => console.log("error posting message <<<< ", err))
 })
 
-//************START GOOGLE MAPS CODE************

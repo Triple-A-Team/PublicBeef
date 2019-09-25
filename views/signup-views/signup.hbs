@@ -1,11 +1,13 @@
 <div class="signup">
-  <form action="/signup" method="POST">
+  <form action="/api/signup" method="POST" enctype="multipart/form-data">
     <p>Name:</p>
-    <input type="text" name="username" placeholder="Your name">
+    <input type="text" name="username" placeholder="Your name" required> 
     <p>Password:</p>
-    <input type="password" name="password" placeholder="Your password">
-    <button class="btn btn-danger"> Create Account</button>
-    <p>Email:</p>
+    <input type="password" name="password" placeholder="Your password" required>
+    <p>Email: (optional)</p>
     <input type="email" name="email" placeholder="...@gmail.com">
+    <p> Profile Picture:</p>
+    <input type="file" name="profilePicture">
+    <button class="btn btn-danger"> Create Account</button>
   </form>
 </div>
