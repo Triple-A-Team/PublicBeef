@@ -1,7 +1,10 @@
 body {
   margin: 0px;
   padding: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font-family: 'Roboto', sans-serif; }
+
+input {
+  display: none; }
 
 .navbar {
   background-color: white; }
@@ -59,12 +62,10 @@ a {
       right: 75%; }
 
 #map {
-  position: absolute;
-  top: 10px;
-  right: 35px;
   height: 160px;
-  width: 160px;
-  border-radius: 15px; }
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 15px; }
 
 .beef {
   background-color: blue; }
@@ -79,18 +80,19 @@ a {
       height: 25%; }
       .beef .posts .new-post label {
         font-size: 20px; }
+    .beef .posts .new-post {
+      background-color: white;
+      bottom: 0px;
+      width: 100%; }
   .beef .columns-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 85vh;
     width: 95%;
     margin: 0px auto;
     border-radius: 15px;
     background-color: rgba(211, 211, 211, 0.6); }
-  .beef .new-post {
-    background-color: white;
-    bottom: 0px;
-    width: 100%; }
-  .beef .profile .container-fluid {
-    width: 85%; }
   .beef .profile .header {
     position: relative;
     height: 150px;
@@ -101,10 +103,12 @@ a {
     .beef .profile .header img {
       border-radius: 5px; }
   .beef .profile .username {
+    padding-top: 25px;
+    font-size: 25px;
     color: white;
-    top: 170px;
-    position: absolute;
-    font-size: 30px; }
+    text-shadow: 2px 2px #3D5466; }
+  .beef .profile .user-info {
+    height: 300px; }
   .beef .profile .image-container {
     position: absolute;
     left: 0;
