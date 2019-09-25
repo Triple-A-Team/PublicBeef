@@ -1,11 +1,12 @@
 const express = require('express')
-const { upload, isLoggedIn } = require('../../middleware/auth')
+const { isLoggedIn } = require('../../middleware/auth')
+const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
+const Post = require('../../models/Post')
 const router = express.Router()
 
 /** 
  * Get all users within a specific distance.
- * TODO: Change this to a post so we can input a distance.
  * @example
  * GET /api/users/search?lat=20&lon=-60
  * GET /api/users/search?lat=20&lon=-60&maxDist=100
@@ -49,7 +50,7 @@ router.get(`/me`, isLoggedIn, async(req, res) => {
  */
 router.patch(`/me`, isLoggedIn, async(req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password']
+    const allowedUpdates = ['name', 'email', 'password', 'location']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
@@ -68,7 +69,7 @@ router.patch(`/me`, isLoggedIn, async(req, res) => {
  * @example
  * POST /api/users/me/avatar "avatar.jpg"
  */
-router.post(`/me/avatar`, isLoggedIn, upload.single('avatar'), async(req, res) => {
+router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async(req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
