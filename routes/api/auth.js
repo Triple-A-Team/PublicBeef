@@ -3,7 +3,7 @@ const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const bcryptSalt = 10
 const router = express.Router()
-const cloudinary = require('../../configs/cloudinary')
+const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
 
 /**
@@ -11,7 +11,7 @@ const User = require('../../models/User')
  * @example
  * POST /api/signup
  */
-router.post('/signup', cloudinary.single('profilePicture'), (req, res, next) => {
+router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) => {
     const salt = bcrypt.genSaltSync(bcryptSalt)
     const { username, password, location, role, email } = req.body
 
@@ -20,13 +20,13 @@ router.post('/signup', cloudinary.single('profilePicture'), (req, res, next) => 
             if (userDoc !== null) {
                 res.status(409).json({ message: 'The username already exists' })
                 return
-            }  
+            }
             console.log(req.file.url, '==============================')
             const userData = { username, password: bcrypt.hashSync(password, salt), location, role, email, avatar: req.file.url }
             const newUser = new User(userData)
             return newUser.save()
         })
-        .catch(err=> next(err))
+        .catch(err => next(err))
         .then(userSaved => {
             req.logIn(userSaved, () => {
                 userSaved.password = undefined

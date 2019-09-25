@@ -24,9 +24,10 @@
 
 ### Environment Variables
 #### Set up API Access
-*   Obtain a [Google Maps API Key](https://cloud.google.com/maps-platform/?utm_source=google&utm_medium=cpc&utm_campaign=FY18-Q2-global-demandgen-paidsearchonnetworkhouseads-cs-maps_contactsal_saf&utm_content=text-ad-none-none-DEV_c-CRE_277743457142-ADGP_Hybrid+%7C+AW+SEM+%7C+SKWS+~+Mapping+APIs-KWID_43700037731655637-kwd-297933066873-userloc_9012021&utm_term=KW_%2Bmaps%20%2Bapi-ST_%2Bmaps+%2Bapi&&gclid=CjwKCAjw2qHsBRAGEiwAMbPoDBcMn9HGXQzC6340gfWce5za7bizaU4P5o4cHH4QBsEJFtemcCL5WhoC4UQQAvD_BwE)
 *   Create a [Mongo DB Cluster](https://cloud.mongodb.com/)
 *   Create a [Heroku App]('https://heroku.com')
+*   Obtain a [Google Maps API Key](https://cloud.google.com/maps-platform/?utm_source=google&utm_medium=cpc&utm_campaign=FY18-Q2-global-demandgen-paidsearchonnetworkhouseads-cs-maps_contactsal_saf&utm_content=text-ad-none-none-DEV_c-CRE_277743457142-ADGP_Hybrid+%7C+AW+SEM+%7C+SKWS+~+Mapping+APIs-KWID_43700037731655637-kwd-297933066873-userloc_9012021&utm_term=KW_%2Bmaps%20%2Bapi-ST_%2Bmaps+%2Bapi&&gclid=CjwKCAjw2qHsBRAGEiwAMbPoDBcMn9HGXQzC6340gfWce5za7bizaU4P5o4cHH4QBsEJFtemcCL5WhoC4UQQAvD_BwE)
+*   Create a [Cloudinary API Key](https://cloudinary.com/?utm_source=google&utm_medium=cpc&utm_campaign=brand&utm_content=300704534040&utm_term=cloudinary&gclid=Cj0KCQjw_absBRD1ARIsAO4_D3tfpMaU3ai8tA7FoE0DdxrbsK5xSMaShens1Tn-QYQD7z9-d2mgc_kaApegEALw_wcB)
 *   Set the following environment variables on | [mac](https://stackoverflow.com/questions/7501678/set-environment-variables-on-mac-os-x-lion) | [windows](https://superuser.com/questions/1334129/setting-an-environment-variable-in-windows-10-gpodder) | [linux](https://stackoverflow.com/questions/45502996/how-to-set-environment-variable-in-linux-permanently) |
 *   ^ Or just use a .env file in the root directory
 
@@ -37,9 +38,11 @@
 | GOOGLEMAPS_API_KEY           | API Key for google maps.                            |
 | NODE_ENV                     | (Optional) Can be Production to set production mode |
 | SESSION_SECRET               | (Optional) Secret phrase for Session                |
+| CLOUDINARY_API_NAME          | Cloudinary API cloud name                           |
+| CLOUDINARY_API_KEY           | Cloudinary API Key                                  |
+| CLOUDINARY_API_SECRET        | Cloudinary API Secret                               |
 
 # Authors
 - [Alejandro Gomez](https://github.com/alegomez1)
 - [Andres Weber](https://github.com/AndresMWeber)
 - [Adrian Vesnieski](https://github.com/adriansdk)
-

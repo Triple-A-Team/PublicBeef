@@ -1,18 +1,17 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { upload } = require('../../configs/cloudinary')
+const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
 const Post = require('../../models/Post')
 const router = express.Router()
 
 /** 
  * Get all users within a specific distance.
- * TODO: Change this to a post so we can input a distance.
  * @example
- * GET /api/users/search?lat=20&lon=-60
- * GET /api/users/search?lat=20&lon=-60&maxDist=100
+ * GET /api/posts/search?lat=20&lon=-60
+ * GET /api/posts/search?lat=20&lon=-60&maxDist=100
  * */
-router.get('/search', (req, res, next) => {
+router.get('/search', async(req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
@@ -29,25 +28,33 @@ router.get('/search', (req, res, next) => {
                 }
             }
         })
-        .then(users => {
-            res.json(users)
+        .then(async users => {
+            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({'createdAt': 'asc'})
+            res.json(posts)
         })
         .catch(err => next(err))
+})
+
+/** 
+ * Get all posts.
+ * @example
+ * GET /api/posts/all
+ * */
+router.get('/all', async(req, res, next) => {
+    res.json(await Post.find())
 })
 
 /**
  * Create a post
  * @example POST /api/posts
  */
-router.post('/', upload.single('image'), async(req, res, next) => {
-    console.log('req.body:', req.body)
+router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {
     try {
         if (!req.file) res.status(401).json({ error: 'Please provide an image' })
         const { title, content, author } = req.body
         const postData = { title, content, author: author || req.user_id, image: req.file.url }
-        const newPost = await new Post(postData)
-        await newPost.save()
-        res.status(201).json(newPost)
+        await new Post(postData).save()
+        res.status(201).redirect('/')
     } catch (err) {
         next(err)
     }
@@ -75,6 +82,7 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
+        if (!req.user._id.equals(author)) res.status(403).send('You do not have permission to delete this resource.')
         await post.remove()
         res.status(202).send(post)
     } catch (e) {

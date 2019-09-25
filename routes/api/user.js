@@ -1,6 +1,6 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { upload } = require('../../configs/cloudinary')
+const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
 const Post = require('../../models/Post')
 const router = express.Router()
@@ -8,8 +8,8 @@ const router = express.Router()
 /** 
  * Get all users within a specific distance.
  * @example
- * GET /api/posts/search?lat=20&lon=-60
- * GET /api/posts/search?lat=20&lon=-60&maxDist=100
+ * GET /api/users/search?lat=20&lon=-60
+ * GET /api/users/search?lat=20&lon=-60&maxDist=100
  * */
 router.get('/search', (req, res, next) => {
     const lat = req.query.lat || 25.756365
@@ -29,9 +29,7 @@ router.get('/search', (req, res, next) => {
             }
         })
         .then(users => {
-            let posts = []
-            users.forEach(user => posts = posts.concat(Post.find({ author: user._id }).populate('author')))
-            res.json(posts)
+            res.json(users)
         })
         .catch(err => next(err))
 })
@@ -71,7 +69,7 @@ router.patch(`/me`, isLoggedIn, async(req, res) => {
  * @example
  * POST /api/users/me/avatar "avatar.jpg"
  */
-router.post(`/me/avatar`, isLoggedIn, upload.single('avatar'), async(req, res) => {
+router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async(req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
