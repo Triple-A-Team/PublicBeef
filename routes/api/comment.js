@@ -15,9 +15,25 @@ router.get('/all', async(req, res, next) => {
     res.json(await Comment.find())
 })
 
+/** 
+ * Get all posts.
+ * @example
+ * GET /api/comments/:id
+ * */
+router.get('/:id', async(req, res, next) => {
+    try {
+        const comment = await Comment.findById(req.params.id)
+        if (!comment) throw new Error()
+        res.status(202).send(comment)
+    } catch (e) {
+        res.status(404).send(e)
+    }
+})
+
 /**
  * Create a comment.  Need to send the parent.
- * @example POST /api/comments
+ * @example 
+ * POST /api/comments
  */
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
@@ -32,7 +48,8 @@ router.post('/', isLoggedIn, async(req, res, next) => {
 
 /**
  * Delete a specific comment
- * @example DELETE /api/comments/:id
+ * @example 
+ * DELETE /api/comments/:id
  */
 router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
@@ -48,7 +65,8 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
 
 /**
  * Update a specific comment
- * @example POST /api/comments/:id
+ * @example 
+ * PATCH /api/comments/:id
  */
 router.patch(`/:id`, async(req, res) => {
     try {
