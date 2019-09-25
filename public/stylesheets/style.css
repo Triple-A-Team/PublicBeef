@@ -23,6 +23,41 @@ body {
 a {
   color: #00b7ff; }
 
+[type="file"] + label {
+  background: #f15d22;
+  border: none;
+  border-radius: 10px 0px 0px 0px;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 7px 15px 7px 15px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle; }
+  [type="file"] + label.btn-2 {
+    background-color: white;
+    border-radius: 0px 10px 10px 0px;
+    overflow: hidden; }
+    [type="file"] + label.btn-2::before {
+      color: #000;
+      content: "\f382";
+      font-family: "Font Awesome 5 Pro";
+      font-size: 100%;
+      height: 100%;
+      right: 130%;
+      line-height: 2.1;
+      position: absolute;
+      top: 0px;
+      transition: all 0.3s; }
+  [type="file"] + label:hover {
+    padding: 7px 15px 7px 25px;
+    background-color: #bfbfbf; }
+    [type="file"] + label:hover::before {
+      right: 75%; }
+
 #map {
   position: absolute;
   top: 10px;
@@ -31,39 +66,60 @@ a {
   width: 160px;
   border-radius: 15px; }
 
-.beef .header {
-  position: relative;
-  height: 150px;
-  width: 100%;
-  background-color: #00b7ff; }
-
-.beef .columns-container {
-  height: 85vh;
-  width: 95%;
-  margin: 0px auto;
-  border-radius: 15px;
-  background-color: rgba(211, 211, 211, 0.6); }
-
-.beef .profile .container-fluid {
-  width: 85%; }
-
-.beef .profile .username {
-  font-size: 60px;
-  font-weight: bold; }
-
-.beef .profile .image-container {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  top: 85px;
-  height: 115px;
-  width: 115px; }
-
-.beef .profile .avatar {
-  border-radius: 50%;
-  width: 100%;
-  height: 100%; }
+.beef {
+  background-color: blue; }
+  .beef .posts {
+    height: 100%; }
+    .beef .posts .chat {
+      height: 75%; }
+    .beef .posts .new-post {
+      border-radius: 5px 5px 5px 5px;
+      border: white 1px solid;
+      background-color: #c9c9c9;
+      height: 25%; }
+      .beef .posts .new-post label {
+        font-size: 20px; }
+  .beef .columns-container {
+    height: 85vh;
+    width: 95%;
+    margin: 0px auto;
+    border-radius: 15px;
+    background-color: rgba(211, 211, 211, 0.6); }
+  .beef .new-post {
+    background-color: white;
+    bottom: 0px;
+    width: 100%; }
+  .beef .profile .container-fluid {
+    width: 85%; }
+  .beef .profile .header {
+    position: relative;
+    height: 150px;
+    width: 100%;
+    background-color: #00b7ff;
+    border-radius: 5px;
+    border: 3px solid white; }
+    .beef .profile .header img {
+      border-radius: 5px; }
+  .beef .profile .username {
+    color: white;
+    top: 170px;
+    position: absolute;
+    font-size: 30px; }
+  .beef .profile .image-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 55px;
+    height: 115px;
+    width: 115px; }
+    .beef .profile .image-container img {
+      border: 3px solid white;
+      border-radius: 50%; }
+  .beef .profile .avatar {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%; }
 
 /*# sourceMappingURL=style.css.map */
