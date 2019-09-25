@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //*****************Axios Code */
 
-import axios from 'axios';
+// import axios from 'axios';
 const publicFeed= document.getElementById('public-feed')
 /**
  * Sets the publicFeed equal to that div from index
@@ -15,20 +15,22 @@ const publicFeed= document.getElementById('public-feed')
  * appends the publicFeed with those two things
  * 
  */
+console.log("ABOUT TO RUN SET INTERVAL")
 setInterval(() => {
+
   axios.get('/api/posts/all')
-  .then(allMessages => {
+  .then(result => {
+    console.log('allmessages>>>>>>>>>>>>>', result.data)
     publicFeed.innerHTML = ''
 
-    allMessages.forEach(oneMessage => {
-      publicFeed.innerHTML.append(`
+    result.data.forEach(message => {
+      publicFeed.innerHTML+=`
       <div class="messageBox">
-        <h4>${oneMessage.title}</h4>
-        <h6>${oneMessage.content}</h6>
-
-        <h6>${oneMessage.req.user}</h6>
+        <h4>${message.title}</h4>
+        <h6>${message.content}</h6>
+        <h6>${message.image}</h6>
       </div>
-      `)
+      `
     })
 
   }).catch(err => console.log("error getting all messages >>> ", err))

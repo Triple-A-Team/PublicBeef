@@ -2,23 +2,26 @@
   <div class="row">
     <div class="col-4">
       <div class="columns-container" >
-        <div class="chat" id='public-feed'  >
+        <div class="chat" id='public-feed'>
+          <p>BLAH BLAH BLAH BLAH</p>
           <h1>Your region chat:</h1>
           <div id='map'></div>
         </div>
       </div>
 
 
-      <form action="api/posts" method="POST">
-        <p>Title</p>
-        <input type="text">
-        <p>Content</p>
-        <input type="text">
-        <p>Image</p>
-        <input type="text">
+  <form action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
+    <label for="title">Title</label>
+    <input type="text" name="title" placeholder="Post Title" required>
+    
+    <label for="content">Content</label>
+    <input type="text" name="content" placeholder="Post Content" required>
 
-        <button>Send Post</button>
-      </form>
+    <label for="image">Image</label>
+    <input type="file" name="image">
+
+    <button class="btn btn-danger">Create Post</button>
+  </form>
 
 
 
@@ -52,3 +55,5 @@
     </div>
   </div>
 </div>
+
+    <script src="/javascripts/post.js"></script>
