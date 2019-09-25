@@ -1,7 +1,11 @@
 body {
   margin: 0px;
   padding: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+input{
+  display: none;
 }
 
 .navbar {
@@ -36,7 +40,6 @@ a {
   color: #00b7ff;
 }
 
-
 [type="file"] + label {
   background: #f15d22;
   border: none;
@@ -51,77 +54,75 @@ a {
   position: relative;
   transition: all 0.3s;
   vertical-align: middle;
-  
-&.btn-2 {
-  background-color: white;
-  border-radius: 0px 10px 10px 0px;
-  overflow: hidden;
-  
-  &::before {
-    color: #000;
-    content: "\f382";
-    font-family: "Font Awesome 5 Pro";
-    font-size: 100%;
-    height: 100%;
-    right: 130%;
-    line-height: 2.1;
-    position: absolute;
-    top: 0px;
-    transition: all 0.3s;
+
+  &.btn-2 {
+    background-color: white;
+    border-radius: 0px 10px 10px 0px;
+    overflow: hidden;
+
+    &::before {
+      color: #000;
+      content: "\f382";
+      font-family: "Font Awesome 5 Pro";
+      font-size: 100%;
+      height: 100%;
+      right: 130%;
+      line-height: 2.1;
+      position: absolute;
+      top: 0px;
+      transition: all 0.3s;
+    }
   }
-}
   &:hover {
     padding: 7px 15px 7px 25px;
     background-color: darken(#fff, 25%);
-      
+
     &::before {
       right: 75%;
     }
   }
 }
+
 #map {
-  position: absolute;
-  top: 10px;
-  right: 35px;
   height: 160px;
-  width: 160px;
+  width: 100%;
   border-radius: 15px;
+  margin-bottom: 15px;
 }
 
 .beef {
-  .posts{
+  background-color: blue;
+  .posts {
     height: 100%;
-    .chat{
+    .chat {
       height: 75%;
     }
-    .new-post{
+    .new-post {
       border-radius: 5px 5px 5px 5px;
       border: white 1px solid;
       background-color: #c9c9c9;
       height: 25%;
-      label{
-        font-size:20px;
-
+      label {
+        font-size: 20px;
       }
     }
+    .new-post {
+      background-color: white;
+      bottom: 0px;
+      width: 100%;
+    }
   }
-  background-color: blue;
   .columns-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 85vh;
     width: 95%;
     margin: 0px auto;
     border-radius: 15px;
     background-color: rgba(lightgray, 0.6);
   }
-  .new-post {
-    background-color: white;
-    bottom: 0px;
-    width: 100%;
-  }
   .profile {
-    .container-fluid {
-      width: 85%;
-    }
     .header {
       position: relative;
       height: 150px;
@@ -134,10 +135,13 @@ a {
       }
     }
     .username {
+      padding-top: 25px;
+      font-size: 25px;
       color: white;
-      top: 170px;
-      position: absolute;
-      font-size: 30px;
+      text-shadow: 2px 2px #3D5466;
+    }
+    .user-info{
+      height: 300px;
     }
     .image-container {
       img {
