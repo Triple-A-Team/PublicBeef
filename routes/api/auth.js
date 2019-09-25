@@ -69,9 +69,9 @@ router.post('/login', (req, res, next) => {
  * @example
  * POST /api/logout
  */
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     req.logout()
-    res.json({ message: 'You are out!' })
+    res.redirect('/index')
 })
 
 module.exports = router
