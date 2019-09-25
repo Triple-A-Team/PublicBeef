@@ -63,7 +63,14 @@ const userSchema = new Schema({
 
 userSchema.index({ location: "2dsphere" });
 
-userSchema.methods.toJSON = function () {
+userSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+userSchema.methods.toJSON = function() {
     const user = this
     const userObject = user.toObject()
 
@@ -78,12 +85,12 @@ userSchema.methods.validPassword = function validPassword(password) {
     return !bcrypt.compareSync(password, this.password)
 }
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
     if (this.isModified('password')) this.password = await bcrypt.hash(this.password, 8)
     next()
 })
 
-userSchema.pre('remove', async function (next) {
+userSchema.pre('remove', async function(next) {
     // await Hazard.deleteMany({ creator: this._id }) // Delete user groups when user is removed
     next()
 })
