@@ -34,18 +34,6 @@ postSchema.virtual('rootComment', {
     justOne: true
 })
 
-postSchema.methods.getThread = async function() {
-    return await Post.aggregate([{
-        $graphLookup: {
-            from: "posts",
-            startWith: "$rootComment",
-            connectFromField: "parent",
-            connectToField: "_id",
-            as: "commentThread"
-        }
-    }])
-}
-
 function autopopulate(next) {
     this.populate('author');
     this.populate('rootComment')
