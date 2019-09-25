@@ -53,6 +53,9 @@ const userSchema = new Schema({
     avatar: {
         type: String,
         default: 'http://www.pngall.com/wp-content/uploads/2/Beef-PNG-High-Quality-Image.png',
+    },
+    header: {
+        type: String,
     }
 }, {
     timestamps: {
