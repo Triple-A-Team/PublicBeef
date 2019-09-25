@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
-const Schema = mongoose.Schema
 const validator = require('validator')
+const Schema = mongoose.Schema
 
 const pointSchema = new mongoose.Schema({
     type: {
@@ -15,6 +15,7 @@ const pointSchema = new mongoose.Schema({
         required: true
     }
 });
+
 
 const userSchema = new Schema({
     username: {
@@ -65,7 +66,14 @@ const userSchema = new Schema({
 
 userSchema.index({ location: "2dsphere" });
 
-userSchema.methods.toJSON = function () {
+userSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+userSchema.methods.toJSON = function() {
     const user = this
     const userObject = user.toObject()
 
@@ -76,24 +84,16 @@ userSchema.methods.toJSON = function () {
     return userObject
 }
 
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
-    if (!user) throw new Error('Unable to login')
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) throw new Error('Unable to login')
-    return user
-}
-
 userSchema.methods.validPassword = function validPassword(password) {
     return !bcrypt.compareSync(password, this.password)
 }
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
     if (this.isModified('password')) this.password = await bcrypt.hash(this.password, 8)
     next()
 })
 
-userSchema.pre('remove', async function (next) {
+userSchema.pre('remove', async function(next) {
     // await Hazard.deleteMany({ creator: this._id }) // Delete user groups when user is removed
     next()
 })
