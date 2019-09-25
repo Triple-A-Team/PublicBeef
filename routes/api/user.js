@@ -104,6 +104,4 @@ router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
     await req.user.save()
     res.send()
 })
-
-
 module.exports = router
