@@ -4,10 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 }, false);
 
-
-
 //************START GOOGLE MAPS CODE************
-
 
 var map, infoWindow;
 var pos = {};
