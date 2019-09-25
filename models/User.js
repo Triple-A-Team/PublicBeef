@@ -32,10 +32,6 @@ const userSchema = new Schema({
             if (value.toLowerCase().includes('password')) throw new Error('Password cannot contain "password"')
         }
     },
-    profilePicture: {
-        type: String,
-        default: 'http://www.pngall.com/wp-content/uploads/2/Beef-PNG-High-Quality-Image.png'
-    },
     location: {
         type: pointSchema,
     },
@@ -56,6 +52,7 @@ const userSchema = new Schema({
     },
     avatar: {
         type: String,
+        default: 'http://www.pngall.com/wp-content/uploads/2/Beef-PNG-High-Quality-Image.png',
     }
 }, {
     timestamps: {
@@ -66,7 +63,7 @@ const userSchema = new Schema({
 
 userSchema.index({ location: "2dsphere" });
 
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
     const user = this
     const userObject = user.toObject()
 
@@ -109,12 +106,12 @@ userSchema.methods.validPassword = function validPassword(password) {
     return !bcrypt.compareSync(password, this.password)
 }
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
     if (this.isModified('password')) this.password = await bcrypt.hash(this.password, 8)
     next()
 })
 
-userSchema.pre('remove', async function(next) {
+userSchema.pre('remove', async function (next) {
     // await Hazard.deleteMany({ creator: this._id }) // Delete user groups when user is removed
     next()
 })
