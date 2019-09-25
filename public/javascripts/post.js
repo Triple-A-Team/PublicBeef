@@ -5,29 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
 }, false);
 
 
-document.getElementById("test-button").addEventListener("click", function(event){
-  event.preventDefault();
-  console.log('click click click')
-
-  publicFeed.innerHTML+=`
-  <div class="messageBox">
-  
-    <h8>TESTTTT</h4>
-    <br>
-    <h8>TESTTTT</h6>
-    <br>
-    <h8>TESTTTT</h6>
-  </div>
-
-
-`
-
-
-});
-
-
-
-
 //*****************Axios Code */
 
 // import axios from 'axios';
@@ -38,23 +15,18 @@ const publicFeed= document.getElementById('public-feed')
  * appends the publicFeed with those two things
  * 
  */
-
-
 console.log("ABOUT TO RUN SET INTERVAL")
-
-
-
 setInterval(() => {
 
   axios.get('/api/posts/all')
   .then(result => {
-    // console.log('allmessages>>>>>>>>>>>>>', result.data)
+    console.log('allmessages>>>>>>>>>>>>>', result.data)
     publicFeed.innerHTML = ''
 
     result.data.forEach(message => {
-      publicFeed.innerHTML+=
-      `
+      publicFeed.innerHTML+=`
       <div class="messageBox">
+      
         <h8>${message.title}</h4>
         <br>
         <h8>${message.content}</h6>
@@ -68,16 +40,37 @@ setInterval(() => {
 },300)
 
 
-// document.querySelector('#messageSubmitButton').click(() => {
-//   axios.post('/api/post', {message: document.querySelector('#messageInput').value})
-//   .then((newMessage)=>{
-//     document.querySelector('#messageInput').value = '';
-//     console.log("new message created ------ ", newMessage);
-//   }).catch(err => console.log("error posting message <<<< ", err))
-// })
 
-document.querySelector('#test-button').click(() => {
-  console.log('TEST TEST TEST')
+
+document.getElementById('theForm').onsubmit = ((e)=>{
+  e.preventDefault();
+
+  // console.log(document.getElementById('file').files[0])
+
+  let postObject = new FormData()
+  postObject.append('title', document.getElementById('theTitle').value)
+  postObject.append('content', document.getElementById('theContent').value)
+  postObject.append('image', document.getElementById('file').files[0].url)
+
+
+
+
+  // let postObject = {
+  //   title: document.getElementById('theTitle').value,
+  //   content: document.getElementById('theContent').value,
+  //   image: 'TEST IMAGE URL'
+  // }
+
+
+
+  axios.post('/api/posts', postObject)
+  .then((result)=>{
+    console.log(result)
+  })
+})
+
+
+document.querySelector('#messageSubmitButton').click(() => {
   axios.post('/api/post', {message: document.querySelector('#messageInput').value})
   .then((newMessage)=>{
     document.querySelector('#messageInput').value = '';
