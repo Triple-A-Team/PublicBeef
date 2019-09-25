@@ -29,7 +29,7 @@ router.get('/search', async(req, res, next) => {
             }
         })
         .then(async users => {
-            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({'createdAt': 'asc'})
+            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({ 'createdAt': 'asc' })
             res.json(posts)
         })
         .catch(err => next(err))
@@ -52,7 +52,7 @@ router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) 
     try {
         if (!req.file) res.status(401).json({ error: 'Please provide an image' })
         const { title, content, author } = req.body
-        const postData = { title, content, author: author || req.user_id, image: req.file.url }
+        const postData = { title, content, author: author || req.user._id, image: req.file.url }
         await new Post(postData).save()
         res.status(201).redirect('/')
     } catch (err) {
@@ -69,6 +69,20 @@ router.get('/:id', async(req, res, next) => {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
         res.send(post)
+    } catch (e) {
+        res.status(404).send()
+    }
+})
+
+/**
+ * Get a post's comment thread
+ * @example GET /api/posts/:id/thread/
+ */
+router.get('/:id/thread', async(req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        if (!post) throw new Error()
+        res.send(await post.getThread())
     } catch (e) {
         res.status(404).send()
     }

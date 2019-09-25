@@ -2,7 +2,6 @@ const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
 const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
-const Post = require('../../models/Post')
 const router = express.Router()
 
 /** 
@@ -81,7 +80,7 @@ router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async(req, r
 /** 
  * Get a user's avatar and send back the image
  * @example
- * GET /api/users/:id/avatar 
+ * GET /api/users/:id/avatar
  */
 router.get(`/:id/avatar`, async(req, res) => {
     try {
