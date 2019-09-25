@@ -13,12 +13,16 @@ const postSchema = new Schema({
         required: true,
         trim: true,
     },
+    image: {
+        type: String
+    },
     rootComment: {
         type: Schema.Types.ObjectId,
         ref: 'Comment'
     },
-    image: {
-        type: String
+    author: {
+        type: Schema.Types.ObjectID,
+        ref: "User"
     }
 }, {
     timestamps: {
@@ -28,7 +32,7 @@ const postSchema = new Schema({
 })
 
 postSchema.methods.getThread = async function() {
-    return await db.posts.aggregate([{
+    return await Post.aggregate([{
         $graphLookup: {
             from: "posts",
             startWith: "$rootComment",
@@ -36,8 +40,17 @@ postSchema.methods.getThread = async function() {
             connectToField: "_id",
             as: "commentThread"
         }
-    }]).exec()
+    }])
 }
+
+function autopopulate(next) {
+    this.populate('author');
+    this.populate('rootComment')
+    next();
+}
+
+postSchema.pre('find', autopopulate);
+postSchema.pre('findOne', autopopulate);
 
 const Post = mongoose.model('Post', postSchema)
 

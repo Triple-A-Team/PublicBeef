@@ -1,8 +1,6 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { uploadCloud } = require('../../configs/cloudinary')
 const Comment = require('../../models/Comment')
-const Post = require('../../models/Post')
 const router = express.Router()
 
 
@@ -37,8 +35,10 @@ router.get('/:id', async(req, res, next) => {
  */
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
-        const { parent, content, author } = req.body
-        const commentData = { title, content, parent, author: author || req.user._id, onModel: parent.collection.name }
+        const { parent, content, author, parentModel } = req.body
+        console.log(req.body)
+        const commentData = { content, parent, author: author || req.user._id, parentModel: (parent && parent.collection) ? parent.collection.name : parentModel }
+        console.log(`Creating comment with data: ${JSON.stringify(commentData)}`)
         await new Comment(commentData).save()
         res.status(201).redirect('/')
     } catch (err) {
