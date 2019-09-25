@@ -21,8 +21,8 @@ router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) =>
                 res.status(409).json({ message: 'The username already exists' })
                 return
             }
-            console.log(req.file.url, '==============================')
-            const userData = { username, password: bcrypt.hashSync(password, salt), location, role, email, avatar: req.file.url }
+            const userData = { username, password: bcrypt.hashSync(password, salt), location, role, email }
+            if (req.file) userData.avatar = req.file.url
             const newUser = new User(userData)
             return newUser.save()
         })
@@ -59,7 +59,7 @@ router.post('/login', (req, res, next) => {
                 return
             }
 
-            res.json(req.user)
+            res.status(200).redirect('/')
         })
     })(req, res, next)
 })
@@ -67,7 +67,7 @@ router.post('/login', (req, res, next) => {
 /**
  * Log out a user using passport.logout
  * @example
- * POST /api/login
+ * POST /api/logout
  */
 router.get('/logout', (req, res) => {
     req.logout()

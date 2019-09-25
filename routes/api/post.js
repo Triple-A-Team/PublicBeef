@@ -82,11 +82,11 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
-        if (!req.user._id.equals(author)) res.status(403).send('You do not have permission to delete this resource.')
+        if (!req.user._id.equals(post.author)) res.status(403).send('You do not have permission to delete this resource.')
         await post.remove()
         res.status(202).send(post)
     } catch (e) {
-        res.status(404).send()
+        res.status(404).send(e)
     }
 })
 
@@ -96,7 +96,7 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
  */
 router.patch(`/:id`, async(req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'location', 'role']
+    const allowedUpdates = ['title', 'content', 'image']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
