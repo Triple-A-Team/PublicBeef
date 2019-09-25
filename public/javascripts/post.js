@@ -25,8 +25,8 @@ setInterval(() => {
       <div class="messageBox">
         <h4>${oneMessage.title}</h4>
         <h6>${oneMessage.content}</h6>
-        <h6>${oneMessage.image}</h6>
-        <h6>${oneMessage.author}</h6>
+
+        <h6>${oneMessage.req.user}</h6>
       </div>
       `)
     })

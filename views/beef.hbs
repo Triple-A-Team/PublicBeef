@@ -1,12 +1,28 @@
 <div class="beef">
   <div class="row">
     <div class="col-4">
-      <div class="columns-container">
-        <div class="chat">
+      <div class="columns-container" >
+        <div class="chat" id='public-feed'  >
           <h1>Your region chat:</h1>
           <div id='map'></div>
         </div>
       </div>
+
+
+      <form action="api/posts" method="POST">
+        <p>Title</p>
+        <input type="text">
+        <p>Content</p>
+        <input type="text">
+        <p>Image</p>
+        <input type="text">
+
+        <button>Send Post</button>
+      </form>
+
+
+
+
     </div>
     <div class="col-3">
       <div class="columns-container">
