@@ -26,15 +26,18 @@ setInterval(() => {
     result.data.forEach(message => {
       publicFeed.innerHTML+=`
       <div class="messageBox">
-        <h4>${message.title}</h4>
-        <h6>${message.content}</h6>
-        <h6>${message.image}</h6>
+      
+        <h8>${message.title}</h4>
+        <br>
+        <h8>${message.content}</h6>
+        <br>
+        <h8>${message.image}</h6>
       </div>
       `
     })
 
   }).catch(err => console.log("error getting all messages >>> ", err))
-},1000)
+},300)
 
 
 document.querySelector('#messageSubmitButton').click(() => {
