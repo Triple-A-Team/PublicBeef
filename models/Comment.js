@@ -29,10 +29,18 @@ const commentSchema = new Schema({
 
 
 function autopopulate(next) {
-    this.populate('author');
+    this.populate('author')
     this.populate('parent')
+    this.populate('child')
     next();
 }
+
+commentSchema.virtual('child', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'parent',
+    justOne: true
+})
 
 commentSchema.pre('find', autopopulate);
 commentSchema.pre('findOne', autopopulate);

@@ -16,10 +16,6 @@ const postSchema = new Schema({
     image: {
         type: String
     },
-    rootComment: {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-    },
     author: {
         type: Schema.Types.ObjectID,
         ref: "User"
@@ -29,6 +25,13 @@ const postSchema = new Schema({
         createdAt: 'created_at',
         updatedAt: 'updated_at',
     },
+})
+
+postSchema.virtual('rootComment', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'parent',
+    justOne: true
 })
 
 postSchema.methods.getThread = async function() {
