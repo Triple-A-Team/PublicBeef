@@ -54,7 +54,7 @@ router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) 
         const { title, content, author } = req.body
         const postData = { title, content, author: author || req.user_id, image: req.file.url }
         await new Post(postData).save()
-        res.status(201).redirect('/')
+        res.status(201).redirect('/beef')
     } catch (err) {
         next(err)
     }

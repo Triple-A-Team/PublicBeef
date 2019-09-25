@@ -12,12 +12,15 @@
 
   <form action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
     <label for="title">Title</label>
+    <br>
     <input type="text" name="title" placeholder="Post Title" required>
-    
+    <br>
     <label for="content">Content</label>
-    <input type="text" name="content" placeholder="Post Content" required>
-
+    <br>
+    <textarea type="text" name="content" placeholder="Post Content" required></textarea>
+    <br>
     <label for="image">Image</label>
+    <br>
     <input type="file" name="image">
 
     <button class="btn btn-danger">Create Post</button>
