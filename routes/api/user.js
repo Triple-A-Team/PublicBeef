@@ -103,5 +103,6 @@ router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
     req.user.avatar = undefined
     await req.user.save()
     res.send()
-})
+})//Changed this here
+
 module.exports = router
