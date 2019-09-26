@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const db = require('../configs/database')
-
 
 const postSchema = new Schema({
     title: {
@@ -35,8 +33,9 @@ postSchema.virtual('rootComment', {
 })
 
 function autopopulate(next) {
-    this.populate('author');
-    this.populate('rootComment')
+    this.populate([
+        { path: 'author' }
+    ])
     next();
 }
 

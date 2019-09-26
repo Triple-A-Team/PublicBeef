@@ -46,6 +46,7 @@ router.get('/all', async(req, res, next) => {
 
 /**
  * Create a post
+ * 
  * @example POST /api/posts
  */
 router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {

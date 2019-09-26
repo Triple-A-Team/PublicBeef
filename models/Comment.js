@@ -9,16 +9,18 @@ const commentSchema = new Schema({
     },
     parent: {
         type: Schema.Types.ObjectID,
-        refPath: 'parentModel'
+        refPath: 'parentModel',
+        required: true
     },
     author: {
         type: Schema.Types.ObjectID,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     parentModel: {
         type: String,
-        required: true,
-        enum: ['Post', 'Comment']
+        enum: ['Post', 'Comment'],
+        required: true
     }
 }, {
     timestamps: {
@@ -27,20 +29,20 @@ const commentSchema = new Schema({
     },
 })
 
-
-function autopopulate(next) {
-    this.populate('author')
-    this.populate('parent')
-    this.populate('child')
-    next();
-}
-
 commentSchema.virtual('child', {
     ref: 'Comment',
     localField: '_id',
     foreignField: 'parent',
     justOne: true
 })
+
+function autopopulate(next) {
+    this.populate([
+        { path: 'author' },
+        { path: 'parent' }
+    ])
+    next();
+}
 
 commentSchema.pre('find', autopopulate);
 commentSchema.pre('findOne', autopopulate);

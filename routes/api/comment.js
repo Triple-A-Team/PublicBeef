@@ -10,7 +10,7 @@ const router = express.Router()
  * GET /api/comments/all
  * */
 router.get('/all', async(req, res, next) => {
-    res.json(await Comment.find())
+    res.json(await Comment.find({child: null}))
 })
 
 /** 
@@ -36,9 +36,7 @@ router.get('/:id', async(req, res, next) => {
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
         const { parent, content, author, parentModel } = req.body
-        console.log(req.body)
         const commentData = { content, parent, author: author || req.user._id, parentModel: (parent && parent.collection) ? parent.collection.name : parentModel }
-        console.log(`Creating comment with data: ${JSON.stringify(commentData)}`)
         await new Comment(commentData).save()
         res.status(201).redirect('/')
     } catch (err) {
@@ -55,7 +53,10 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
         const comment = await Comment.findById(req.params.id)
         if (!comment) throw new Error()
-        if (!req.user._id.equals(comment.author)) res.status(403).send('You do not have permission to delete this resource.')
+        if (!req.user._id.equals(comment.author)) {
+            res.status(403).send('You do not have permission to delete this resource.')
+            return
+        }
         await comment.remove()
         res.status(202).send(comment)
     } catch (e) {
@@ -70,9 +71,13 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
  */
 router.patch(`/:id`, async(req, res) => {
     try {
+        const updates = Object.keys(req.body)
+        const allowedUpdates = ['content', 'parent', 'parentModel']
+        const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+        if (!isValidOperation) throw new Error('Invalid updates!')
         const comment = await Comment.findById(req.params.id)
-        if (!comment) throw new Error()
-        updates.forEach((update) => comment[update] = req.body[update])
+        if (!comment) throw new Error('Comment not found.')
+        updates.forEach(update => comment[update] = req.body[update])
         await comment.save()
         res.json(comment)
     } catch (e) {
