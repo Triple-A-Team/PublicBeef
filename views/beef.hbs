@@ -1,22 +1,41 @@
 <div class="beef">
   <div class="row">
-    <div class="col-4">
+    <div class="col-4 mx-0 px-0">
       <div class="columns-container">
-        <div class="chat">
-          <h1>Your region chat:</h1>
-          <div id='map'></div>
+        <div class="posts">
+          <div class="chat" id='public-feed'>
+            <p>BLAH BLAH BLAH</p>
+            <h1>Your region chat:</h1>
+          </div>
+          <div class="new-post">
+            <form action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
+              <label for="title">Title</label> <br>
+              <input type="text" name="title" placeholder="Post Title" required><br>
+              <label for="content">Content</label><br>
+              <textarea type="" name="content" placeholder="Post Content" required></textarea><br>
+              <label for="image">Image</label><br>
+              <input type="file" id="file" name="image" />
+              <label for="file" class="btn-2"><i class="fas fa-camera"></i></label>
+              <button class="btn btn-light">Create Post</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-3">
+    <div class="col-2 mx-0 px-0">
       <div class="columns-container">
         <div class="messages">
           <h1>Direct messages:</h1>
         </div>
       </div>
     </div>
-    <div class="col-4 profile">
+    <div class="col-2 mx-0 px-0">
       <div class="columns-container d-flex flex-wrap">
+
+      </div>
+    </div>
+    <div class="col-3 mx-0 px-0 profile">
+      <div class="columns-container">
         <div class="header">
           <img
             src="https://images.unsplash.com/photo-1444838639505-f9042c5d2386?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
@@ -29,10 +48,16 @@
             <img class="avatar" src="{{user.avatar}}" alt="">
           </div>
         </div>
+        <div class="user-info">
+          <div class="container-fluid">
+            <h1 class="username">@{{user.username}}</h1>
+          </div>
+        </div>
         <div class="container-fluid">
-          <h1 class="username">User:{{user.username}}</h1>
+          <div id='map'></div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>

@@ -99,6 +99,7 @@ app.use('/', require('./routes/index'));
 app.use('/', require('./routes/login'));
 app.use('/', require('./routes/signup'));
 app.use('/', require('./routes/beef'));
+app.use('/', require('./routes/addPost'));
 
 //Backend Routes
 app.use(`/api/`, require('./routes/api/auth'))
@@ -106,6 +107,7 @@ app.use('/api', require('./routes/admin'));
 app.use(`/api/users`, require('./routes/api/user'))
 app.use(`/api/posts`, require('./routes/api/post'))
 app.use(`/api/comments`, require('./routes/api/comment'))
+
 
 // For any routes that starts with "/api", catch 404 and forward to error handler
 app.use('/api/*', (req, res, next) => {
@@ -127,3 +129,4 @@ app.use((err, req, res, next) => {
 })
 
 module.exports = app;
+
