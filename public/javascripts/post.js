@@ -9,15 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // import axios from 'axios';
 const publicFeed= document.getElementById('public-feed')
+var div = document.getElementById('public-feed');
 /**
  * Sets the publicFeed equal to that div from index
  * gets the username and message from those input forms
  * appends the publicFeed with those two things
- * 
  */
-console.log("ABOUT TO RUN SET INTERVAL")
 setInterval(() => {
-
   axios.get('/api/posts/all')
   .then(result => {
     console.log('allmessages>>>>>>>>>>>>>', result.data)
@@ -35,17 +33,19 @@ setInterval(() => {
       </div>
       `
     })
-
   }).catch(err => console.log("error getting all messages >>> ", err))
-},300)
+},10)
 
 //Onclick of button called 'Bottom' the chat scrolls all the way down
 function scrollDown(){
   console.log('button clicked')
-  var div = document.getElementById('public-feed');
-  div.scrollTop = div.scrollHeight;
-}
 
+  setTimeout(()=>{
+    div.scrollTop = div.scrollHeight;
+    console.log('GOING DOWNNNNNN')
+  },100)
+  
+}
 
 document.getElementById('theForm').onsubmit = ((e)=>{
   e.preventDefault();
@@ -58,22 +58,16 @@ document.getElementById('theForm').onsubmit = ((e)=>{
   postObject.append('image', document.getElementById('file').files[0].url)
 
 
-
-
   // let postObject = {
   //   title: document.getElementById('theTitle').value,
   //   content: document.getElementById('theContent').value,
   //   image: 'TEST IMAGE URL'
   // }
-
-
-
   axios.post('/api/posts', postObject)
   .then((result)=>{
     console.log(result)
   })
 })
-
 
 document.querySelector('#messageSubmitButton').click(() => {
   axios.post('/api/post', {message: document.querySelector('#messageInput').value})
