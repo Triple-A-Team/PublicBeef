@@ -1,15 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-  console.log('IronGenerator JS imported successfully!');
-
-}, false);
-
-
-//*****************Axios Code */
-
-// import axios from 'axios';
 const publicFeed= document.getElementById('public-feed')
 var div = document.getElementById('public-feed');
+var div = document.getElementById('public-feed');
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('IronGenerator JS imported successfully!');
+}, false);
+
 /**
  * Sets the publicFeed equal to that div from index
  * gets the username and message from those input forms
@@ -24,7 +20,6 @@ setInterval(() => {
     result.data.forEach(message => {
       publicFeed.innerHTML+=`
       <div class="messageBox">
-      
         <h8>${message.title}</h4>
         <br>
         <h8>${message.content}</h6>
@@ -39,12 +34,10 @@ setInterval(() => {
 //Onclick of button called 'Bottom' the chat scrolls all the way down
 function scrollDown(){
   console.log('button clicked')
-
   setTimeout(()=>{
     div.scrollTop = div.scrollHeight;
     console.log('GOING DOWNNNNNN')
   },100)
-  
 }
 
 document.getElementById('theForm').onsubmit = ((e)=>{
@@ -57,7 +50,6 @@ document.getElementById('theForm').onsubmit = ((e)=>{
   postObject.append('content', document.getElementById('theContent').value)
   postObject.append('image', document.getElementById('file').files[0].url)
 
-
   // let postObject = {
   //   title: document.getElementById('theTitle').value,
   //   content: document.getElementById('theContent').value,
@@ -68,7 +60,6 @@ document.getElementById('theForm').onsubmit = ((e)=>{
     console.log(result)
   })
 })
-
 document.querySelector('#messageSubmitButton').click(() => {
   axios.post('/api/post', {message: document.querySelector('#messageInput').value})
   .then((newMessage)=>{
@@ -76,4 +67,3 @@ document.querySelector('#messageSubmitButton').click(() => {
     console.log("new message created ------ ", newMessage);
   }).catch(err => console.log("error posting message <<<< ", err))
 })
-
