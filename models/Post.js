@@ -36,7 +36,6 @@ function autopopulate(next) {
     next();
 }
 
-postSchema.set('toObject', { hide: '_id', virtuals: true })
 postSchema.pre('find', autopopulate);
 postSchema.pre('findOne', autopopulate);
 const Post = mongoose.model('Post', postSchema)

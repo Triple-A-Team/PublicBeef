@@ -23,7 +23,6 @@ const commentSchema = new Schema({
     },
 })
 
-commentSchema.set('toObject', { hide: '_id', virtuals: true })
 const Comment = mongoose.model('Comment', commentSchema)
 
 module.exports = Comment

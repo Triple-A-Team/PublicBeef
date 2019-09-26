@@ -15,7 +15,6 @@ const chatMessageSchema = new Schema({
     }
 })
 
-chatMessageSchema.set('toObject', { hide: '_id', virtuals: true })
 const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema)
 
 module.exports = ChatMessage
