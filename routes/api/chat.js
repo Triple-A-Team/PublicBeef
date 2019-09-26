@@ -1,17 +1,16 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const ChatMessage = require('../../models/ChatMessage')
-const Post = require('../../models/Post')
+const Chat = require('../../models/Chat')
 const router = express.Router()
 
 
 /** 
  * Get all posts.
  * @example
- * GET /api/chat/all
+ * GET /api/chat
  * */
-router.get('/all', async(req, res, next) => {
-    res.json(await ChatMessage.find())
+router.get('/', async(req, res, next) => {
+    res.json(await Chat.find())
 })
 
 /** 
@@ -21,45 +20,43 @@ router.get('/all', async(req, res, next) => {
  * */
 router.get('/:id', async(req, res, next) => {
     try {
-        const chatMessage = await ChatMessage.findById(req.params.id)
-        if (!chatMessage) throw new Error()
-        res.status(202).send(chatMessage)
+        const chat = await Chat.findById(req.params.id)
+        if (!chat) throw new Error()
+        res.status(202).json(chat)
     } catch (e) {
         res.status(404).send(e)
     }
 })
 
 /**
- * Create a chatMessage.
+ * Create a chat.
  * @example 
  * POST /api/chat
  */
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
-        const { message, author } = req.body
-        const chatMessageData = { message, author: author || req.user._id }
-        await new ChatMessage(chatMessageData).save()
-        res.status(201).redirect('/')
+        let chat = await new Chat(req.body.users).save()
+        res.status(201).json(chat)
     } catch (err) {
         next(err)
     }
 })
 
 /**
- * Delete a specific chatMessage
+ * Delete a specific chat
  * @example 
  * DELETE /api/chat/:id
  */
 router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
-        const chatMessage = await ChatMessage.findById(req.params.id)
-        if (!chatMessage) throw new Error()
-        if (!req.user._id.equals(chatMessage.author)) {
+        const chat = await Chat.findById(req.params.id)
+        if (!chat) throw new Error()
+        if (!req.user._id.equals(chat.author)) {
             res.status(403).send('You do not have permission to delete this resource.')
             return
         }
-        await chatMessage.remove()
-        res.status(202).send(chatMessage)
+        await chat.remove()
+        res.status(202).json(chat)
     } catch (e) {
         res.status(404).send(e)
     }

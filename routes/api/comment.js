@@ -1,21 +1,20 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
 const Comment = require('../../models/Comment')
-const Post = require('../../models/Post')
 const router = express.Router()
 
 
 /** 
- * Get all posts.
+ * Get all comments.
  * @example
- * GET /api/comments/all
+ * GET /api/comments
  * */
-router.get('/all', async(req, res, next) => {
+router.get('/', async(req, res, next) => {
     res.json(await Comment.find())
 })
 
 /** 
- * Get all posts.
+ * Get specific comment.
  * @example
  * GET /api/comments/:id
  * */
@@ -30,18 +29,15 @@ router.get('/:id', async(req, res, next) => {
 })
 
 /**
- * Create a comment.  Need to send the parent.
+ * Create a comment.
  * @example 
  * POST /api/comments
  */
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
-        const { post, content, author } = req.body
-        const commentData = { post, content, author: author || req.user._id }
-        let comment = await new Comment(commentData).save()
-        await Post.findByIdAndUpdate(post, {
-            ['$addToSet']: { comments: comment._id }
-        }, { new: true });
+        const { content, post, author } = req.body
+        const commentData = { content, post, author: author || req.user._id }
+        await new Comment(commentData).save()
         res.status(201).redirect('/')
     } catch (err) {
         next(err)
@@ -70,18 +66,19 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
 
 /**
  * Update a specific comment
- * @example 
- * PATCH /api/comments/:id
+ * @example PATCH /api/comments/:id
  */
 router.patch(`/:id`, async(req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['content']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
+
     try {
-        const updates = Object.keys(req.body)
-        const allowedUpdates = ['content']
-        const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-        if (!isValidOperation) throw new Error('Invalid updates!')
         const comment = await Comment.findById(req.params.id)
-        if (!comment) throw new Error('Comment not found.')
-        updates.forEach(update => comment[update] = req.body[update])
+        if (!comment) throw new Error()
+        updates.forEach((update) => comment[update] = req.body[update])
         await comment.save()
         res.json(comment)
     } catch (e) {

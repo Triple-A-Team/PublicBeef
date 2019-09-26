@@ -111,6 +111,11 @@ userSchema.virtual('comments', {
     justOne: false
 })
 
+userSchema.virtual('chats')
+    .get(function() {
+        return Chat.find({ users: this._id })
+    });
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
