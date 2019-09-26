@@ -1,14 +1,14 @@
 body {
   margin: 0px;
   padding: 0px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
-input{
+input {
 }
 
 .navbar {
-  background-color: white;
+  background-color: #C2095A;
   .navbar-brand {
     font-weight: bold;
     font-size: 30px;
@@ -16,7 +16,7 @@ input{
 
   .nav-link,
   .navbar-brand {
-    color: black;
+    color: white;
   }
 
   .nav-link:hover,
@@ -89,9 +89,11 @@ a {
 }
 
 .beef {
-  background-color: blue;
+  background-color: #FEE5C4;
   .posts {
+    margin-top: 20px;
     height: 100%;
+    background-color: rgba(249, 107, 126, 0.5);
     .chat {
       height: 75%;
     }
@@ -121,6 +123,7 @@ a {
     background-color: rgba(lightgray, 0.6);
   }
   .profile {
+    background-color: #fff;
     .header {
       position: relative;
       height: 150px;
@@ -136,9 +139,9 @@ a {
       padding-top: 25px;
       font-size: 25px;
       color: white;
-      text-shadow: 2px 2px #3D5466;
+      text-shadow: 2px 2px #3d5466;
     }
-    .user-info{
+    .user-info {
       height: 300px;
     }
     .image-container {

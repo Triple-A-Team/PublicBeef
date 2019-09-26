@@ -40,6 +40,36 @@ setInterval(() => {
 },300)
 
 
+
+
+document.getElementById('theForm').onsubmit = ((e)=>{
+  e.preventDefault();
+
+  // console.log(document.getElementById('file').files[0])
+
+  let postObject = new FormData()
+  postObject.append('title', document.getElementById('theTitle').value)
+  postObject.append('content', document.getElementById('theContent').value)
+  postObject.append('image', document.getElementById('file').files[0].url)
+
+
+
+
+  // let postObject = {
+  //   title: document.getElementById('theTitle').value,
+  //   content: document.getElementById('theContent').value,
+  //   image: 'TEST IMAGE URL'
+  // }
+
+
+
+  axios.post('/api/posts', postObject)
+  .then((result)=>{
+    console.log(result)
+  })
+})
+
+
 document.querySelector('#messageSubmitButton').click(() => {
   axios.post('/api/post', {message: document.querySelector('#messageInput').value})
   .then((newMessage)=>{

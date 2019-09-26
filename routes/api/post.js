@@ -1,3 +1,4 @@
+
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
 const { uploadCloud } = require('../../configs/cloudinary')
@@ -29,7 +30,7 @@ router.get('/search', async(req, res, next) => {
             }
         })
         .then(async users => {
-            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({ 'createdAt': 'asc' })
+            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({'createdAt': 'asc'})
             res.json(posts)
         })
         .catch(err => next(err))
@@ -46,16 +47,17 @@ router.get('/all', async(req, res, next) => {
 
 /**
  * Create a post
- * 
  * @example POST /api/posts
  */
 router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {
     try {
-        const { title, content, author } = req.body
-        const postData = { title, content, author: author || req.user._id }
-        if (req.file) postData.image = req.file.url
-        const post = await new Post(postData).save()
-        res.status(201).json(post)
+
+        console.log(req.file)
+        // if (!req.file) res.status(401).json({ error: 'Please provide an image' })
+        const { title, content } = req.body
+        const postData = { title, content, author: req.user_id,}
+        let test = await new Post(postData).save()
+        res.json(test)
     } catch (err) {
         next(err)
     }
@@ -70,20 +72,6 @@ router.get('/:id', async(req, res, next) => {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
         res.send(post)
-    } catch (e) {
-        res.status(404).send()
-    }
-})
-
-/**
- * Get a post's comment thread
- * @example GET /api/posts/:id/thread/
- */
-router.get('/:id/thread', async(req, res, next) => {
-    try {
-        const post = await Post.findById(req.params.id)
-        if (!post) throw new Error()
-        res.send(await post.getThread())
     } catch (e) {
         res.status(404).send()
     }
@@ -107,7 +95,7 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
 
 /**
  * Update a specific post
- * @example PATCH /api/posts/:id
+ * @example POST /api/posts/:id
  */
 router.patch(`/:id`, async(req, res) => {
     const updates = Object.keys(req.body)
@@ -126,5 +114,4 @@ router.patch(`/:id`, async(req, res) => {
         res.status(400).send(e)
     }
 })
-
 module.exports = router
