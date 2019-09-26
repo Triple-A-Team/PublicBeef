@@ -2,7 +2,6 @@ const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
 const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
-const Post = require('../../models/Post')
 const router = express.Router()
 
 /** 
@@ -104,4 +103,5 @@ router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
     await req.user.save()
     res.send()
 })
+
 module.exports = router

@@ -8,7 +8,6 @@ function isLoggedIn(req, res, next) {
     else next({ status: 403, message: 'Unauthorized' })
 }
 
-
 const adminAuth = (req, res, next) => {
     if (!req.user) {
         req.flash('failure', 'please log in to use this feature')
