@@ -118,19 +118,6 @@ userSchema.virtual('chats', {
     justOne: true
 })
 
-function autopopulate(next) {
-    this.populate([
-        { path: 'messages' },
-        { path: 'posts' },
-        { path: 'comments' },
-        { path: 'chats' }
-    ])
-    next();
-}
-
-userSchema.set('toObject', { hide: '_id', virtuals: true })
-userSchema.pre('find', autopopulate);
-userSchema.pre('findOne', autopopulate);
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
