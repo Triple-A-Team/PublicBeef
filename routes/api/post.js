@@ -42,7 +42,7 @@ router.get('/search', async(req, res, next) => {
  * GET /api/posts/all
  * */
 router.get('/all', async(req, res, next) => {
-    res.json(await Post.find())
+    res.json(await Post.find().populate('author'))
 })
 
 /**
@@ -51,11 +51,10 @@ router.get('/all', async(req, res, next) => {
  */
 router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {
     try {
-
         console.log(req.file)
         // if (!req.file) res.status(401).json({ error: 'Please provide an image' })
         const { title, content } = req.body
-        const postData = { title, content, author: req.user_id,}
+        const postData = { title, content, author: req.user._id,}
         let test = await new Post(postData).save()
         res.json(test)
     } catch (err) {

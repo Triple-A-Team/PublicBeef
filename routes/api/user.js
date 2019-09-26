@@ -26,7 +26,9 @@ router.get('/search', (req, res, next) => {
                     $maxDistance: maxDist
                 }
             }
-        })
+        }).populate([
+            { path: 'location' }
+        ])
         .then(users => {
             res.json(users)
         })
@@ -43,13 +45,27 @@ router.get(`/me`, isLoggedIn, async(req, res) => {
 })
 
 /** 
+ * Obtains a copy of the current logged in user model
+ * @example
+ * GET /api/users
+ */
+router.get(`/`, isLoggedIn, async(req, res, next) => {
+    try {
+        let users = await User.find()
+        res.json(users)
+    } catch (err) {
+        next(err)
+    }
+})
+
+/** 
  * Edits fields of the currently logged in user
  * @example
  * PATCH /api/users/me 
  */
 router.patch(`/me`, isLoggedIn, async(req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header']
+    const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header', 'location']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })

@@ -11,7 +11,7 @@ const pointSchema = new mongoose.Schema({
     coordinates: {
         type: [Number],
         index: '2dsphere',
-        default: [25.766111, -80.196183],
+        default: [-80.196183, 25.766111],
         required: true
     }
 });
@@ -118,19 +118,8 @@ userSchema.virtual('chats', {
     justOne: true
 })
 
-function autopopulate(next) {
-    this.populate([
-        { path: 'messages' },
-        { path: 'posts' },
-        { path: 'comments' },
-        { path: 'chats' }
-    ])
-    next();
-}
-
-userSchema.set('toObject', { hide: '_id', virtuals: true })
-userSchema.pre('find', autopopulate);
-userSchema.pre('findOne', autopopulate);
+userSchema.set('toObject', { virtuals: true })
+userSchema.set('toJSON', { virtuals: true })
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
