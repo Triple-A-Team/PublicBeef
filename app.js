@@ -111,7 +111,7 @@ app.use(`/api/comments`, require('./routes/api/comment'))
 
 // For any routes that starts with "/api", catch 404 and forward to error handler
 app.use('/api/*', (req, res, next) => {
-    let err = new Error('Not Found')
+    let err = new Error('API Route Not Found')
     err.status = 404
     next(err)
 })

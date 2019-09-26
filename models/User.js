@@ -111,18 +111,6 @@ userSchema.virtual('comments', {
     justOne: false
 })
 
-function autopopulate(next) {
-    this.populate([
-        { path: 'posts' },
-        { path: 'messages' },
-        { path: 'comments' }
-    ])
-    next();
-}
-
-userSchema.pre('find', autopopulate);
-userSchema.pre('findOne', autopopulate);
-
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
