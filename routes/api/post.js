@@ -1,7 +1,7 @@
 
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { uploadCloud } = require('../../configs/cloudinary')
+const uploadCloud  = require('../../configs/cloudinary')
 const User = require('../../models/User')
 const Post = require('../../models/Post')
 const router = express.Router()
@@ -42,25 +42,25 @@ router.get('/search', async(req, res, next) => {
  * GET /api/posts/all
  * */
 router.get('/all', async(req, res, next) => {
-    res.json(await Post.find())
+    res.json(await Post.find().populate('author'))
 })
 
 /**
  * Create a post
  * @example POST /api/posts
  */
-router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {
-    try {
-
+router.post('/', uploadCloud.single('image'),(req, res, next) => {
+    
         console.log(req.file)
         // if (!req.file) res.status(401).json({ error: 'Please provide an image' })
         const { title, content } = req.body
-        const postData = { title, content, author: req.user_id,}
-        let test = await new Post(postData).save()
-        res.json(test)
-    } catch (err) {
-        next(err)
-    }
+        const image = req.file.url
+        const postData = { title, content, author: req.user._id, image}
+       Post.create(postData)
+       .then((test)=>{
+           res.json(test)
+       })
+ 
 })
 
 /**

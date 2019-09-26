@@ -1,6 +1,6 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { uploadCloud } = require('../../configs/cloudinary')
+const uploadCloud = require('../../configs/cloudinary')
 const User = require('../../models/User')
 const router = express.Router()
 
