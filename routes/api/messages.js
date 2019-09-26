@@ -3,7 +3,6 @@ const { isLoggedIn } = require('../../middleware/auth')
 const ChatMessage = require('../../models/ChatMessage')
 const router = express.Router()
 
-
 /** 
  * Get all posts.
  * @example
