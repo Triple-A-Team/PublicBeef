@@ -123,7 +123,8 @@ function autopopulate(next) {
         { path: 'messages' },
         { path: 'posts' },
         { path: 'comments' },
-        { path: 'chats' }
+        { path: 'chats' },
+        { path: 'location' }
     ])
     next();
 }

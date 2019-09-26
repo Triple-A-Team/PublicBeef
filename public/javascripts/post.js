@@ -2,6 +2,7 @@ const publicFeed= document.getElementById('public-feed')
 var div = document.getElementById('public-feed');
 var div = document.getElementById('public-feed');
 
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('IronGenerator JS imported successfully!');
 }, false);
@@ -11,8 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
  * gets the username and message from those input forms
  * appends the publicFeed with those two things
  */
-setInterval(() => {
-  axios.get('/api/posts/all')
+setInterval(async() => {
+  let userResult = await axios.get('/api/users/me')
+  console.log(userResult.data)
+  // axios.get(`/api/posts/search?lat=${result.data.location[0]}&lon=${result.data.location[1]}&maxDist=100`)
+  axios.get('api/posts/all')
   .then(result => {
     console.log('allmessages>>>>>>>>>>>>>', result.data)
     publicFeed.innerHTML = ''
@@ -20,7 +24,7 @@ setInterval(() => {
     result.data.forEach(message => {
       publicFeed.innerHTML+=`
       <div class="messageBox">
-        <h8>${message.title}</h4>
+        <h8>${userResult.data.username}: ${message.title}</h4>
         <br>
         <h8>${message.content}</h6>
         <br>
@@ -29,7 +33,7 @@ setInterval(() => {
       `
     })
   }).catch(err => console.log("error getting all messages >>> ", err))
-},10)
+},50)
 
 //Onclick of button called 'Bottom' the chat scrolls all the way down
 function scrollDown(){
