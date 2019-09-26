@@ -4,7 +4,10 @@ body {
   font-family: "Roboto", sans-serif; }
 
 .navbar {
-  background-color: #C2095A; }
+
+  height: 10vh;
+  background-color: #b10952; }
+
   .navbar .navbar-brand {
     font-weight: bold;
     font-size: 30px; }
@@ -65,13 +68,23 @@ a {
   margin-bottom: 15px; }
 
 .beef {
-  background-color: #FEE5C4; }
+
+  background-color: #fee5c4; }
+
   .beef .posts {
     margin-top: 20px;
     height: 100%;
     background-color: rgba(249, 107, 126, 0.5); }
     .beef .posts .chat {
       height: 75%; }
+    .beef .posts .posts-box {
+      color: white;
+      height: 100px;
+      background-color: red; }
+      .beef .posts .posts-box h1 {
+        font-size: 16px; }
+      .beef .posts .posts-box p {
+        font-size: 12px; }
     .beef .posts .new-post {
       border-radius: 5px 5px 5px 5px;
       border: white 1px solid;
@@ -87,11 +100,12 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 85vh;
+    height: 90vh;
     width: 95%;
     margin: 0px auto;
-    border-radius: 15px;
-    background-color: rgba(211, 211, 211, 0.6); }
+
+    background-color: white; }
+
   .beef .profile {
     background-color: #fff; }
     .beef .profile .header {

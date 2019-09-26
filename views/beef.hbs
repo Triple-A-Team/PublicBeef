@@ -1,10 +1,13 @@
 <div class="beef">
-  <div class="row">
-    <div class="col-4 mx-0 px-0">
-      <div class="columns-container">
+  <div class="row d-flex justify-content-between">
+    <div class="col-5 mx-0 pl-3 px-0">
+      <div class="columns-container container-fluid">
         <div class="posts">
           <div class="chat" id='public-feed' style="overflow-y:scroll"> </div>
+
           <button type="button" id='scroll-down' onclick="scrollDown()">Bottom</button>
+
+
           <div class="new-post">
             <form id="theForm" action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
               <label for="title">Title</label> <br>
@@ -12,9 +15,10 @@
               <label for="content">Content</label><br>
               <textarea type="" name="content" placeholder="Post Content" required id='theContent'></textarea><br>
               <label for="image">Image</label><br>
-              <input type="file" id="file" name="image" />
-              <label for="file" class="btn-2"><i class="fas fa-camera"></i></label>
-              <button class="btn btn-light" onclick="scrollDown()">Create Post</button>
+              <input class="d-none" type="file" id="theFile" name="theFile" />
+              <label for="theFile" class="btn-2"><i class="fas fa-camera"></i></label>
+              <button class="btn btn-light">Create Post</button>
+
             </form>
           </div>
         </div>
@@ -29,10 +33,10 @@
     </div>
     <div class="col-2 mx-0 px-0">
       <div class="columns-container d-flex flex-wrap">
-
+        <h1>Friends List:</h1>
       </div>
     </div>
-    <div class="col-3 mx-0 px-0 profile">
+    <div class="col-3 mx-0 pr-3 px-0 profile">
       <div class="columns-container">
         <div class="header">
           <img
