@@ -1,6 +1,7 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
 const Comment = require('../../models/Comment')
+const Post = require('../../models/Post')
 const router = express.Router()
 
 
@@ -10,7 +11,7 @@ const router = express.Router()
  * GET /api/comments/all
  * */
 router.get('/all', async(req, res, next) => {
-    res.json(await Comment.find({child: null}))
+    res.json(await Comment.find())
 })
 
 /** 
@@ -35,9 +36,12 @@ router.get('/:id', async(req, res, next) => {
  */
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
-        const { parent, content, author, parentModel } = req.body
-        const commentData = { content, parent, author: author || req.user._id, parentModel: (parent && parent.collection) ? parent.collection.name : parentModel }
-        await new Comment(commentData).save()
+        const { post, content, author } = req.body
+        const commentData = { post, content, author: author || req.user._id }
+        let comment = await new Comment(commentData).save()
+        await Post.findByIdAndUpdate(post, {
+            ['$addToSet']: { comments: comment._id }
+        }, { new: true });
         res.status(201).redirect('/')
     } catch (err) {
         next(err)
@@ -72,7 +76,7 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
 router.patch(`/:id`, async(req, res) => {
     try {
         const updates = Object.keys(req.body)
-        const allowedUpdates = ['content', 'parent', 'parentModel']
+        const allowedUpdates = ['content']
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
         if (!isValidOperation) throw new Error('Invalid updates!')
         const comment = await Comment.findById(req.params.id)

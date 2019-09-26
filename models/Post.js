@@ -17,7 +17,11 @@ const postSchema = new Schema({
     author: {
         type: Schema.Types.ObjectID,
         ref: "User"
-    }
+    },
+    comments: [{
+        type: Schema.Types.ObjectID,
+        ref: "Comment"
+    }]
 }, {
     timestamps: {
         createdAt: 'created_at',
@@ -25,16 +29,10 @@ const postSchema = new Schema({
     },
 })
 
-postSchema.virtual('rootComment', {
-    ref: 'Comment',
-    localField: '_id',
-    foreignField: 'parent',
-    justOne: true
-})
-
 function autopopulate(next) {
     this.populate([
-        { path: 'author' }
+        { path: 'author' },
+        { path: 'comments'}
     ])
     next();
 }

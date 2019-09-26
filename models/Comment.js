@@ -7,19 +7,13 @@ const commentSchema = new Schema({
         required: true,
         trim: true,
     },
-    parent: {
+    post: {
         type: Schema.Types.ObjectID,
-        refPath: 'parentModel',
-        required: true
+        ref: 'Post'
     },
     author: {
         type: Schema.Types.ObjectID,
         ref: "User",
-        required: true
-    },
-    parentModel: {
-        type: String,
-        enum: ['Post', 'Comment'],
         required: true
     }
 }, {
@@ -29,17 +23,9 @@ const commentSchema = new Schema({
     },
 })
 
-commentSchema.virtual('child', {
-    ref: 'Comment',
-    localField: '_id',
-    foreignField: 'parent',
-    justOne: true
-})
-
 function autopopulate(next) {
     this.populate([
-        { path: 'author' },
-        { path: 'parent' }
+        { path: 'author' }
     ])
     next();
 }
