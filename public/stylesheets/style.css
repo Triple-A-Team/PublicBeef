@@ -1,16 +1,16 @@
 body {
   margin: 0px;
   padding: 0px;
-  font-family: 'Roboto', sans-serif; }
+  font-family: "Roboto", sans-serif; }
 
 .navbar {
-  background-color: white; }
+  background-color: #C2095A; }
   .navbar .navbar-brand {
     font-weight: bold;
     font-size: 30px; }
   .navbar .nav-link,
   .navbar .navbar-brand {
-    color: black; }
+    color: white; }
   .navbar .nav-link:hover,
   .navbar .navbar-brand:hover {
     color: red; }
@@ -65,9 +65,11 @@ a {
   margin-bottom: 15px; }
 
 .beef {
-  background-color: blue; }
+  background-color: #FEE5C4; }
   .beef .posts {
-    height: 100%; }
+    margin-top: 20px;
+    height: 100%;
+    background-color: rgba(249, 107, 126, 0.5); }
     .beef .posts .chat {
       height: 75%; }
     .beef .posts .new-post {
@@ -90,37 +92,39 @@ a {
     margin: 0px auto;
     border-radius: 15px;
     background-color: rgba(211, 211, 211, 0.6); }
-  .beef .profile .header {
-    position: relative;
-    height: 150px;
-    width: 100%;
-    background-color: #00b7ff;
-    border-radius: 5px;
-    border: 3px solid white; }
-    .beef .profile .header img {
-      border-radius: 5px; }
-  .beef .profile .username {
-    padding-top: 25px;
-    font-size: 25px;
-    color: white;
-    text-shadow: 2px 2px #3D5466; }
-  .beef .profile .user-info {
-    height: 300px; }
-  .beef .profile .image-container {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    top: 55px;
-    height: 115px;
-    width: 115px; }
-    .beef .profile .image-container img {
-      border: 3px solid white;
-      border-radius: 50%; }
-  .beef .profile .avatar {
-    border-radius: 50%;
-    width: 100%;
-    height: 100%; }
+  .beef .profile {
+    background-color: #fff; }
+    .beef .profile .header {
+      position: relative;
+      height: 150px;
+      width: 100%;
+      background-color: #00b7ff;
+      border-radius: 5px;
+      border: 3px solid white; }
+      .beef .profile .header img {
+        border-radius: 5px; }
+    .beef .profile .username {
+      padding-top: 25px;
+      font-size: 25px;
+      color: white;
+      text-shadow: 2px 2px #3d5466; }
+    .beef .profile .user-info {
+      height: 300px; }
+    .beef .profile .image-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      top: 55px;
+      height: 115px;
+      width: 115px; }
+      .beef .profile .image-container img {
+        border: 3px solid white;
+        border-radius: 50%; }
+    .beef .profile .avatar {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%; }
 
 /*# sourceMappingURL=style.css.map */

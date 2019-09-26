@@ -40,6 +40,12 @@ setInterval(() => {
 },300)
 
 
+//Auto scroll down on public feed div
+window.setInterval(function() {
+  var div = document.getElementById('public-feed');
+  div.scrollTop = div.scrollHeight;
+}, 1000);
+
 
 
 document.getElementById('theForm').onsubmit = ((e)=>{

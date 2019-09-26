@@ -3,16 +3,8 @@
     <div class="col-4 mx-0 px-0">
       <div class="columns-container">
         <div class="posts">
-          <div id='map'></div>
-          <div class="chat" id='public-feed' style="overflow-y:scroll; height:400px;">
-          <div class="chat" id='public-feed'>
-            <p>BLAH BLAH BLAH</p>
-            <h1>Your region chat:</h1>
-          </div>
+          <div class="chat" id='public-feed' style="overflow-y:scroll"> </div>
           <div class="new-post">
-
-
-
             <form id="theForm" action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
               <label for="title">Title</label> <br>
               <input type="text" name="title" placeholder="Post Title" required id='theTitle'><br>
@@ -23,9 +15,6 @@
               <label for="file" class="btn-2"><i class="fas fa-camera"></i></label>
               <button class="btn btn-light">Create Post</button>
             </form>
-
-
-
           </div>
         </div>
       </div>
