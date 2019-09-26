@@ -3,9 +3,6 @@ body {
   padding: 0px;
   font-family: 'Roboto', sans-serif; }
 
-input {
-  display: none; }
-
 .navbar {
   background-color: white; }
   .navbar .navbar-brand {
