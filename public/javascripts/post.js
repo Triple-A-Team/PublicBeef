@@ -39,13 +39,12 @@ setInterval(() => {
   }).catch(err => console.log("error getting all messages >>> ", err))
 },300)
 
-
-//Auto scroll down on public feed div
-window.setInterval(function() {
+//Onclick of button called 'Bottom' the chat scrolls all the way down
+function scrollDown(){
+  console.log('button clicked')
   var div = document.getElementById('public-feed');
   div.scrollTop = div.scrollHeight;
-}, 1000);
-
+}
 
 
 document.getElementById('theForm').onsubmit = ((e)=>{

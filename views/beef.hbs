@@ -4,6 +4,7 @@
       <div class="columns-container">
         <div class="posts">
           <div class="chat" id='public-feed' style="overflow-y:scroll"> </div>
+          <button type="button" id='scroll-down' onclick="scrollDown()">Bottom</button>
           <div class="new-post">
             <form id="theForm" action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
               <label for="title">Title</label> <br>
