@@ -33,7 +33,7 @@ setInterval(async() => {
       `
     })
   }).catch(err => console.log("error getting all messages >>> ", err))
-},50)
+},20)
 
 //Onclick of button called 'Bottom' the chat scrolls all the way down
 function scrollDown(){
