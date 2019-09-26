@@ -8,7 +8,8 @@ input {
 }
 
 .navbar {
-  background-color: #C2095A;
+  height: 10vh;
+  background-color: #B10952;
   .navbar-brand {
     font-weight: bold;
     font-size: 30px;
@@ -89,7 +90,7 @@ a {
 }
 
 .beef {
-  background-color: #FEE5C4;
+  background-color: #fee5c4;
   .posts {
     margin-top: 20px;
     height: 100%;
@@ -116,11 +117,10 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 85vh;
+    height: 90vh;
     width: 95%;
     margin: 0px auto;
-    border-radius: 15px;
-    background-color: rgba(lightgray, 0.6);
+    background-color: white;
   }
   .profile {
     background-color: #fff;

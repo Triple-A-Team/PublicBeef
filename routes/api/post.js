@@ -41,7 +41,7 @@ router.get('/search', async(req, res, next) => {
  * GET /api/posts/all
  * */
 router.get('/all', async(req, res, next) => {
-    res.json(await Post.find())
+    res.json(await Post.find().populate('author'))
 })
 
 /**
