@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-
 const chatMessageSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
@@ -9,19 +8,14 @@ const chatMessageSchema = new Schema({
     },
     message: {
         type: String
+    },
+    chat: {
+        type: Schema.Types.ObjectId,
+        ref: "Chat"
     }
 })
 
-function autopopulate(next) {
-    this.populate([
-        { path: 'author' }
-    ])
-    next();
-}
-
-chatMessageSchema.pre('find', autopopulate);
-chatMessageSchema.pre('findOne', autopopulate);
-
+chatMessageSchema.set('toObject', { hide: '_id', virtuals: true })
 const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema)
 
 module.exports = ChatMessage

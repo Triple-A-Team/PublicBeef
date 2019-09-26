@@ -111,11 +111,26 @@ userSchema.virtual('comments', {
     justOne: false
 })
 
-userSchema.virtual('chats')
-    .get(function() {
-        return Chat.find({ users: this._id })
-    });
+userSchema.virtual('chats', {
+    ref: 'Chat',
+    localField: '_id',
+    foreignField: 'users',
+    justOne: true
+})
 
+function autopopulate(next) {
+    this.populate([
+        { path: 'messages' },
+        { path: 'posts' },
+        { path: 'comments' },
+        { path: 'chats' }
+    ])
+    next();
+}
+
+userSchema.set('toObject', { hide: '_id', virtuals: true })
+userSchema.pre('find', autopopulate);
+userSchema.pre('findOne', autopopulate);
 const User = mongoose.model('User', userSchema)
 
 module.exports = User

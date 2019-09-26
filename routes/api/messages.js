@@ -34,10 +34,10 @@ router.get('/:id', async(req, res, next) => {
  */
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
-        const { message, author } = req.body
-        const chatMessageData = { message, author: author || req.user._id }
-        await new ChatMessage(chatMessageData).save()
-        res.status(201).redirect('/')
+        const { message, author, chat } = req.body
+        const chatMessageData = { message, chat, author: author || req.user._id }
+        const chatMessage = await new ChatMessage(chatMessageData).save()
+        res.status(201).json(chatMessage)
     } catch (err) {
         next(err)
     }

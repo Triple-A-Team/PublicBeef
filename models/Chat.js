@@ -5,24 +5,17 @@ const chatSchema = new Schema({
     users: [{
         type: Schema.Types.ObjectId,
         ref: "User"
-    }],
-    messages: [{
-        type: Schema.Types.ObjectId,
-        ref: "ChatMessage"
     }]
 })
 
-function autopopulate(next) {
-    this.populate([
-        { path: 'messages' },
-        { path: 'users' }
-    ])
-    next();
-}
+chatSchema.virtual('messages', {
+    ref: 'ChatMessage',
+    localField: '_id',
+    foreignField: 'chat',
+    justOne: false
+})
 
-chatSchema.pre('find', autopopulate);
-chatSchema.pre('findOne', autopopulate);
-
+chatSchema.set('toObject', { hide: '_id', virtuals: true })
 const Chat = mongoose.model('Chat', chatSchema)
 
 module.exports = Chat

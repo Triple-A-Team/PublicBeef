@@ -31,15 +31,14 @@ const postSchema = new Schema({
 
 function autopopulate(next) {
     this.populate([
-        { path: 'author' },
-        { path: 'comments'}
+        { path: 'comments' }
     ])
     next();
 }
 
+postSchema.set('toObject', { hide: '_id', virtuals: true })
 postSchema.pre('find', autopopulate);
 postSchema.pre('findOne', autopopulate);
-
 const Post = mongoose.model('Post', postSchema)
 
 module.exports = Post

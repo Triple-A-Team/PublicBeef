@@ -1,6 +1,8 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
 const Chat = require('../../models/Chat')
+const User = require('../../models/User')
+const mongoose = require('mongoose')
 const router = express.Router()
 
 
@@ -35,8 +37,12 @@ router.get('/:id', async(req, res, next) => {
  */
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
-        let chat = await new Chat(req.body.users).save()
-        res.status(201).json(chat)
+        let userIDs = req.body.users.map(u => mongoose.Types.ObjectId(u))
+        User.find({ '_id': { $in: userIDs } }, async function(err, users) {
+            if (err) throw new Error('No users were found from the input IDs.')
+            let chat = await new Chat({ users }).save()
+            res.status(201).json(chat)
+        })
     } catch (err) {
         next(err)
     }

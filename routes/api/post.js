@@ -51,11 +51,11 @@ router.get('/all', async(req, res, next) => {
  */
 router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {
     try {
-        if (!req.file) res.status(401).json({ error: 'Please provide an image' })
         const { title, content, author } = req.body
-        const postData = { title, content, author: author || req.user._id, image: req.file.url }
-        await new Post(postData).save()
-        res.status(201).redirect('/')
+        const postData = { title, content, author: author || req.user._id }
+        if (req.file) postData.image = req.file.url
+        const post = await new Post(postData).save()
+        res.status(201).json(post)
     } catch (err) {
         next(err)
     }

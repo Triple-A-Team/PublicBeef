@@ -37,8 +37,8 @@ router.post('/', isLoggedIn, async(req, res, next) => {
     try {
         const { content, post, author } = req.body
         const commentData = { content, post, author: author || req.user._id }
-        await new Comment(commentData).save()
-        res.status(201).redirect('/')
+        const comment = await new Comment(commentData).save()
+        res.status(201).json(comment)
     } catch (err) {
         next(err)
     }
