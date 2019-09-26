@@ -3,7 +3,7 @@ const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const bcryptSalt = 10
 const router = express.Router()
-const { uploadCloud } = require('../../configs/cloudinary')
+const uploadCloud  = require('../../configs/cloudinary')
 const User = require('../../models/User')
 
 /**

@@ -21,13 +21,13 @@ setInterval(async () => {
 
       result.data.forEach(message => {
         publicFeed.innerHTML += `
-      <div class="messageBox">
-        <h3>${message.author.username}</h3>
-        <h1>${message.title}</h1>
+      <div class="message-box">
+      <h1>${message.title}</h1>
+        <p><span style="font-weight:bold;">author:</span>${message.author.username}</p>
         <br>
-        <h8>${message.content}</h6>
+        <p>${message.content}</p>
         <br>
-        <h8>${message.image}</h6>
+        <img src="${message.image}" height="100px" width="100px">
       </div>
       `
       })
@@ -41,7 +41,7 @@ document.getElementById('theForm').onsubmit = ((e) => {
   let postObject = new FormData()
   postObject.append('title', document.getElementById('theTitle').value)
   postObject.append('content', document.getElementById('theContent').value)
-  postObject.append('image', document.getElementById('file').files[0].url)
+  postObject.append('image', document.getElementById('theFile').files[0])
 
   axios.post('/api/posts', postObject)
     .then((result) => {
