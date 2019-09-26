@@ -30,6 +30,7 @@ router.get('/search', async(req, res, next) => {
             }
         })
         .then(async users => {
+            console.log('found users...returning')
             let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({'createdAt': 'asc'})
             res.json(posts)
         })
@@ -42,7 +43,7 @@ router.get('/search', async(req, res, next) => {
  * GET /api/posts/all
  * */
 router.get('/all', async(req, res, next) => {
-    res.json(await Post.find().populate('author'))
+    res.json(await Post.find())
 })
 
 /**
@@ -68,7 +69,7 @@ router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) 
  */
 router.get('/:id', async(req, res, next) => {
     try {
-        const post = await Post.findById(req.params.id)
+        const post = await Post.findById(req.params.id).populate('comments')
         if (!post) throw new Error()
         res.send(post)
     } catch (e) {

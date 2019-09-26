@@ -29,15 +29,6 @@ const postSchema = new Schema({
     },
 })
 
-function autopopulate(next) {
-    this.populate([
-        { path: 'comments' }
-    ])
-    next();
-}
-
-postSchema.pre('find', autopopulate);
-postSchema.pre('findOne', autopopulate);
 const Post = mongoose.model('Post', postSchema)
 
 module.exports = Post

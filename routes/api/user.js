@@ -26,9 +26,7 @@ router.get('/search', (req, res, next) => {
                     $maxDistance: maxDist
                 }
             }
-        }).populate([
-            { path: 'location' }
-        ])
+        })
         .then(users => {
             res.json(users)
         })
@@ -41,7 +39,8 @@ router.get('/search', (req, res, next) => {
  * GET /api/users/me
  */
 router.get(`/me`, isLoggedIn, async(req, res) => {
-    res.json(req.user)
+    let user = await User.findById(req.user._id).populate('chats')
+    res.json(user)
 })
 
 /** 

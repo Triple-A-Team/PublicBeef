@@ -1,8 +1,6 @@
-var C = document.createElement
-var E = document.getElementsByClassName
-var EE = document.getElementById
 var chatBox,
-    chatList
+    chatList,
+    chatWindow = document.getElementById('chatWindow')
 class RealtimeView {
     constructor(data) {
         this.data = data
@@ -37,13 +35,13 @@ class Message extends RealtimeView {
     }
 
     createLayout() {
-        this.main = C('li')
-        this.div = C('div')
-        this.user = C('h1')
-        this.content = C('p')
-        this.main.appendChild(this.div)
-        this.div.appendChild(this.userLabel)
-        this.div.appendChild(this.messageContent)
+        this.main = document.createElement('li')
+        this.div = document.createElement('div')
+        this.user = document.createElement('h1')
+        this.content = document.createElement('p')
+        this.main.append(this.div)
+        this.div.append(this.userLabel)
+        this.div.append(this.messageContent)
     }
 
     update() {
@@ -53,13 +51,15 @@ class Message extends RealtimeView {
 }
 
 class ChatBox extends RealtimeView {
-    constructor() {
+    constructor(data) {
         super(data)
+        console.log('Made a chatbox:')
+        console.table(this)
     }
 
     async populateData(_id) {
-        let chatInstance = await axios.get(`/api/chats/${_id}`).data
-        this.setState(chatInstance, true)
+        let result = await axios.get(`/api/chats/${_id}`)
+        this.setState(result.data, true)
     }
 
     async createMessage(content, user, chat) {
@@ -68,34 +68,39 @@ class ChatBox extends RealtimeView {
     }
 
     createLayout() {
-        this.main = C('div')
-        this.users = C('ul')
-        this.messages = C('ul')
-        this.main.appendChild(this.userLabel)
-        this.main.appendChild(this.messageContent)
+        this.main = document.createElement('div')
+        this.users = document.createElement('ul')
+        this.messages = document.createElement('ul')
+        this.main.append(this.userLabel)
+        this.main.append(this.messageContent)
     }
 
     update() {
-        this.data.users.map(user => {
-            let li_user = C('li')
-            li_message.className = "chat-message"
-            li_user.innerHTML = user.username
-            this.users.appendChild(li_user)
-        })
+        if (this.data) {
+            this.data.users.map(user => {
+                let li_user = document.createElement('li')
+                li_message.className = "chat-message"
+                li_user.innerHTML = user.username
+                this.users.append(li_user)
+            })
 
-        this.data.messages.map(message => {
-            this.messages.appendChild(new Message(message))
-        })
+            this.data.messages.map(message => {
+                this.messages.append(new Message(message))
+            })
+        }
     }
 }
 
 class ChatList extends RealtimeView {
-    constructor(userModel, chatBox) {
+    constructor(userModel) {
         super(userModel)
-        this.chatBox = chatBox
+        this.chatBox = new ChatBox()
+        this.swapChat(this.data.chats[0]._id)
+        console.log('Made a chatlist:')
+        console.table(this)
     }
 
-    populateData() {
+    async populateData() {
         let chatInstance = await axios.get(`/api/chats/${_id}`).data
         this.setState(chatInstance, true)
     }
@@ -106,40 +111,47 @@ class ChatList extends RealtimeView {
     }
 
     createLayout() {
-        this.main = C('div')
+        this.main = document.createElement('div')
         this.main.className = "user-chats-list"
-        this.chats = C('ul')
+        this.chats = document.createElement('ul')
         this.main.appendChild(this.chats)
     }
 
     update() {
-        this.data.chats.map(chat => {
-            let li_user = C('li')
-            let button_chat = C('button')
+        if (this.data.chats) {
+            this.data.chats.map(chat => {
+                let li_user = document.createElement('li')
+                let button_chat = document.createElement('button')
+                console.log(button_chat)
 
-            chat_link.onclick = function(event) {
-                this.swapChat('chat._id')
-            }
+                button_chat.onclick = function(event) {
+                    this.swapChat(chat._id)
+                }
 
-            li_message.className = "chat-message"
-            li_user.innerHTML = user.username
-            this.users.appendChild(li_user)
-            this.users.appendChild(ahref_chat)
-        })
+                li_message.className = "chat-message"
+                li_user.innerHTML = user.username
+                this.users.append(li_user)
+                this.users.append(ahref_chat)
+            })
+        } else console.log('User is not a part of any chats.')
     }
 }
 
-const populateChatWindow = async() => {
-    let user = await axios.get('/api/users/me').data
+var populateChatWindow = async() => {
+    let user = await axios.get('/api/users/me')
     if (user) {
-        console.log(`User found ${user}`)
-        chatBox = chatBox || new ChatBox()
-        console.log(`Made ChatBox ${chatBox}`)
-        chatList = chatList || new ChatList(user, chatBox)
-        console.log(`Made ChatList ${chatList}`)
-        EE('chatWindow').appendChild(chatList)
-        EE('chatWindow').appendChild(chatBox)
+        chatList.setState(user.data, true)
     } else {
         console.log('need to login to get chats.')
     }
+}
+
+window.onload = function() {
+    let user = await axios.get('/api/users/me')
+    chatList = new ChatList(user.data)
+    chatWindow.append(chatList)
+    chatWindow.append(chatList.chatBox)
+
+    console.log('loaded messages script.')
+    setInterval(populateChatWindow, 1000)
 }
