@@ -1,25 +1,42 @@
+const publicFeed= document.getElementById('public-feed')
+var div = document.getElementById('public-feed');
+var div = document.getElementById('public-feed');
+
+
 document.addEventListener('DOMContentLoaded', () => {
-
   console.log('IronGenerator JS imported successfully!');
-
 }, false);
 
-// import axios from 'axios';
-const publicFeed = document.getElementById('public-feed')
 /**
  * Sets the publicFeed equal to that div from index
  * gets the username and message from those input forms
  * appends the publicFeed with those two things
- * 
  */
 setInterval(async () => {
+  // let user = await axios.get('/api/users/me')
+
   let user = await axios.get('/api/users/me')
-  axios.get('/api/posts/all')
+
+  let userLNG = user.data.location.coordinates[0]
+  let userLAT = user.data.location.coordinates[1]
+
+  console.log('THE USER========',user.data.location.coordinates)
+
+  console.log(userLNG, userLAT)
+
+  console.log(user.data.location.coordinates[0], user.data.location.coordinates[1])
+
+
+
+  axios.get(`/api/posts/search?lat=${userLAT}&lon=${userLNG}&maxDist=500`)
     .then(result => {
       console.log('allmessages>>>>>>>>>>>>>', result.data)
       publicFeed.innerHTML = ''
 
       result.data.forEach(message => {
+
+        console.log("this is the message  >>><<<<<>>>><<<>>>>>>>    ", message.data);
+        
         if (!message.image) {
           publicFeed.innerHTML += `
       <div class="posts-box d-flex justify-content-around align-items-center">
@@ -32,7 +49,7 @@ setInterval(async () => {
           </div>
         </div>
         <div class="col">
-          <p><span style="font-weight:bold;">Beefer:</span>${message.author.username}</p>
+          <p><span style="font-weight:bold;">Beefer:</span>${message.username}</p>
         </div>
       </div >`
         }
@@ -48,7 +65,7 @@ setInterval(async () => {
           </div>
         </div>
         <div class="col-3">
-          <p><span style="font-weight:bold;">Beefer:</span>${message.author.username}</p>
+          <p><span style="font-weight:bold;">Beefer:</span>${message.username}</p>
         </div>
         <div class="col-3 d-flex">
           <img src="${message.image}" height="90px" width="90px;">
@@ -58,7 +75,9 @@ setInterval(async () => {
       })
 
     }).catch(err => console.log("error getting all messages >>> ", err))
-}, 300)
+}, 100)
+
+
 
 document.getElementById('theForm').onsubmit = ((e) => {
   e.preventDefault();
@@ -70,10 +89,9 @@ document.getElementById('theForm').onsubmit = ((e) => {
 
   axios.post('/api/posts', postObject)
     .then((result) => {
-      console.log(result)
+      console.log('GETTING ALL USER POSTS=====',result)
     })
 })
-
 document.querySelector('#messageSubmitButton').click(() => {
   axios.post('/api/post', { message: document.querySelector('#messageInput').value })
     .then((newMessage) => {
@@ -81,4 +99,3 @@ document.querySelector('#messageSubmitButton').click(() => {
       console.log("new message created ------ ", newMessage);
     }).catch(err => console.log("error posting message <<<< ", err))
 })
-

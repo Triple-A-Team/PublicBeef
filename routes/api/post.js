@@ -13,6 +13,8 @@ const router = express.Router()
  * GET /api/posts/search?lat=20&lon=-60&maxDist=100
  * */
 router.get('/search', async(req, res, next) => {
+
+    console.log("the query of the search field in the params @@@@@@@@@@@@@@@@@@@@@@@ ",)
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
@@ -30,7 +32,12 @@ router.get('/search', async(req, res, next) => {
             }
         })
         .then(async users => {
+            console.log("this is the users info for the get route $$$$$$$$$$$$$$$$$$$$$$$$$$$$ ", users);
+            
             let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({'createdAt': 'asc'})
+
+            console.log("this is the info for the posts in the get route after users ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ", posts)
+
             res.json(posts)
         })
         .catch(err => next(err))
@@ -50,12 +57,24 @@ router.get('/all', async(req, res, next) => {
  * @example POST /api/posts
  */
 router.post('/', uploadCloud.single('image'),(req, res, next) => {
-    
+        console.log("+++++++++++++++++++++++++++++++ ", req.body)
         console.log(req.file)
         // if (!req.file) res.status(401).json({ error: 'Please provide an image' })
-        const { title, content } = req.body
-        const image = req.file.url
-        const postData = { title, content, author: req.user._id, image}
+        // const { title, content } = req.body
+        // const image = req.file.url
+        // const postData = { title, content, author: req.user._id, image}
+
+
+        postData = {
+            title: req.body.title,
+            content: req.body.content,
+            author: req.user._id
+        }
+
+        if(req.file) {
+            postData.image = req.file.url
+        }        
+
        Post.create(postData)
        .then((test)=>{
            res.json(test)
