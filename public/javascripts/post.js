@@ -75,7 +75,7 @@ setInterval(async () => {
       })
 
     }).catch(err => console.log("error getting all messages >>> ", err))
-}, 2000)
+}, 100)
 
 
 
