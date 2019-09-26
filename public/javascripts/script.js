@@ -26,12 +26,7 @@ var pos = {};
 
       console.log('The location=======',location)
 
-      console.log('kaiosgjasoigjasoigjaois')
-       axios.patch('/api/users/me', {location} (()=>{
-
-          console.log('kaiosgjasoigjasoigjaois', location)
-
-       }))
+      axios.patch('/api/users/me', {location: { "coordinates": [pos.lng,pos.lat]}})
 
 
       infoWindow.setContent('Location found.');
