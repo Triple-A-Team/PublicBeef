@@ -1,5 +1,5 @@
 const path = require('path')
-require('dotenv').config({ path: path.join(__dirname, '../.env') })
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 
@@ -13,6 +13,8 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
+const flash = require('express-flash');
+const hbs = require('hbs')
 
 const User = require('./models/User')
 const connectToDB = require('./configs/database')
@@ -61,6 +63,18 @@ passport.use(new LocalStrategy(
     }
 ));
 
+app.use(flash());
+app.use((req, res, next) => {
+    if (req.user) req.user.isAdmin = req.user.role === "Admin"
+    res.locals.currentUser = req.user;
+    res.locals.sessionFlash = req.session.sessionFlash;
+    res.locals.failureMsg = req.flash('failure')
+    res.locals.messageMsg = req.flash('message')
+    res.locals.successMsg = req.flash('success')
+    delete req.session.sessionFlash;
+    next();
+})
+
 // Middleware Setup
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -78,11 +92,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 
+//Frontend Routes
 app.use('/', require('./routes/index'));
+app.use('/', require('./routes/login'));
+app.use('/', require('./routes/signup'));
+app.use('/', require('./routes/beef'));
+app.use('/', require('./routes/addPost'));
+
+//Backend Routes
 app.use(`/api/`, require('./routes/api/auth'))
+app.use('/api', require('./routes/admin'));
 app.use(`/api/users`, require('./routes/api/user'))
 app.use(`/api/posts`, require('./routes/api/post'))
+
 
 // For any routes that starts with "/api", catch 404 and forward to error handler
 app.use('/api/*', (req, res, next) => {
@@ -104,3 +128,4 @@ app.use((err, req, res, next) => {
 })
 
 module.exports = app;
+

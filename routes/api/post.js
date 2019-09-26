@@ -1,24 +1,70 @@
 const express = require('express')
-const { upload, isLoggedIn } = require('../../middleware/auth')
+const { isLoggedIn } = require('../../middleware/auth')
+const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
 const Post = require('../../models/Post')
 const router = express.Router()
 
+/** 
+ * Get all users within a specific distance.
+ * @example
+ * GET /api/posts/search?lat=20&lon=-60
+ * GET /api/posts/search?lat=20&lon=-60&maxDist=100
+ * */
+router.get('/search', async(req, res, next) => {
+    const lat = req.query.lat || 25.756365
+    const lon = req.query.lon || -80.375716
+    const maxDist = req.query.maxDist || 32186.9 // 20 miles
 
-/**
- * Create a post
- * POST /api/posts
- */
-router.post('/', (req, res, next) => {
-    const postData = { title, content, image } = req.body
-    postData.author = req.user._id
-    const newPost = new Post(postData)
-    return newPost.save()
+    console.log(`Searching for users near ${lat}, ${lon} within ${maxDist} meters`)
+    User.find({
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lon, lat]
+                    },
+                    $maxDistance: maxDist
+                }
+            }
+        })
+        .then(async users => {
+            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({'createdAt': 'asc'})
+            res.json(posts)
+        })
+        .catch(err => next(err))
+})
+
+/** 
+ * Get all posts.
+ * @example
+ * GET /api/posts/all
+ * */
+router.get('/all', async(req, res, next) => {
+    res.json(await Post.find())
 })
 
 /**
- * Get a specific post
- * GET /api/posts/:id
+ * Create a post
+ * @example POST /api/posts
+ */
+router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {
+    try {
+
+        console.log(req.file)
+        // if (!req.file) res.status(401).json({ error: 'Please provide an image' })
+        const { title, content } = req.body
+        const postData = { title, content, author: req.user_id,}
+        let test = await new Post(postData).save()
+        res.json(test)
+    } catch (err) {
+        next(err)
+    }
+})
+
+/**
+ * Get a specific post 
+ * @example GET /api/posts/:id
  */
 router.get('/:id', async(req, res, next) => {
     try {
@@ -32,27 +78,27 @@ router.get('/:id', async(req, res, next) => {
 
 /**
  * Delete a specific post
- * DELETE /api/posts/:id
+ * @example DELETE /api/posts/:id
  */
 router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
+        if (!req.user._id.equals(post.author)) res.status(403).send('You do not have permission to delete this resource.')
         await post.remove()
         res.status(202).send(post)
     } catch (e) {
-        res.status(404).send()
+        res.status(404).send(e)
     }
 })
 
-
 /**
  * Update a specific post
- * POST /api/posts/:id
+ * @example POST /api/posts/:id
  */
-router.patch(`/:id`, isLoggedIn, async(req, res) => {
+router.patch(`/:id`, async(req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'location', 'role']
+    const allowedUpdates = ['title', 'content', 'image']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })

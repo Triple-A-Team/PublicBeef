@@ -3,6 +3,7 @@ const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const bcryptSalt = 10
 const router = express.Router()
+const { uploadCloud } = require('../../configs/cloudinary')
 const User = require('../../models/User')
 
 /**
@@ -10,9 +11,9 @@ const User = require('../../models/User')
  * @example
  * POST /api/signup
  */
-router.post('/signup', (req, res, next) => {
+router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) => {
     const salt = bcrypt.genSaltSync(bcryptSalt)
-    const { username, password, location, role } = req.body
+    const { username, password, location, role, email } = req.body
 
     User.findOne({ username })
         .then(userDoc => {
@@ -20,10 +21,12 @@ router.post('/signup', (req, res, next) => {
                 res.status(409).json({ message: 'The username already exists' })
                 return
             }
-            const userData = { username, password: bcrypt.hashSync(password, salt), location, role }
+            const userData = { username, password: bcrypt.hashSync(password, salt), location, role, email }
+            if (req.file) userData.avatar = req.file.url
             const newUser = new User(userData)
             return newUser.save()
         })
+        .catch(err => next(err))
         .then(userSaved => {
             req.logIn(userSaved, () => {
                 userSaved.password = undefined
@@ -56,7 +59,7 @@ router.post('/login', (req, res, next) => {
                 return
             }
 
-            res.json(req.user)
+            res.status(200).redirect('/')
         })
     })(req, res, next)
 })
@@ -64,11 +67,11 @@ router.post('/login', (req, res, next) => {
 /**
  * Log out a user using passport.logout
  * @example
- * POST /api/login
+ * POST /api/logout
  */
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     req.logout()
-    res.json({ message: 'You are out!' })
+    res.redirect('/index')
 })
 
 module.exports = router

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const validator = require('validator')
 const Schema = mongoose.Schema
 
 const pointSchema = new mongoose.Schema({
@@ -14,6 +15,7 @@ const pointSchema = new mongoose.Schema({
         required: true
     }
 });
+
 
 const userSchema = new Schema({
     username: {
@@ -49,7 +51,11 @@ const userSchema = new Schema({
         }
     },
     avatar: {
-        type: Buffer
+        type: String,
+        default: 'http://www.pngall.com/wp-content/uploads/2/Beef-PNG-High-Quality-Image.png',
+    },
+    header: {
+        type: String,
     }
 }, {
     timestamps: {
@@ -60,6 +66,13 @@ const userSchema = new Schema({
 
 userSchema.index({ location: "2dsphere" });
 
+userSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
 userSchema.methods.toJSON = function() {
     const user = this
     const userObject = user.toObject()
@@ -69,14 +82,6 @@ userSchema.methods.toJSON = function() {
     delete userObject.avatar
 
     return userObject
-}
-
-userSchema.statics.findByCredentials = async(email, password) => {
-    const user = await User.findOne({ email })
-    if (!user) throw new Error('Unable to login')
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) throw new Error('Unable to login')
-    return user
 }
 
 userSchema.methods.validPassword = function validPassword(password) {

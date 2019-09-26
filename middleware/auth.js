@@ -9,24 +9,19 @@ function isLoggedIn(req, res, next) {
 }
 
 
-/** 
- * Uploads an avatar file
- */
-const upload = multer({
-    limits: {
-        fileSize: 1000000
-    },
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            return cb(new Error('Please upload an image'))
-        }
-
-        cb(undefined, true)
+const adminAuth = (req, res, next) => {
+    if (!req.user) {
+        req.flash('failure', 'please log in to use this feature')
+        res.redirect('/login')
     }
-})
-
+    if (!req.user.isAdmin) {
+        req.flash('failure', 'you do not have access to this feature')
+        res.redirect('/')
+    }
+    next()
+}
 
 module.exports = {
     isLoggedIn,
-    upload
+    adminAuth
 }
