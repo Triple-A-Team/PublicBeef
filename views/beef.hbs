@@ -3,16 +3,13 @@
     <div class="col-4 mx-0 px-0">
       <div class="columns-container">
         <div class="posts">
-          <div class="chat" id='public-feed'>
-            <p>BLAH BLAH BLAH</p>
-            <h1>Your region chat:</h1>
-          </div>
+          <div class="chat" id='public-feed' style="overflow-y:scroll"> </div>
           <div class="new-post">
-            <form action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
+            <form id="theForm" action="/api/posts" id="np-submit" method="POST" enctype="multipart/form-data">
               <label for="title">Title</label> <br>
-              <input type="text" name="title" placeholder="Post Title" required><br>
+              <input type="text" name="title" placeholder="Post Title" required id='theTitle'><br>
               <label for="content">Content</label><br>
-              <textarea type="" name="content" placeholder="Post Content" required></textarea><br>
+              <textarea type="" name="content" placeholder="Post Content" required id='theContent'></textarea><br>
               <label for="image">Image</label><br>
               <input type="file" id="file" name="image" />
               <label for="file" class="btn-2"><i class="fas fa-camera"></i></label>
