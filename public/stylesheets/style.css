@@ -5,7 +5,7 @@ body {
 
 .navbar {
   height: 10vh;
-  background-color: #B10952; }
+  background-color: #b10952; }
   .navbar .navbar-brand {
     font-weight: bold;
     font-size: 30px; }
@@ -73,6 +73,14 @@ a {
     background-color: rgba(249, 107, 126, 0.5); }
     .beef .posts .chat {
       height: 75%; }
+    .beef .posts .posts-box {
+      color: white;
+      height: 100px;
+      background-color: red; }
+      .beef .posts .posts-box h1 {
+        font-size: 16px; }
+      .beef .posts .posts-box p {
+        font-size: 12px; }
     .beef .posts .new-post {
       border-radius: 5px 5px 5px 5px;
       border: white 1px solid;

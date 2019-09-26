@@ -9,7 +9,7 @@ input {
 
 .navbar {
   height: 10vh;
-  background-color: #B10952;
+  background-color: #b10952;
   .navbar-brand {
     font-weight: bold;
     font-size: 30px;
@@ -97,6 +97,19 @@ a {
     background-color: rgba(249, 107, 126, 0.5);
     .chat {
       height: 75%;
+    }
+    .posts-box {
+      color: white;
+      img {
+      }
+      h1 {
+        font-size: 16px;
+      }
+      p {
+        font-size: 12px;
+      }
+      height: 100px;
+      background-color: red;
     }
     .new-post {
       border-radius: 5px 5px 5px 5px;
