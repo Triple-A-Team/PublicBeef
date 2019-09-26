@@ -16,7 +16,6 @@ const pointSchema = new mongoose.Schema({
     }
 });
 
-
 const userSchema = new Schema({
     username: {
         type: String,
@@ -66,13 +65,6 @@ const userSchema = new Schema({
 
 userSchema.index({ location: "2dsphere" });
 
-userSchema.virtual('posts', {
-    ref: 'Post',
-    localField: '_id',
-    foreignField: 'author',
-    justOne: false
-})
-
 userSchema.methods.toJSON = function() {
     const user = this
     const userObject = user.toObject()
@@ -97,6 +89,39 @@ userSchema.pre('remove', async function(next) {
     // await Hazard.deleteMany({ creator: this._id }) // Delete user groups when user is removed
     next()
 })
+
+userSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+userSchema.virtual('messages', {
+    ref: 'ChatMessage',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+userSchema.virtual('comments', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+function autopopulate(next) {
+    this.populate([
+        { path: 'posts' },
+        { path: 'messages' },
+        { path: 'comments' }
+    ])
+    next();
+}
+
+userSchema.pre('find', autopopulate);
+userSchema.pre('findOne', autopopulate);
 
 const User = mongoose.model('User', userSchema)
 
