@@ -15,9 +15,13 @@ const postSchema = new Schema({
         type: String
     },
     author: {
-        type: Schema.Types.ObjectID, 
-        ref: "User" 
-    }
+        type: Schema.Types.ObjectID,
+        ref: "User"
+    },
+    comments: [{
+        type: Schema.Types.ObjectID,
+        ref: "Comment"
+    }]
 }, {
     timestamps: {
         createdAt: 'created_at',
@@ -25,6 +29,15 @@ const postSchema = new Schema({
     },
 })
 
+function autopopulate(next) {
+    this.populate([
+        { path: 'comments' }
+    ])
+    next();
+}
+
+postSchema.pre('find', autopopulate);
+postSchema.pre('findOne', autopopulate);
 const Post = mongoose.model('Post', postSchema)
 
 module.exports = Post
