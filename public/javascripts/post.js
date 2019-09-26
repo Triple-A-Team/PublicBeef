@@ -58,7 +58,7 @@ setInterval(async () => {
       })
 
     }).catch(err => console.log("error getting all messages >>> ", err))
-}, 100)
+}, 500)
 
 document.getElementById('theForm').onsubmit = ((e) => {
   e.preventDefault();
