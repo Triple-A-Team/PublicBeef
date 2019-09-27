@@ -2,10 +2,10 @@
   {{#if user}}
   <div class="d-flex justify-content-between">
     <div class="col-5 mx-0 px-0">
-      <div class="column-title">
-        <h1>Beef</h1>
-      </div>
       <div class="columns-container">
+        <div class="column-title">
+          <h1>Beef</h1>
+        </div>
         <div class="posts">
           <div class="chat scroll" id='public-feed'></div>
           {{!-- <button type="button" id='scroll-down' onclick="scrollDown()">Bottom</button> --}}
@@ -53,37 +53,79 @@
       </div>
     </div>
     <div class="col-3 mx-0 px-0">
-      <div class="messages ">
-        <div class="column-title">
-          <h1>Direct messages:</h1>
-        </div>
+      <div class="messages">
         <div class="columns-container">
-          <div class="direct-message">
-            <h1>User 1</h1>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur aperiam veniam iusto asperiores
-              debitis eos inventore obcaecati corrupti suscipit, odit architecto dolore voluptates ad, laborum rerum
-              explicabo harum autem est.</p>
+          <div class="title-container">
+            <div class="column-title">
+              <h1>Direct messages:</h1>
+            </div>
           </div>
-          <div class="direct-message">
-            <h1>User 2</h1>
-          </div>
-          <div class="direct-message">
-            <h1>User 3</h1>
-          </div>
-          <div class="direct-message">
-            <h1>User 4</h1>
-          </div>
-          <div class="direct-message">
-            <h1>User 5</h1>
+          <div class="messages-container d-flex flex-column">
+            <div class="direct-message d-flex container-fluid">
+              <div class="image-container col-3 px-0 mt-2 mb-2">
+                <img class="avatar"
+                  src="https://media.licdn.com/dms/image/C4D03AQFUXNNVpMe55A/profile-displayphoto-shrink_200_200/0?e=1574899200&v=beta&t=TvtDKMfDCsTOCIV4DGIZMGHCBujXvbkQbEZg_ABaB1A"
+                  alt="">
+              </div>
+              <div class="message-container col">
+                <h1>@Andres</h1>
+                <p>You not understanding what my code does doesn't mean it doesn't work, get good kid.</p>
+              </div>
+            </div>
+            <div class="direct-message d-flex container-fluid">
+              <div class="image-container col-3 px-0 mt-2 mb-2">
+                <img class="avatar"
+                  src="https://media.licdn.com/dms/image/C5603AQEhSybUMoaBxQ/profile-displayphoto-shrink_200_200/0?e=1574899200&v=beta&t=R_PNrpubF4B3yxYxU8-VHXjTpCMIkW-FNFS-rGGE76M"
+                  alt="">
+              </div>
+              <div class="message-container col">
+                <h1>@Brito</h1>
+                <p>Hey man, there's this company Google, they want to know if you're avaiable for a CEO position</p>
+              </div>
+            </div>
+            <div class="direct-message d-flex container-fluid">
+              <div class="image-container col-3 px-0 mt-2 mb-2">
+                <img class="avatar"
+                  src="https://media.licdn.com/dms/image/C4D03AQEjAABmg5-ujQ/profile-displayphoto-shrink_200_200/0?e=1574899200&v=beta&t=VAEuJg2e0cBZO2HSFnBJaI1BtNISyjBx89r_DA-kBj4"
+                  alt="">
+              </div>
+              <div class="message-container col">
+                <h1>@Alejandro</h1>
+                <p>So you're telling me that you can use CSS to change colors? That's unbelievable dude, simply amazing,
+                  I think you're a genius.</p>
+              </div>
+            </div>
+            <div class="direct-message d-flex container-fluid">
+              <div class="image-container col-3 px-0 mt-2 mb-2">
+                <img class="avatar"
+                  src="https://media.licdn.com/dms/image/C4D03AQGHJKrzbN1LAQ/profile-displayphoto-shrink_200_200/0?e=1574899200&v=beta&t=rsud3oBawW9uHXoFvGSqQZ02vDDvJ1JSvE5zB8Ih0tU"
+                  alt="">
+              </div>
+              <div class="message-container col">
+                <h1>@Adrian</h1>
+                <p>You're so cool, I hope to be like you one day!</p>
+              </div>
+            </div>
+            <div class="direct-message d-flex container-fluid">
+              <div class="image-container col-3 px-0 mt-2 mb-2">
+                <img class="avatar"
+                  src="data:image/jpeg;base64,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"
+                  alt="">
+              </div>
+              <div class="message-container col">
+                <h1>@Jeff Bezos</h1>
+                <p>You still haven't added me on LinkedIn :(</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-3 mx-0 px-0 profile">
-      <div class="column-title">
-        <h1>Profile</h1>
-      </div>
       <div class="columns-container">
+        <div class="column-title">
+          <h1>Profile</h1>
+        </div>
         <div class="header">
           <img
             src="https://images.unsplash.com/photo-1444838639505-f9042c5d2386?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
@@ -97,8 +139,11 @@
           </div>
         </div>
         <div class="user-info">
-          <div class="container-fluid d-flex justify-content-center">
+          <div class="container-fluid d-flex flex-column justify-content-center">
+            <h1 class="nickname">{{user.nickname}}</h1>
             <h1 class="username">@{{user.username}}</h1>
+            <h1 class="bio">{{user.bio}}</h1>
+            <h1 class="city"><i class="fas fa-map-marker-alt"></i>{{user.city}}</h1>
           </div>
         </div>
         <div id='map'></div>
