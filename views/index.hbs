@@ -1,2 +1,15 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="col">
+  <h1>{{title}}</h1>
+  <p>Welcome to {{title}}</p>
+</div>
+<div class="col">
+  <div class="login">
+    <form action="/api/login" method="POST">
+      <p>Name:</p>
+      <input type="text" name="username" placeholder="Your name">
+      <p>Password:</p>
+      <input type="password" name="password" placeholder="Your password">
+      <button class="btn btn-danger"> Login </button>
+    </form>
+  </div>
+</div>

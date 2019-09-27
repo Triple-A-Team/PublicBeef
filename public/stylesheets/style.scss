@@ -108,6 +108,19 @@ body {
   border-radius: 0px 0px 15px 15px;
 }
 
+.nav-pills .nav-link.active {
+  color: white;
+  background-color: #c70d3a;
+}
+.nav-pills .nav-link:hover {
+  background-color:#af0404;
+}
+
+.nav-pills .nav-link {
+  color: white;
+  background-color: #c70d3a;
+}
+
 .beef {
   .posts {
     margin-top: 20px;
@@ -116,6 +129,7 @@ body {
       overflow-y: scroll;
       height: 75%;
     }
+
     .posts-box {
       color: white;
       height: 100px;
@@ -138,7 +152,7 @@ body {
           margin: 0px;
           padding: 5px 15px;
           width: 100%;
-          height: 38px;
+          height: 45px;
         }
         .content-input {
           border: 1px #c9c9c9 solid;
@@ -146,6 +160,7 @@ body {
           margin: 10px 0px;
           padding: 5px 15px;
           width: 100%;
+          height: 100px;
         }
       }
 
@@ -166,9 +181,6 @@ body {
   }
 
   .messages {
-    .nav-pills{
-      background-color: black;
-    }
     .direct-message {
       margin-bottom: 10px;
       border-bottom: #fff solid 1px;
