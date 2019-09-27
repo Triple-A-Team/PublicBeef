@@ -18,12 +18,9 @@ setInterval(async () => {
   let userLAT = 0
 
   if (user) {
-    console.log(user)
-    console.log(user.data)
     userLNG = user.data.location.coordinates[0]
     userLAT = user.data.location.coordinates[1]
   }
-  console.log(user)
 
   axios.get(`/api/posts/search?lat=${userLAT}&lon=${userLNG}&maxDist=500`)
     .then(result => {

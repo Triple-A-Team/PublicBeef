@@ -37,10 +37,8 @@ function getPosition() {
         console.log("Couldn't find posotion")
       })
   }
-
   return pos
 }
-
 function initMap() {
 
   pos = getPosition()
