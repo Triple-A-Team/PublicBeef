@@ -1,6 +1,6 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { uploadCloud } = require('../../configs/cloudinary')
+const uploadCloud = require('../../configs/cloudinary')
 const User = require('../../models/User')
 const router = express.Router()
 
@@ -15,18 +15,19 @@ router.get('/search', (req, res, next) => {
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
 
-    console.log(`Searching for users near ${lat}, ${lon} within ${maxDist} meters`)
+    //(`Searching for users near ${lat}, ${lon} within ${maxDist} meters`)
+
     User.find({
-            location: {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [lon, lat]
-                    },
-                    $maxDistance: maxDist
-                }
+        location: {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [lon, lat]
+                },
+                $maxDistance: maxDist
             }
-        })
+        }
+    })
         .then(users => {
             res.json(users)
         })
@@ -38,6 +39,7 @@ router.get('/search', (req, res, next) => {
  * @example
  * GET /api/users/me
  */
+<<<<<<< HEAD
 router.get(`/me`, isLoggedIn, async(req, res) => {
     let user = await User.findById(req.user._id).populate('chats')
     res.json(user)
@@ -55,6 +57,10 @@ router.get(`/`, isLoggedIn, async(req, res, next) => {
     } catch (err) {
         next(err)
     }
+=======
+router.get(`/me`, isLoggedIn, async (req, res) => {
+    res.json(req.user)
+>>>>>>> d44781a44b3cf60e641fde3197d4eb8dfe81875e
 })
 
 /** 
@@ -62,7 +68,7 @@ router.get(`/`, isLoggedIn, async(req, res, next) => {
  * @example
  * PATCH /api/users/me 
  */
-router.patch(`/me`, isLoggedIn, async(req, res) => {
+router.patch(`/me`, isLoggedIn, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header', 'location']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -83,7 +89,7 @@ router.patch(`/me`, isLoggedIn, async(req, res) => {
  * @example
  * POST /api/users/me/avatar "avatar.jpg"
  */
-router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async(req, res) => {
+router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async (req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
@@ -97,7 +103,7 @@ router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async(req, r
  * @example
  * GET /api/users/:id/avatar 
  */
-router.get(`/:id/avatar`, async(req, res) => {
+router.get(`/:id/avatar`, async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
         if (!user || !user.avatar) throw new Error()
@@ -113,7 +119,7 @@ router.get(`/:id/avatar`, async(req, res) => {
  * @example
  * DELETE /api/users/me/avatar
  */
-router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
+router.delete(`/me/avatar`, isLoggedIn, async (req, res) => {
     req.user.avatar = undefined
     await req.user.save()
     res.send()
