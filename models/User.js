@@ -115,7 +115,7 @@ userSchema.virtual('chats', {
     ref: 'Chat',
     localField: '_id',
     foreignField: 'users',
-    justOne: true
+    justOne: false
 })
 
 userSchema.set('toObject', { virtuals: true })

@@ -69,11 +69,11 @@ document.getElementById('theForm').onsubmit = ((e)=>{
 })
 
 
-// document.querySelector('#messageSubmitButton').click(() => {
-//   axios.post('/api/post', {message: document.querySelector('#messageInput').value})
-//   .then((newMessage)=>{
-//     document.querySelector('#messageInput').value = '';
-//     console.log("new message created ------ ", newMessage);
-//   }).catch(err => console.log("error posting message <<<< ", err))
-// })
+document.querySelector('#messageSubmitButton').click(() => {
+  axios.post('/api/post', {message: document.querySelector('#messageInput').value})
+  .then((newMessage)=>{
+    document.querySelector('#messageInput').value = '';
+    console.log("new message created ------ ", newMessage);
+  }).catch(err => console.log("error posting message <<<< ", err))
+})
 

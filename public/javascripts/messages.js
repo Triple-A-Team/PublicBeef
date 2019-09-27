@@ -1,6 +1,7 @@
 var chatBox,
     chatList,
-    chatWindow = document.getElementById('chatWindow')
+    chatWindow,
+    sessionUser
 class RealtimeView {
     constructor(data) {
         this.data = data
@@ -76,14 +77,15 @@ class ChatBox extends RealtimeView {
     }
 
     update() {
-        if (this.data) {
+        if (this.data && this.data.users) {
             this.data.users.map(user => {
                 let li_user = document.createElement('li')
-                li_message.className = "chat-message"
                 li_user.innerHTML = user.username
                 this.users.append(li_user)
             })
+        }
 
+        if (this.data && this.data.messages) {
             this.data.messages.map(message => {
                 this.messages.append(new Message(message))
             })
@@ -95,9 +97,9 @@ class ChatList extends RealtimeView {
     constructor(userModel) {
         super(userModel)
         this.chatBox = new ChatBox()
-        this.swapChat(this.data.chats[0]._id)
         console.log('Made a chatlist:')
         console.table(this)
+        if (!!this.data.chats) this.swapChat(this.data.chats[0]._id)
     }
 
     async populateData() {
@@ -106,8 +108,7 @@ class ChatList extends RealtimeView {
     }
 
     swapChat(_id) {
-        chat = this.data.chats.find(chat => chat._id.equals(name))
-        this.chatBox.setState(chat)
+        this.chatBox.setState(this.data.chats.find(chat => chat._id == _id))
     }
 
     createLayout() {
@@ -119,19 +120,22 @@ class ChatList extends RealtimeView {
 
     update() {
         if (this.data.chats) {
-            this.data.chats.map(chat => {
-                let li_user = document.createElement('li')
+            this.data.chats.map(async chat => {
+                let response = await axios.get(`/api/chat/${chat._id}`)
+                chat = response.data
+                let li_div = document.createElement('div')
+                let li = document.createElement('li')
+                let p_users = document.createElement('p')
                 let button_chat = document.createElement('button')
-                console.log(button_chat)
+                button_chat.onclick = function(event) { console.log(event ,this); this.swapChat(chat._id) }.bind(this)
 
-                button_chat.onclick = function(event) {
-                    this.swapChat(chat._id)
-                }
+                let userString = chat.users.map(user => user.username).filter(username => username != sessionUser.username).join('|')
+                p_users.innerHTML = userString
 
-                li_message.className = "chat-message"
-                li_user.innerHTML = user.username
-                this.users.append(li_user)
-                this.users.append(ahref_chat)
+                li.append(li_div)
+                li_div.append(p_users)
+                li_div.append(button_chat)
+                this.chats.append(li_div)
             })
         } else console.log('User is not a part of any chats.')
     }
@@ -146,12 +150,14 @@ var populateChatWindow = async() => {
     }
 }
 
-window.onload = function() {
-    let user = await axios.get('/api/users/me')
-    chatList = new ChatList(user.data)
-    chatWindow.append(chatList)
-    chatWindow.append(chatList.chatBox)
+window.onload = async function() {
+    console.log('🧾 Loaded Messages Script 🧾')
+    chatWindow = chatWindow ||  document.getElementById('chatWindow')
+    sessionUser = await axios.get('/api/users/me')
+    chatList = chatList || new ChatList(sessionUser.data)
 
-    console.log('loaded messages script.')
-    setInterval(populateChatWindow, 1000)
+    console.log(this.chatWindow)
+    chatWindow.append(chatList.main)
+    chatWindow.append(chatList.chatBox.main)
+    setInterval(populateChatWindow, 3000)
 }
