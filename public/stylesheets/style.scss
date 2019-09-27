@@ -15,18 +15,12 @@ body {
   background-color: #c70d3a;
 }
 
-.navbar {
+.side-nav {
   height: 10vh;
-  .navbar-brand {
+  .nav-link{
     font-weight: bold;
-    font-size: 30px;
+    color: #ebfffb;
   }
-
-  .nav-link,
-  .navbar-brand {
-    color: white;
-  }
-
   .nav-link:hover,
   .navbar-brand:hover {
     color: red;
