@@ -80,3 +80,11 @@ document.querySelector('#messageSubmitButton').click(() => {
       console.log("new message created ------ ", newMessage);
     }).catch(err => console.log("error posting message <<<< ", err))
 })
+
+//Scroll down function
+
+function scrollDown(){
+  console.log('button clicked')
+  var div = document.getElementById('public-feed');
+  div.scrollTop = div.scrollHeight;
+}
