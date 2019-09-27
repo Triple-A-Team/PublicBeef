@@ -4,33 +4,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 }, false);
 
+
 var map, infoWindow;
 var pos = {};
 
- function initMap() {
+function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: pos.lat,
       lng: pos.lng
     },
-    zoom: 14
+    zoom: 12
   });
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       pos.lat = position.coords.latitude,
         pos.lng = position.coords.longitude,
         infoWindow.setPosition(pos);
-      console.log(pos)
-
       let location = [pos.lng, pos.lat]
 
-      console.log('The location=======',location)
-
-      axios.patch('/api/users/me', {location: { "coordinates": [pos.lng,pos.lat]}})
-
-
-      infoWindow.setContent('Location found.');
-      infoWindow.open(map);
+      axios.patch('/api/users/me', { location: { "coordinates": [pos.lng, pos.lat] } })
+      
       map.setCenter(pos);
 
       var cityCircle = new google.maps.Circle({
@@ -44,7 +38,7 @@ var pos = {};
           lat: pos.lat,
           lng: pos.lng
         },
-        radius: 80 //Math.sqrt(citymap[city].population) * 100
+        radius: 800 //Math.sqrt(citymap[city].population) * 100
       });
     }, function () {
       handleLocationError(true, infoWindow, map.getCenter());

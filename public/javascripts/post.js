@@ -1,10 +1,5 @@
-const publicFeed= document.getElementById('public-feed')
-var div = document.getElementById('public-feed');
-var div = document.getElementById('public-feed');
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('IronGenerator JS imported successfully!');
+  console.log('Welcome to Beef!')
 }, false);
 
 /**
@@ -12,31 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
  * gets the username and message from those input forms
  * appends the publicFeed with those two things
  */
+const publicFeed = document.getElementById('public-feed')
+var div = document.getElementById('public-feed');
+
 setInterval(async () => {
-  // let user = await axios.get('/api/users/me')
-
   let user = await axios.get('/api/users/me')
-
   let userLNG = user.data.location.coordinates[0]
   let userLAT = user.data.location.coordinates[1]
 
-  console.log('THE USER========',user.data.location.coordinates)
-
-  console.log(userLNG, userLAT)
-
-  console.log(user.data.location.coordinates[0], user.data.location.coordinates[1])
-
-
-
   axios.get(`/api/posts/search?lat=${userLAT}&lon=${userLNG}&maxDist=500`)
     .then(result => {
-      console.log('allmessages>>>>>>>>>>>>>', result.data)
       publicFeed.innerHTML = ''
 
       result.data.forEach(message => {
-
-        console.log("this is the message  >>><<<<<>>>><<<>>>>>>>    ", message.data);
-        
         if (!message.image) {
           publicFeed.innerHTML += `
       <div class="posts-box d-flex justify-content-around align-items-center">
@@ -75,9 +58,7 @@ setInterval(async () => {
       })
 
     }).catch(err => console.log("error getting all messages >>> ", err))
-}, 100)
-
-
+}, 500)
 
 document.getElementById('theForm').onsubmit = ((e) => {
   e.preventDefault();
@@ -89,7 +70,7 @@ document.getElementById('theForm').onsubmit = ((e) => {
 
   axios.post('/api/posts', postObject)
     .then((result) => {
-      console.log('GETTING ALL USER POSTS=====',result)
+      console.log('GETTING ALL USER POSTS=====', result)
     })
 })
 document.querySelector('#messageSubmitButton').click(() => {
