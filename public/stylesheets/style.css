@@ -5,31 +5,31 @@ body {
   color: #ebfffb;
   background-color: #c70d3a; }
 
-.navbar {
+.side-nav {
   height: 10vh; }
-  .navbar .navbar-brand {
+  .side-nav .nav-link {
+    text-align: center;
+    font-size: 25px;
     font-weight: bold;
-    font-size: 30px; }
-  .navbar .nav-link,
-  .navbar .navbar-brand {
-    color: white; }
-  .navbar .nav-link:hover,
-  .navbar .navbar-brand:hover {
+    color: #ebfffb;
+    background-color: #032535; }
+    .side-nav .nav-link .btn {
+      border-radius: 0px;
+      width: 100%; }
+  .side-nav .nav-link:hover,
+  .side-nav .navbar-brand:hover {
     color: red; }
-  .navbar .fas {
-    color: black;
-    font-size: 30px; }
-  .navbar .fas:hover {
+  .side-nav .fas:hover {
     color: red; }
 
-#public-feed::-webkit-scrollbar-track {
-  background-color: #F5F5F5; }
+.scrool::-webkit-scrollbar-track {
+  background-color: #f5f5f5; }
 
-#public-feed::-webkit-scrollbar {
+.scrool::-webkit-scrollbar {
   width: 10px;
-  background-color: #F5F5F5; }
+  background-color: #f5f5f5; }
 
-#public-feed::-webkit-scrollbar-thumb {
+.scrool::-webkit-scrollbar-thumb {
   background-color: gray; }
 
 [type="file"] + label {
@@ -65,6 +65,14 @@ body {
     [type="file"] + label:hover::before {
       right: 75%; }
 
+.column-title {
+  text-align: center;
+  background-color: #032535; }
+  .column-title h1 {
+    font-size: 25px;
+    margin: 0px;
+    border: 1.5px white solid; }
+
 #map {
   height: 160px;
   width: 100%;
@@ -80,8 +88,7 @@ body {
   .beef .posts .posts-box {
     color: white;
     height: 100px;
-    border: 1px solid #c9c9c9;
-    border-radius: 10px; }
+    border: 1px solid #c9c9c9; }
     .beef .posts .posts-box h1 {
       font-size: 16px; }
     .beef .posts .posts-box p {
@@ -112,8 +119,12 @@ body {
   justify-content: space-between;
   height: 100vh;
   width: 100%;
-  border-radius: 15px;
+  border-radius: 0px 0px 10px 10px;
+  border: solid lightgray 2px;
   margin: 0px 0px; }
+
+.beef .messages .columns-container {
+  border: solid lightgray 2px; }
 
 .beef .profile .columns-container {
   border: solid lightgray 2px; }
@@ -126,7 +137,7 @@ body {
   position: relative;
   height: 180px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 0px 0px 10px 10px;
   border: 3px solid white; }
 
 .beef .profile .user-info {

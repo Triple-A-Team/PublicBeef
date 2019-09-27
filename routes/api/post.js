@@ -1,23 +1,27 @@
 const express = require('express')
-const { isLoggedIn } = require('../../middleware/auth')
+const { isLoggedIn } = require('../../middleware/auth') <<
+    << << < HEAD
 const { uploadCloud } = require('../../configs/cloudinary')
-const User = require('../../models/User')
+const User = require('../../models/User') ===
+    === =
+    const uploadCloud = require('../../configs/cloudinary') >>>
+        >>> > 7156869 f39686c2e66d03a239c820935c65dd44f
 const Post = require('../../models/Post')
 const router = express.Router()
 
 /** 
  * Get all users within a specific distance.
  * @example
- * GET /api/posts/search?lat=20&lon=-60
+ * GET /api/posts/search?lat=20&lon=-60&limit=50
  * GET /api/posts/search?lat=20&lon=-60&maxDist=100
  * */
 router.get('/search', async(req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
+    const limit = req.query.limit || 50
 
-    console.log(`Searching for users near ${lat}, ${lon} within ${maxDist} meters`)
-    User.find({
+    Post.find({
             location: {
                 $near: {
                     $geometry: {
@@ -27,10 +31,12 @@ router.get('/search', async(req, res, next) => {
                     $maxDistance: maxDist
                 }
             }
+        }, {}, {
+            sort: { "createdAt": 1 }
         })
-        .then(async users => {
-            console.log('found users...returning')
-            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({'createdAt': 'asc'})
+        .limit(limit)
+        .populate('author')
+        .then(posts => {
             res.json(posts)
         })
         .catch(err => next(err))
@@ -42,24 +48,29 @@ router.get('/search', async(req, res, next) => {
  * GET /api/posts/all
  * */
 router.get('/all', async(req, res, next) => {
-    res.json(await Post.find())
+    res.json(await Post.find().populate('author'))
 })
 
 /**
  * Create a post
  * @example POST /api/posts
  */
-router.post('/', isLoggedIn, uploadCloud.single('image'), async(req, res, next) => {
-    try {
-        console.log(req.file)
-        // if (!req.file) res.status(401).json({ error: 'Please provide an image' })
-        const { title, content } = req.body
-        const postData = { title, content, author: req.user._id,}
-        let test = await new Post(postData).save()
-        res.json(test)
-    } catch (err) {
-        next(err)
+router.post('/', uploadCloud.single('image'), (req, res, next) => {
+    postData = {
+        title: req.body.title,
+        content: req.body.content,
+        author: req.user._id,
+        location: { coordinates: req.user.location.coordinates }
     }
+
+    if (req.file) {
+        postData.image = req.file.url
+    }
+
+    Post.create(postData)
+        .then((test) => {
+            res.json(test)
+        })
 })
 
 /**

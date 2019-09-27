@@ -11,14 +11,23 @@ const publicFeed = document.getElementById('public-feed')
 var div = document.getElementById('public-feed');
 
 setInterval(async () => {
+
   let user = await axios.get('/api/users/me')
-  let userLNG = user.data.location.coordinates[0]
-  let userLAT = user.data.location.coordinates[1]
+
+  let userLNG = 0
+  let userLAT = 0
+
+  if (user) {
+    console.log(user)
+    console.log(user.data)
+    userLNG = user.data.location.coordinates[0]
+    userLAT = user.data.location.coordinates[1]
+  }
+  console.log(user)
 
   axios.get(`/api/posts/search?lat=${userLAT}&lon=${userLNG}&maxDist=500`)
     .then(result => {
       publicFeed.innerHTML = ''
-
       result.data.forEach(message => {
         if (!message.image) {
           publicFeed.innerHTML += `
@@ -32,7 +41,7 @@ setInterval(async () => {
           </div>
         </div>
         <div class="col">
-          <p><span style="font-weight:bold;">Beefer:</span>${message.username}</p>
+          <p><span style="font-weight:bold;">Beefer:</span>${message.author}</p>
         </div>
       </div >`
         }
@@ -48,7 +57,7 @@ setInterval(async () => {
           </div>
         </div>
         <div class="col-3">
-          <p><span style="font-weight:bold;">Beefer:</span>${message.username}</p>
+          <p><span style="font-weight:bold;">Beefer:</span>${message.author}</p>
         </div>
         <div class="col-3 d-flex">
           <img src="${message.image}" height="90px" width="90px;">

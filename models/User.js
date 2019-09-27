@@ -34,6 +34,21 @@ const userSchema = new Schema({
     location: {
         type: pointSchema,
     },
+    city: {
+        type: String,
+        trim: true
+    },
+    bio: {
+        type: String,
+        trim: true,
+        maxLength: 150,
+        default: "I love Public Beef ™"
+    },
+    nickname: {
+        type: String,
+        trim: true,
+        minlength: 3,
+    },
     role: {
         type: String,
         enum: ['Admin', 'User', 'Guest'],
