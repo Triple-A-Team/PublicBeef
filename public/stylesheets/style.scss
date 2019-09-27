@@ -30,11 +30,11 @@ body {
   }
   .nav-link:hover,
   .navbar-brand:hover {
-    color: red;
+    color: #c9c9c9;
   }
 
   .fas:hover {
-    color: red;
+    color: #c9c9c9;
   }
 }
 
@@ -52,7 +52,7 @@ body {
 }
 
 [type="file"] + label {
-  background: #f15d22;
+  background: white;
   border: none;
   border-radius: 10px 0px 0px 0px;
   color: #000;
@@ -164,19 +164,16 @@ body {
     border: solid lightgray 2px;
     margin: 0px 0px;
   }
-
+  
   .messages {
     .columns-container {
       border: solid lightgray 2px;
+      justify-content: initial;
     }
   }
   .profile {
     .columns-container {
       border: solid lightgray 2px;
-    }
-    .user-info {
-      border-radius: 15px;
-      height: 350px;
     }
     .header {
       position: relative;
@@ -187,12 +184,27 @@ body {
     }
     .user-info {
       margin-top: 20px;
-      height: 300px;
-      .username {
-        padding-top: 25px;
+      height: 330px;
+      .container-fluid {
+        width: 80%;
+      }
+      h1 {
+        font-weight: normal;
+        text-align: center;
+        font-size: 20px;
+        text-shadow: 1px 1px black;
+      }
+      .nickname {
+        font-weight: bold;
+        padding-top: 50px;
+        padding-bottom: 5px;
         font-size: 25px;
-        color: white;
-        text-shadow: 2px 2px black;
+      }
+      .bio {
+        font-size: 18px;
+      }
+      i {
+        padding-right: 10px;
       }
     }
     .image-container {

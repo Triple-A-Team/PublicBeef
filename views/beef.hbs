@@ -2,10 +2,10 @@
   {{#if user}}
   <div class="d-flex justify-content-between">
     <div class="col-5 mx-0 px-0">
-      <div class="column-title">
-        <h1>Beef</h1>
-      </div>
       <div class="columns-container">
+        <div class="column-title">
+          <h1>Beef</h1>
+        </div>
         <div class="posts">
           <div class="chat scroll" id='public-feed'></div>
           {{!-- <button type="button" id='scroll-down' onclick="scrollDown()">Bottom</button> --}}
@@ -54,36 +54,40 @@
     </div>
     <div class="col-3 mx-0 px-0">
       <div class="messages ">
-        <div class="column-title">
-          <h1>Direct messages:</h1>
-        </div>
         <div class="columns-container">
-          <div class="direct-message">
-            <h1>User 1</h1>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur aperiam veniam iusto asperiores
-              debitis eos inventore obcaecati corrupti suscipit, odit architecto dolore voluptates ad, laborum rerum
-              explicabo harum autem est.</p>
+          <div class="title-container">
+            <div class="column-title">
+              <h1>Direct messages:</h1>
+            </div>
           </div>
-          <div class="direct-message">
-            <h1>User 2</h1>
-          </div>
-          <div class="direct-message">
-            <h1>User 3</h1>
-          </div>
-          <div class="direct-message">
-            <h1>User 4</h1>
-          </div>
-          <div class="direct-message">
-            <h1>User 5</h1>
+          <div class="messages-container">
+            <div class="direct-message">
+              <h1>User 1</h1>
+              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur aperiam veniam iusto asperiores
+                debitis eos inventore obcaecati corrupti suscipit, odit architecto dolore voluptates ad, laborum rerum
+                explicabo harum autem est.</p>
+            </div>
+            <div class="direct-message">
+              <h1>User 2</h1>
+            </div>
+            <div class="direct-message">
+              <h1>User 3</h1>
+            </div>
+            <div class="direct-message">
+              <h1>User 4</h1>
+            </div>
+            <div class="direct-message">
+              <h1>User 5</h1>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-3 mx-0 px-0 profile">
-      <div class="column-title">
-        <h1>Profile</h1>
-      </div>
       <div class="columns-container">
+        <div class="column-title">
+          <h1>Profile</h1>
+        </div>
         <div class="header">
           <img
             src="https://images.unsplash.com/photo-1444838639505-f9042c5d2386?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
@@ -97,8 +101,11 @@
           </div>
         </div>
         <div class="user-info">
-          <div class="container-fluid d-flex justify-content-center">
+          <div class="container-fluid d-flex flex-column justify-content-center">
+            <h1 class="nickname">{{user.nickname}}</h1>
             <h1 class="username">@{{user.username}}</h1>
+            <h1 class="bio">{{user.bio}}</h1>
+            <h1 class="city"><i class="fas fa-map-marker-alt"></i>{{user.city}}</h1>
           </div>
         </div>
         <div id='map'></div>
