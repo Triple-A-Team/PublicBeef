@@ -7,35 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
  * gets the username and message from those input forms
  * appends the publicFeed with those two things
  */
-<<<<<<< HEAD
-console.log("ABOUT TO RUN SET INTERVAL")
-setInterval(() => {
-
-  axios.get('/api/posts/all')
-  .then(result => {
-    publicFeed.innerHTML = ''
-
-    result.data.forEach(message => {
-      publicFeed.innerHTML+=`
-      <div class="messageBox">
-      
-        <h8>${message.title}</h4>
-        <br>
-        <h8>${message.content}</h6>
-        <br>
-        <h8>${message.image}</h6>
-      </div>
-      `
-    })
-
-  }).catch(err => console.log("error getting all messages >>> ", err))
-},300)
-
-
-
-
-document.getElementById('theForm').onsubmit = ((e)=>{
-=======
 const publicFeed = document.getElementById('public-feed')
 var div = document.getElementById('public-feed');
 
@@ -90,7 +61,6 @@ setInterval(async () => {
 }, 500)
 
 document.getElementById('theForm').onsubmit = ((e) => {
->>>>>>> d44781a44b3cf60e641fde3197d4eb8dfe81875e
   e.preventDefault();
 
   let postObject = new FormData()

@@ -39,7 +39,6 @@ router.get('/search', (req, res, next) => {
  * @example
  * GET /api/users/me
  */
-<<<<<<< HEAD
 router.get(`/me`, isLoggedIn, async(req, res) => {
     let user = await User.findById(req.user._id).populate('chats')
     res.json(user)
@@ -57,10 +56,6 @@ router.get(`/`, isLoggedIn, async(req, res, next) => {
     } catch (err) {
         next(err)
     }
-=======
-router.get(`/me`, isLoggedIn, async (req, res) => {
-    res.json(req.user)
->>>>>>> d44781a44b3cf60e641fde3197d4eb8dfe81875e
 })
 
 /** 
