@@ -1,11 +1,6 @@
 const express = require('express')
-const { isLoggedIn } = require('../../middleware/auth') <<
-    << << < HEAD
-const { uploadCloud } = require('../../configs/cloudinary')
-const User = require('../../models/User') ===
-    === =
-    const uploadCloud = require('../../configs/cloudinary') >>>
-        >>> > 7156869 f39686c2e66d03a239c820935c65dd44f
+const { isLoggedIn } = require('../../middleware/auth')
+const uploadCloud = require('../../configs/cloudinary') 
 const Post = require('../../models/Post')
 const router = express.Router()
 
