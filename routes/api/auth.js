@@ -3,7 +3,7 @@ const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const bcryptSalt = 10
 const router = express.Router()
-const uploadCloud  = require('../../configs/cloudinary')
+const uploadCloud = require('../../configs/cloudinary')
 const User = require('../../models/User')
 
 /**
@@ -30,11 +30,12 @@ router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) =>
         .then(userSaved => {
             req.logIn(userSaved, () => {
                 userSaved.password = undefined
-                res.json(userSaved)
+                res.redirect('/beef')
             })
         })
         .catch(err => next(err))
 })
+
 
 /**
  * Log in a user using passport.authenticate
@@ -58,8 +59,7 @@ router.post('/login', (req, res, next) => {
                 res.status(500).json({ message: 'Something went wrong' })
                 return
             }
-
-            res.status(200).redirect('/')
+            res.status(200).redirect('/beef')
         })
     })(req, res, next)
 })
@@ -71,7 +71,7 @@ router.post('/login', (req, res, next) => {
  */
 router.post('/logout', (req, res) => {
     req.logout()
-    res.redirect('/index')
+    res.redirect('/')
 })
 
 module.exports = router
