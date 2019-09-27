@@ -7,13 +7,15 @@ const router = express.Router()
 /** 
  * Get all users within a specific distance.
  * @example
- * GET /api/posts/search?lat=20&lon=-60
+ * GET /api/posts/search?lat=20&lon=-60&limit=50
  * GET /api/posts/search?lat=20&lon=-60&maxDist=100
  * */
 router.get('/search', async(req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
+    const limit = req.query.limit || 50
+
     Post.find({
             location: {
                 $near: {
@@ -24,7 +26,11 @@ router.get('/search', async(req, res, next) => {
                     $maxDistance: maxDist
                 }
             }
+        }, 
+        {}, 
+        { sort: { "createdAt": 1 } 
         })
+        .limit(limit)
         .populate('author')
         .then(posts => {
             res.json(posts)
