@@ -1,6 +1,6 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const uploadCloud = require('../../configs/cloudinary')
+const uploadCloud = require('../../configs/cloudinary') 
 const Post = require('../../models/Post')
 const router = express.Router()
 
@@ -26,9 +26,8 @@ router.get('/search', async(req, res, next) => {
                     $maxDistance: maxDist
                 }
             }
-        }, 
-        {}, 
-        { sort: { "createdAt": 1 } 
+        }, {}, {
+            sort: { "createdAt": 1 }
         })
         .limit(limit)
         .populate('author')
@@ -67,7 +66,6 @@ router.post('/', uploadCloud.single('image'), (req, res, next) => {
         .then((test) => {
             res.json(test)
         })
-
 })
 
 /**
@@ -76,7 +74,7 @@ router.post('/', uploadCloud.single('image'), (req, res, next) => {
  */
 router.get('/:id', async(req, res, next) => {
     try {
-        const post = await Post.findById(req.params.id)
+        const post = await Post.findById(req.params.id).populate('comments')
         if (!post) throw new Error()
         res.send(post)
     } catch (e) {
