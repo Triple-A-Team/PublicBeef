@@ -34,13 +34,11 @@ function getPosition() {
           infoWindow.setPosition(pos);
       },
       function () {
-        console.log("Couldn't find posotion")
+        console.log("Couldn't find position")
       })
   }
-
   return pos
 }
-
 function initMap() {
 
   pos = getPosition()

@@ -57,6 +57,7 @@ router.post('/', uploadCloud.single('image'), (req, res, next) => {
         author: req.user._id,
         location: { coordinates: req.user.location.coordinates }
     }
+    if (req.body.beefMode) delete postData.author
 
     if (req.file) {
         postData.image = req.file.url
