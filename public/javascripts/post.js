@@ -58,7 +58,7 @@ setInterval(async () => {
       })
 
     }).catch(err => console.log("error getting all messages >>> ", err))
-}, 500)
+}, 50)
 
 document.getElementById('theForm').onsubmit = ((e) => {
   e.preventDefault();
@@ -82,9 +82,9 @@ document.querySelector('#messageSubmitButton').click(() => {
 })
 
 //Scroll down function
-
 function scrollDown(){
   console.log('button clicked')
-  var div = document.getElementById('public-feed');
-  div.scrollTop = div.scrollHeight;
+  setTimeout(()=>{
+    div.scrollTop = div.scrollHeight;
+  },100)
 }
