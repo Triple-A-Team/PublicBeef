@@ -17,12 +17,16 @@ body {
 
 .side-nav {
   height: 10vh;
-  .nav-link{
-    background-color: #032535;
+  .nav-link {
     text-align: center;
     font-size: 25px;
     font-weight: bold;
     color: #ebfffb;
+    background-color: #032535;
+    .btn{
+      border-radius:0px;
+      width: 100%;
+    }
   }
   .nav-link:hover,
   .navbar-brand:hover {
@@ -34,20 +38,17 @@ body {
   }
 }
 
-#public-feed::-webkit-scrollbar-track
-{
-    background-color: #F5F5F5;
+#public-feed::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
 }
 
-#public-feed::-webkit-scrollbar
-{
-    width: 10px;
-    background-color: #F5F5F5;
+#public-feed::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
 }
 
-#public-feed::-webkit-scrollbar-thumb
-{
-    background-color: gray;
+#public-feed::-webkit-scrollbar-thumb {
+  background-color: gray;
 }
 
 [type="file"] + label {
