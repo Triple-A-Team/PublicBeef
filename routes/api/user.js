@@ -36,7 +36,7 @@ router.get('/search', (req, res, next) => {
  * @example
  * GET /api/users/me
  */
-router.get(`/me`, isLoggedIn, async(req, res) => {
+router.get(`/me`,(req, res) => {
     res.json(req.user)
 })
 

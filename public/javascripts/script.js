@@ -23,8 +23,11 @@ function initMap() {
         infoWindow.setPosition(pos);
       let location = [pos.lng, pos.lat]
 
-      axios.post('/api/users/me', { location: { coordinates: [pos.lng, pos.lat] } })
-      
+      axios.patch('/api/users/me', { location: { coordinates: location } })
+      .then(result =>{
+        console.log(result.data)
+      })
+
       map.setCenter(pos);
 
       var cityCircle = new google.maps.Circle({

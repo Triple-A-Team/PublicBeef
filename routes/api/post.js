@@ -25,6 +25,7 @@ router.get('/search', async(req, res, next) => {
                 }
             }
         })
+        .populate('author')
         .then(posts => {
             res.json(posts)
         })
