@@ -83,7 +83,6 @@ document.querySelector('#messageSubmitButton').click(() => {
 
 //Scroll down function
 function scrollDown(){
-  console.log('button clicked')
   setTimeout(()=>{
     div.scrollTop = div.scrollHeight;
   },100)
