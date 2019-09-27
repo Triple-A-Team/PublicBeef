@@ -9,7 +9,10 @@ const router = express.Router()
  * GET /api/messages
  * */
 router.get('/', async(req, res, next) => {
-    res.json(await ChatMessage.find())
+    res.json(await ChatMessage.find().populate([
+        {path: 'author'},
+        {path: 'chat'}
+    ]))
 })
 
 /** 
@@ -19,7 +22,10 @@ router.get('/', async(req, res, next) => {
  * */
 router.get('/:id', async(req, res, next) => {
     try {
-        const chatMessage = await ChatMessage.findById(req.params.id)
+        const chatMessage = await ChatMessage.findById(req.params.id).populate([
+            {path: 'author'},
+            {path: 'chat'}
+        ])
         if (!chatMessage) throw new Error()
         res.status(202).send(chatMessage)
     } catch (e) {

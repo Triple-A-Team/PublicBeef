@@ -7,12 +7,15 @@ const router = express.Router()
 
 
 /** 
- * Get all posts.
+ * Get all chats.
  * @example
  * GET /api/chat
  * */
 router.get('/', async(req, res, next) => {
-    res.json(await Chat.find())
+    res.json(await Chat.find().populate([
+        { path: 'users' },
+        { path: 'messages' }
+    ]))
 })
 
 /** 
@@ -22,7 +25,10 @@ router.get('/', async(req, res, next) => {
  * */
 router.get('/:id', async(req, res, next) => {
     try {
-        const chat = await Chat.findById(req.params.id)
+        const chat = await Chat.findById(req.params.id).populate([
+            { path: 'users' },
+            { path: 'messages' }
+        ])
         if (!chat) throw new Error()
         res.status(202).json(chat)
     } catch (e) {
