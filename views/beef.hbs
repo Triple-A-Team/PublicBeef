@@ -12,7 +12,7 @@
           <div class="new-post">
             <div class="row">
               <div class="col-2">
-                <div class="nav flex-column nav-pills col" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <div class="nav flex-column nav-pills tabs col" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                   <a class="nav-link active" id="v-pills-post-tab" data-toggle="pill" href="#v-pills-post" role="tab"
                     aria-controls="v-pills-post" aria-selected="true">Post</a>
                   <a class="nav-link" id="v-pills-comments-tab" data-toggle="pill" href="#v-pills-comments" role="tab"
@@ -150,11 +150,10 @@
       </div>
     </div>
     <div class="col-1 mx-0 px-0">
-      <div class="columns-container d-flex flex-column">
-        <div class="side-nav">
+      <div class="columns-container">
+        <div class="side-nav d-flex align-items-between flex-column">
           <a class="nav-link" href="/beef">Beef <br> <i class="fas fa-home"></i></a>
           <a class="nav-link" href="/login">Login <br> <i class="fas fa-sign-in-alt"></i></a>
-          <a class="nav-link" href="/signup">Signup <br> <i class="fas fa-user-plus"></i></a>
           <a class="nav-link" href="/beef">Config <br> <i class="fas fa-cog"></i></a>
           <a class="nav-link" href="/signup">Signup <br> <i class="fas fa-user-plus"></i></a>
           <form action="/api/logout" method="POST" id="my_form">

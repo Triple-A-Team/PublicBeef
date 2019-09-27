@@ -23,40 +23,40 @@ setInterval(async () => {
   }
 
   axios.get(`/api/posts/search?lat=${userLAT}&lon=${userLNG}&maxDist=500`)
-  .then(result => {
-    publicFeed.innerHTML = ''
-    result.data.forEach(message => {
-      console.log(message)
+    .then(result => {
+      publicFeed.innerHTML = ''
+      result.data.forEach(message => {
+        console.log(message)
         if (!message.image) {
           publicFeed.innerHTML += `
       <div class="posts-box d-flex justify-content-around align-items-center">
-        <div class="col-9"> 
+        <div class="col pl-5"> 
           <div class="row">
             <h1>${message.title}</h1>
           </div>
           <div class="row">   
             <p>${message.content}</p>
           </div>
-        </div>
-        <div class="col">
-          <p><span style="font-weight:bold;">Beefer:</span>${message.author.username}</p>
+          <div class="row">
+            <p>Made by:${message.author.username}</p>
+          </div>
         </div>
       </div >`
-    }
-    else if (message.image) {
+        }
+        else if (message.image) {
           console.log(message.author)
           publicFeed.innerHTML += `
       <div class="posts-box d-flex justify-content-around align-items-center">
-        <div class="col-6"> 
+        <div class="col-9 pl-5"> 
           <div class="row">   
             <h1>${message.title}</h1>
           </div>
           <div class="row">   
             <p>${message.content}</p>
+            </div>
+          <div class="row">
+            <p>Made by:${message.author.username}</p>
           </div>
-        </div>
-        <div class="col-3">
-          <p><span style="font-weight:bold;">Beefer:</span>${message.author.username}</p>
         </div>
         <div class="col-3 d-flex">
           <img src="${message.image}" height="90px" width="90px;">
