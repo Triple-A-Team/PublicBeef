@@ -1,8 +1,6 @@
-
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
 const uploadCloud = require('../../configs/cloudinary')
-const User = require('../../models/User')
 const Post = require('../../models/Post')
 const router = express.Router()
 
@@ -12,21 +10,21 @@ const router = express.Router()
  * GET /api/posts/search?lat=20&lon=-60
  * GET /api/posts/search?lat=20&lon=-60&maxDist=100
  * */
-router.get('/search', async (req, res, next) => {
+router.get('/search', async(req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
     Post.find({
-        location: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [lon, lat]
-                },
-                $maxDistance: maxDist
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lon, lat]
+                    },
+                    $maxDistance: maxDist
+                }
             }
-        }
-    })
+        })
         .then(posts => {
             res.json(posts)
         })
@@ -38,7 +36,7 @@ router.get('/search', async (req, res, next) => {
  * @example
  * GET /api/posts/all
  * */
-router.get('/all', async (req, res, next) => {
+router.get('/all', async(req, res, next) => {
     res.json(await Post.find().populate('author'))
 })
 
@@ -47,10 +45,6 @@ router.get('/all', async (req, res, next) => {
  * @example POST /api/posts
  */
 router.post('/', uploadCloud.single('image'), (req, res, next) => {
-    // if (!req.file) res.status(401).json({ error: 'Please provide an image' })
-    // const { title, content } = req.body
-    // const image = req.file.url
-    // const postData = { title, content, author: req.user._id, image}
     postData = {
         title: req.body.title,
         content: req.body.content,
@@ -73,7 +67,7 @@ router.post('/', uploadCloud.single('image'), (req, res, next) => {
  * Get a specific post 
  * @example GET /api/posts/:id
  */
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', async(req, res, next) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
@@ -87,7 +81,7 @@ router.get('/:id', async (req, res, next) => {
  * Delete a specific post
  * @example DELETE /api/posts/:id
  */
-router.delete(`/:id`, isLoggedIn, async (req, res) => {
+router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
@@ -103,7 +97,7 @@ router.delete(`/:id`, isLoggedIn, async (req, res) => {
  * Update a specific post
  * @example POST /api/posts/:id
  */
-router.patch(`/:id`, async (req, res) => {
+router.patch(`/:id`, async(req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['title', 'content', 'image']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))

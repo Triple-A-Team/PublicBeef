@@ -45,6 +45,8 @@ const postSchema = new Schema({
     },
 })
 
+postSchema.index({ location: "2dsphere" });
+
 function autopopulate(next) {
     this.populate([
         { path: 'comments' }
