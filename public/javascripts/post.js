@@ -67,7 +67,66 @@ setInterval(async () => {
       })
 
     }).catch(err => console.log("error getting all messages >>> ", err))
+
+
+
+
+    
+    
+    
+    
+    
+    //COMMENT STUFF
+
+    axios.get('/api/comments')
+    .then(result => {
+      // publicFeed.innerHTML = ''
+      result.data.forEach(message => {
+        if (!message.image) {
+          publicFeed.innerHTML += `
+      <div class="posts-box d-flex justify-content-around align-items-center">
+        <div class="col-9"> 
+          <div class="row">   
+            <h1>${message.title}</h1>
+          </div>
+          <div class="row">   
+            <p>${message.content}</p>
+          </div>
+        </div>
+        <div class="col">
+          <p><span style="font-weight:bold;">Beefer:</span>${message.author}</p>
+        </div>
+      </div >`
+        }
+        else if (message.image) {
+          publicFeed.innerHTML += `
+      <div class="posts-box d-flex justify-content-around align-items-center">
+        <div class="col-6"> 
+          <div class="row">   
+            <h1>${message.title}</h1>
+          </div>
+          <div class="row">   
+            <p>${message.content}</p>
+          </div>
+        </div>
+        <div class="col-3">
+          <p><span style="font-weight:bold;">Beefer:</span>${message.author}</p>
+        </div>
+        <div class="col-3 d-flex">
+          <img src="${message.image}" height="90px" width="90px;">
+        </div>
+      </div>`
+        }
+      })
+
+    }).catch(err => console.log("error getting all messages >>> ", err))
+
+
+
+
 }, 500)
+
+
 
 document.getElementById('theForm').onsubmit = ((e) => {
   e.preventDefault();
