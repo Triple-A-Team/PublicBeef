@@ -16,10 +16,7 @@ router.get('/search', async (req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
-    
-    //(`Searching for users near ${lat}, ${lon} within ${maxDist} meters`)
-    
-    User.find({
+    Post.find({
         location: {
             $near: {
                 $geometry: {
@@ -30,8 +27,7 @@ router.get('/search', async (req, res, next) => {
             }
         }
     })
-        .then(async users => {
-            let posts = await Post.find({ author: { $in: users.map(u => u._id) } }).sort({ 'createdAt': 'asc' })
+        .then(posts => {
             res.json(posts)
         })
         .catch(err => next(err))
@@ -58,7 +54,8 @@ router.post('/', uploadCloud.single('image'), (req, res, next) => {
     postData = {
         title: req.body.title,
         content: req.body.content,
-        author: req.user._id
+        author: req.user._id,
+        location: { coordinates: req.user.location.coordinates }
     }
 
     if (req.file) {

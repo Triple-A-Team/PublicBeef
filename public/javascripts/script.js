@@ -23,7 +23,7 @@ function initMap() {
         infoWindow.setPosition(pos);
       let location = [pos.lng, pos.lat]
 
-      axios.patch('/api/users/me', { location: { "coordinates": [pos.lng, pos.lat] } })
+      axios.post('/api/users/me', { location: { coordinates: [pos.lng, pos.lat] } })
       
       map.setCenter(pos);
 

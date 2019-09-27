@@ -15,10 +15,9 @@ setInterval(async () => {
   let userLNG = user.data.location.coordinates[0]
   let userLAT = user.data.location.coordinates[1]
 
-  axios.get(`/api/posts/search?lat=${userLAT}&lon=${userLNG}&maxDist=500`)
+  axios.get(`/api/posts/search?lat=${userLAT}&lon=${userLNG}`)
     .then(result => {
       publicFeed.innerHTML = ''
-
       result.data.forEach(message => {
         if (!message.image) {
           publicFeed.innerHTML += `
