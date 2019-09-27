@@ -31,6 +31,7 @@
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.5.0",
     "sharp": "^0.23.0",
+    "simplebar": "^4.2.3-corejs2",
     "validator": "^11.1.0"
   },
   "devDependencies": {

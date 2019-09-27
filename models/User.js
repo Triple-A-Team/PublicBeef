@@ -16,7 +16,6 @@ const pointSchema = new mongoose.Schema({
     }
 });
 
-
 const userSchema = new Schema({
     username: {
         type: String,
@@ -34,6 +33,21 @@ const userSchema = new Schema({
     },
     location: {
         type: pointSchema,
+    },
+    city: {
+        type: String,
+        trim: true
+    },
+    bio: {
+        type: String,
+        trim: true,
+        maxLength: 150,
+        default: "I love Public Beef ™"
+    },
+    nickname: {
+        type: String,
+        trim: true,
+        minlength: 3,
     },
     role: {
         type: String,
@@ -66,13 +80,6 @@ const userSchema = new Schema({
 
 userSchema.index({ location: "2dsphere" });
 
-userSchema.virtual('posts', {
-    ref: 'Post',
-    localField: '_id',
-    foreignField: 'author',
-    justOne: false
-})
-
 userSchema.methods.toJSON = function() {
     const user = this
     const userObject = user.toObject()
@@ -96,6 +103,34 @@ userSchema.pre('save', async function(next) {
 userSchema.pre('remove', async function(next) {
     // await Hazard.deleteMany({ creator: this._id }) // Delete user groups when user is removed
     next()
+})
+
+userSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+userSchema.virtual('messages', {
+    ref: 'ChatMessage',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+userSchema.virtual('comments', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false
+})
+
+userSchema.virtual('chats', {
+    ref: 'Chat',
+    localField: '_id',
+    foreignField: 'users',
+    justOne: true
 })
 
 const User = mongoose.model('User', userSchema)

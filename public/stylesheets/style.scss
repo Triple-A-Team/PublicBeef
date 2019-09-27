@@ -1,30 +1,36 @@
+// color #032535 black
+// color #3d5466 lighter black
+
+// Beef Color Options [
+//   #af0404,
+//   #ff0000,
+//   #c70d3a,
+// ]
+
 body {
   margin: 0px;
   padding: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "Roboto", sans-serif;
+  color: #ebfffb;
+  background-color: #c70d3a;
 }
 
-.navbar {
-  background-color: white;
-
-  .navbar-brand {
+.side-nav {
+  height: 10vh;
+  .nav-link {
+    text-align: center;
+    font-size: 25px;
     font-weight: bold;
-    font-size: 30px;
+    color: #ebfffb;
+    background-color: #032535;
+    .btn {
+      border-radius: 0px;
+      width: 100%;
+    }
   }
-
-  .nav-link,
-  .navbar-brand {
-    color: black;
-  }
-
   .nav-link:hover,
   .navbar-brand:hover {
     color: red;
-  }
-
-  .fas {
-    color: black;
-    font-size: 30px;
   }
 
   .fas:hover {
@@ -32,10 +38,18 @@ body {
   }
 }
 
-a {
-  color: #00b7ff;
+.scrool::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
 }
 
+.scrool::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+.scrool::-webkit-scrollbar-thumb {
+  background-color: gray;
+}
 
 [type="file"] + label {
   background: #f15d22;
@@ -51,107 +65,149 @@ a {
   position: relative;
   transition: all 0.3s;
   vertical-align: middle;
-  
-&.btn-2 {
-  background-color: white;
-  border-radius: 0px 10px 10px 0px;
-  overflow: hidden;
-  
-  &::before {
-    color: #000;
-    content: "\f382";
-    font-family: "Font Awesome 5 Pro";
-    font-size: 100%;
-    height: 100%;
-    right: 130%;
-    line-height: 2.1;
-    position: absolute;
-    top: 0px;
-    transition: all 0.3s;
+
+  &.btn-2 {
+    border-radius: 0px 10px 10px 0px;
+    overflow: hidden;
+
+    &::before {
+      color: #000;
+      content: "\f382";
+      font-family: "Font Awesome 5 Pro";
+      font-size: 100%;
+      height: 100%;
+      right: 130%;
+      line-height: 2.1;
+      position: absolute;
+      top: 0px;
+      transition: all 0.3s;
+    }
   }
-}
   &:hover {
     padding: 7px 15px 7px 25px;
-    background-color: darken(#fff, 25%);
-      
     &::before {
       right: 75%;
     }
   }
 }
+
+.column-title {
+  h1 {
+    font-size: 25px;
+    margin: 0px;
+    border: 1.5px white solid;
+  }
+  text-align: center;
+  background-color: #032535;
+}
+
 #map {
-  position: absolute;
-  top: 10px;
-  right: 35px;
   height: 160px;
-  width: 160px;
-  border-radius: 15px;
+  width: 100%;
+  border: 3px solid white;
+  border-radius: 0px 0px 15px 15px;
 }
 
 .beef {
-  .posts{
+  .posts {
+    margin-top: 20px;
     height: 100%;
-    .chat{
+    .chat {
+      overflow-y: scroll;
       height: 75%;
     }
-    .new-post{
-      border-radius: 5px 5px 5px 5px;
+    .posts-box {
+      color: white;
+      height: 100px;
+      border: 1px solid #c9c9c9;
+      h1 {
+        font-size: 16px;
+      }
+      p {
+        font-size: 12px;
+      }
+    }
+    .new-post {
       border: white 1px solid;
-      background-color: #c9c9c9;
       height: 25%;
-      label{
-        font-size:20px;
+      width: 100%;
+      .new-post-inputs {
+        .title-input {
+          border: 1px #c9c9c9 solid;
+          border-radius: 5px;
+          margin: 0px;
+          padding: 5px 15px;
+          width: 100%;
+          height: 38px;
+        }
+        .content-input {
+          border: 1px #c9c9c9 solid;
+          border-radius: 5px;
+          margin: 10px 0px;
+          padding: 5px 15px;
+          width: 100%;
+        }
+      }
 
+      .fas {
+        font-size: 27px;
       }
     }
   }
-  background-color: blue;
   .columns-container {
-    height: 85vh;
-    width: 95%;
-    margin: 0px auto;
-    border-radius: 15px;
-    background-color: rgba(lightgray, 0.6);
-  }
-  .new-post {
-    background-color: white;
-    bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
     width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    border: solid lightgray 2px;
+    margin: 0px 0px;
+  }
+
+  .messages {
+    .columns-container {
+      border: solid lightgray 2px;
+    }
   }
   .profile {
-    .container-fluid {
-      width: 85%;
+    .columns-container {
+      border: solid lightgray 2px;
+    }
+    .user-info {
+      border-radius: 15px;
+      height: 350px;
     }
     .header {
       position: relative;
-      height: 150px;
+      height: 180px;
       width: 100%;
-      background-color: #00b7ff;
-      border-radius: 5px;
+      border-radius: 0px 0px 10px 10px;
       border: 3px solid white;
-      img {
-        border-radius: 5px;
-      }
     }
-    .username {
-      color: white;
-      top: 170px;
-      position: absolute;
-      font-size: 30px;
+    .user-info {
+      margin-top: 20px;
+      height: 300px;
+      .username {
+        padding-top: 25px;
+        font-size: 25px;
+        color: white;
+        text-shadow: 2px 2px black;
+      }
     }
     .image-container {
-      img {
-        border: 3px solid white;
-        border-radius: 50%;
-      }
       position: absolute;
       left: 0;
       right: 0;
       margin-left: auto;
       margin-right: auto;
-      top: 55px;
+      top: 120px;
       height: 115px;
       width: 115px;
+      img {
+        border: 3px solid white;
+        border-radius: 50%;
+      }
     }
     .avatar {
       border-radius: 50%;

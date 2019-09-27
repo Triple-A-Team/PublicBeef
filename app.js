@@ -106,11 +106,13 @@ app.use(`/api/`, require('./routes/api/auth'))
 app.use('/api', require('./routes/admin'));
 app.use(`/api/users`, require('./routes/api/user'))
 app.use(`/api/posts`, require('./routes/api/post'))
-
+app.use(`/api/chat`, require('./routes/api/chat'))
+app.use(`/api/messages`, require('./routes/api/messages'))
+app.use(`/api/comments`, require('./routes/api/comment'))
 
 // For any routes that starts with "/api", catch 404 and forward to error handler
 app.use('/api/*', (req, res, next) => {
-    let err = new Error('Not Found')
+    let err = new Error(`API Route Not Found: ${req.baseUrl}`)
     err.status = 404
     next(err)
 })
@@ -128,4 +130,3 @@ app.use((err, req, res, next) => {
 })
 
 module.exports = app;
-

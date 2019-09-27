@@ -1,8 +1,7 @@
 const express = require('express')
 const { isLoggedIn } = require('../../middleware/auth')
-const { uploadCloud } = require('../../configs/cloudinary')
+const uploadCloud = require('../../configs/cloudinary')
 const User = require('../../models/User')
-const Post = require('../../models/Post')
 const router = express.Router()
 
 /** 
@@ -15,8 +14,6 @@ router.get('/search', (req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
-
-    console.log(`Searching for users near ${lat}, ${lon} within ${maxDist} meters`)
     User.find({
             location: {
                 $near: {
@@ -39,7 +36,7 @@ router.get('/search', (req, res, next) => {
  * @example
  * GET /api/users/me
  */
-router.get(`/me`, isLoggedIn, async(req, res) => {
+router.get(`/me`,(req, res) => {
     res.json(req.user)
 })
 
@@ -50,7 +47,7 @@ router.get(`/me`, isLoggedIn, async(req, res) => {
  */
 router.patch(`/me`, isLoggedIn, async(req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header']
+    const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header', 'location', 'city', 'bio', 'nickname']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
@@ -104,4 +101,5 @@ router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
     await req.user.save()
     res.send()
 })
+
 module.exports = router
