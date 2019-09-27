@@ -18,17 +18,15 @@ body {
 .side-nav {
   height: 10vh;
   .nav-link{
+    background-color: #032535;
+    text-align: center;
+    font-size: 25px;
     font-weight: bold;
     color: #ebfffb;
   }
   .nav-link:hover,
   .navbar-brand:hover {
     color: red;
-  }
-
-  .fas {
-    color: black;
-    font-size: 30px;
   }
 
   .fas:hover {

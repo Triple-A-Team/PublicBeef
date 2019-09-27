@@ -81,10 +81,10 @@
       <div class="columns-container d-flex flex-column">
         <div class="side-nav">
           <a class="nav-link" href="/beef">Beef <br> <i class="fas fa-home"></i></a>
-          <a class="nav-link" href="/signup">Signup <br> <i class="fas fa-user-plus"></i></a>
           <a class="nav-link" href="/login">Login <br> <i class="fas fa-sign-in-alt"></i></a>
-          <form action="/api/logout" method="POST">
-            <button class="nav-link">Logout <br> <i class="fas fa-sign-out-alt"></i></a>
+          <a class="nav-link" href="/signup">Signup <br> <i class="fas fa-user-plus"></i></a>
+          <form action="/api/logout" method="POST" id="my_form">
+            <a href="javascript:{}" onclick="document.getElementById('my_form').submit()" class="nav-link">Logout <br> <i class="fas fa-sign-out-alt"></i></a>
           </form>
         </div>
       </div>
