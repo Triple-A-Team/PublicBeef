@@ -1,6 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const pointSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        default: 'Point'
+    },
+    coordinates: {
+        type: [Number],
+        index: '2dsphere',
+        default: [25.766111, -80.196183],
+        required: true
+    }
+});
+
 const postSchema = new Schema({
     title: {
         type: String,
@@ -21,13 +34,18 @@ const postSchema = new Schema({
     comments: [{
         type: Schema.Types.ObjectID,
         ref: "Comment"
-    }]
+    }],
+    location: {
+        type: pointSchema,
+    },
 }, {
     timestamps: {
         createdAt: 'created_at',
         updatedAt: 'updated_at',
     },
 })
+
+postSchema.index({ location: "2dsphere" });
 
 function autopopulate(next) {
     this.populate([

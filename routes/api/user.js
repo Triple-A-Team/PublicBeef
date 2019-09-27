@@ -14,20 +14,17 @@ router.get('/search', (req, res, next) => {
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
-
-    //(`Searching for users near ${lat}, ${lon} within ${maxDist} meters`)
-
     User.find({
-        location: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [lon, lat]
-                },
-                $maxDistance: maxDist
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lon, lat]
+                    },
+                    $maxDistance: maxDist
+                }
             }
-        }
-    })
+        })
         .then(users => {
             res.json(users)
         })
@@ -39,7 +36,7 @@ router.get('/search', (req, res, next) => {
  * @example
  * GET /api/users/me
  */
-router.get(`/me`, isLoggedIn, async (req, res) => {
+router.get(`/me`,(req, res) => {
     res.json(req.user)
 })
 
@@ -48,9 +45,9 @@ router.get(`/me`, isLoggedIn, async (req, res) => {
  * @example
  * PATCH /api/users/me 
  */
-router.patch(`/me`, isLoggedIn, async (req, res) => {
+router.patch(`/me`, isLoggedIn, async(req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header', 'location']
+    const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header', 'location', 'city', 'bio', 'nickname']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
@@ -69,7 +66,7 @@ router.patch(`/me`, isLoggedIn, async (req, res) => {
  * @example
  * POST /api/users/me/avatar "avatar.jpg"
  */
-router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async (req, res) => {
+router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async(req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
@@ -83,7 +80,7 @@ router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async (req, 
  * @example
  * GET /api/users/:id/avatar 
  */
-router.get(`/:id/avatar`, async (req, res) => {
+router.get(`/:id/avatar`, async(req, res) => {
     try {
         const user = await User.findById(req.params.id)
         if (!user || !user.avatar) throw new Error()
@@ -99,7 +96,7 @@ router.get(`/:id/avatar`, async (req, res) => {
  * @example
  * DELETE /api/users/me/avatar
  */
-router.delete(`/me/avatar`, isLoggedIn, async (req, res) => {
+router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
     req.user.avatar = undefined
     await req.user.save()
     res.send()
