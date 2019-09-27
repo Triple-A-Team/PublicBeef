@@ -13,7 +13,7 @@ const User = require('../../models/User')
  */
 router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) => {
     const salt = bcrypt.genSaltSync(bcryptSalt)
-    const { username, password, location, role, email } = req.body
+    const { username, password, location, role, email, nickname, bio, city } = req.body
 
     User.findOne({ username })
         .then(userDoc => {
@@ -21,7 +21,7 @@ router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) =>
                 res.status(409).json({ message: 'The username already exists' })
                 return
             }
-            const userData = { username, password: bcrypt.hashSync(password, salt), location, role, email }
+            const userData = { username, password: bcrypt.hashSync(password, salt), location, role, email, nickname, bio, city }
             if (req.file) userData.avatar = req.file.url
             const newUser = new User(userData)
             return newUser.save()
