@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const chatSchema = new Schema({
+    name: {
+        type: String
+    },
     users: [{
         type: Schema.Types.ObjectId,
         ref: "User"
@@ -16,6 +19,7 @@ chatSchema.virtual('messages', {
 })
 
 chatSchema.set('toObject', { hide: '_id', virtuals: true })
+chatSchema.set('toJSON', { virtuals: true });
 const Chat = mongoose.model('Chat', chatSchema)
 
 module.exports = Chat
