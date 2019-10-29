@@ -40,9 +40,9 @@ router.get('/search', async(req, res, next) => {
 /** 
  * Get all posts.
  * @example
- * GET /api/posts/all
+ * GET /api/posts
  * */
-router.get('/all', async(req, res, next) => {
+router.get('/', async(req, res, next) => {
     res.json(await Post.find().populate('author'))
 })
 

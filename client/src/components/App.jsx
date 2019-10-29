@@ -6,7 +6,7 @@ import './App.scss';
 import Home from './containers/Home'
 import Head from './presentational/Head'
 import MainNavbar from './presentational/Navbar'
-import Post from './forms/Post'
+import NewPost from './forms/NewPost'
 import Signup from './forms/Signup'
 import Login from './forms/Login'
 
@@ -20,7 +20,7 @@ class App extends React.Component {
           <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
-          <Route path="/post" exact component={Post} />
+          <Route path="/post" exact component={NewPost} />
         </Switch>
       </div>
     )

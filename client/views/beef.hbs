@@ -19,6 +19,8 @@
           {{!-- <button type="button" id='scroll-down' onclick="scrollDown()">Bottom</button> --}}
           <div class="new-post">
             <div class="row">
+
+
               <div class="col-2">
                 <div class="nav flex-column nav-pills col" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                   <a class="nav-link active" id="v-pills-post-tab" data-toggle="pill" href="#v-pills-post" role="tab"
@@ -29,10 +31,12 @@
                     aria-controls="v-pills-beef" aria-selected="false">Beef Mode</a>
                 </div>
               </div>
+
+
               <div class="col-10">
                 <div class="tab-content" id="v-pills-tabContent">
-                  <div class="tab-pane fade show active" id="v-pills-post" role="tabpanel"
-                    aria-labelledby="v-pills-post-tab">
+                  <div class="tab-pane fade show active" id="v-pills-post" role="tabpanel" aria-labelledby="v-pills-post-tab">
+
                     <form class="row" id="theForm" action="/api/posts" id="np-submit" method="POST"
                       enctype="multipart/form-data">
                       <div class="col-9 new-post-inputs">
@@ -47,6 +51,7 @@
                         <button class="btn btn-light">Create Post</button>
                       </div>
                     </form>
+
                   </div>
                   <div class="tab-pane fade" id="v-pills-comments" role="tabpanel"
                     aria-labelledby="v-pills-comments-tab">
@@ -55,6 +60,9 @@
                     ...</div>
                 </div>
               </div>
+
+
+
             </div>
           </div>
         </div>
