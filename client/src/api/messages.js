@@ -1,9 +1,9 @@
 import service from './config'
-import { getCurrentUser } from './users'
+import { getLocalStorageUser, getCurrentUser } from './users'
 
 
 export const getMessages = () => {
-    return getCurrentUser()
+    return getLocalStorageUser()
         .then(result => {
             return result.data.messages
         })
@@ -12,18 +12,13 @@ export const getMessages = () => {
         })
 }
 
-export const getChats = () => {
-    return getCurrentUser()
-        .then(result => {
-            try {
-                return result.data.chats
-            } catch (error){
-                return []
-            }
-        })
+export const getChats = async () => {
+    return await getCurrentUser()
+        .then(async user => await Promise.all(user.chats.map(async chatId => await getChat(chatId))))
         .catch(error => {
             return error
         })
+
 }
 
 export const getChat = (chat) => {

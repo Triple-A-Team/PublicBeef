@@ -14,7 +14,6 @@ const User = require('../models/User')
 router.post('/signup', (req, res, next) => {
     const salt = bcrypt.genSaltSync(bcryptSalt)
     const { username, password, location, role, email, nickname, bio, city } = req.body
-    console.log({username, password, location, role, email, nickname, bio})
 
     User.findOne({ username })
         .then(userDoc => {

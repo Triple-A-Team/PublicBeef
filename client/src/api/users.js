@@ -50,7 +50,7 @@ export const signupUser = (userData) => {
 }
 
 export const getCurrentUser = () => {
-    return service.get('/api/users/me')
+    return service.get('/api/users/me?populate=chats')
         .then(result => {
             return result.data
         })

@@ -13,6 +13,11 @@ const chatMessageSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Chat"
     }
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+    },
 })
 
 const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema)

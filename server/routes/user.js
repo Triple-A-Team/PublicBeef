@@ -2,6 +2,7 @@ const express = require('express')
 const { isLoggedIn } = require('../middleware/auth')
 const uploadCloud = require('../configs/cloudinary')
 const User = require('../models/User')
+const aqp = require('api-query-params');
 const router = express.Router()
 
 /** 
@@ -11,6 +12,7 @@ const router = express.Router()
  * GET /api/users/search?lat=20&lon=-60&maxDist=100
  * */
 router.get('/search', (req, res, next) => {
+    const { skip, limit, sort, projection, population } = aqp(req.query);
     const lat = req.query.lat || 25.756365
     const lon = req.query.lon || -80.375716
     const maxDist = req.query.maxDist || 32186.9 // 20 miles
@@ -25,6 +27,12 @@ router.get('/search', (req, res, next) => {
                 }
             }
         })
+        .lean()
+        .skip(skip)
+        .limit(limit || 50)
+        .sort(sort)
+        .select(projection)
+        .populate(population)
         .then(users => {
             res.json(users)
         })
@@ -37,22 +45,9 @@ router.get('/search', (req, res, next) => {
  * GET /api/users/me
  */
 router.get(`/me`, isLoggedIn, async(req, res) => {
-    let user = await User.findById(req.user._id).populate('chats')
+    const { population } = aqp(req.query);
+    let user = await User.findById(req.user._id).populate(population)
     res.json(user)
-})
-
-/** 
- * Obtains a copy of the current logged in user model
- * @example
- * GET /api/users
- */
-router.get(`/`, isLoggedIn, async(req, res, next) => {
-    try {
-        let users = await User.find()
-        res.json(users)
-    } catch (err) {
-        next(err)
-    }
 })
 
 /** 
