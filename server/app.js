@@ -75,9 +75,10 @@ app.use(`/api/`, require('./routes/auth'))
 app.use(`/api/users`, require('./routes/user'))
 app.use(`/api/posts`, require('./routes/post'))
 app.use(`/api/chat`, require('./routes/chat'))
+app.use(`/api/map`, require('./routes/map'))
 app.use(`/api/messages`, require('./routes/messages'))
 app.use(`/api/comments`, require('./routes/comment'))
-
+app.get('/favicon.ico', (req, res) => res.status(204));
 app.use('/api/*', (req, res, next) => {
     let err = new Error(`API Route Not Found: ${req.baseUrl}`)
     err.status = 404

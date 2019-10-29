@@ -1,7 +1,9 @@
 import React from 'react'
+import moment from 'moment'
 import { Card } from 'react-bootstrap'
 
 const ChatCard = ({ chat, onSelect }) => {
+  var messageTimeStamp = moment(chat.messages[chat.messages.length - 1].created_at)
   return (
     <Card>
       <Card.Link onClick={() => onSelect(chat)}>
@@ -13,7 +15,7 @@ const ChatCard = ({ chat, onSelect }) => {
           </Card.Text>
         </Card.Body>
       </Card.Link>
-      <Card.Footer className="text-muted">{'Last message at: ' + chat.messages[chat.messages.length - 1].created_at}</Card.Footer>
+      <Card.Footer className="text-muted">{'Last message: ' + messageTimeStamp.toNow(true) + ' ago'}</Card.Footer>
     </Card >
   )
 }

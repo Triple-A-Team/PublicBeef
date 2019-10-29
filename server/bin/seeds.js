@@ -10,7 +10,7 @@ const Comment = require('../models/Comment')
 const Chat = require('../models/Chat')
 const Message = require('../models/ChatMessage')
 
-const { submitDocuments, seed, databaseEntries, generateUniqueNumberList } = require('./seed_helpers')
+const { submitDocuments, seed, databaseEntries, generateUniqueNumberList, getRandomElement } = require('./seed_helpers')
 
 faker.seed(123);
 const bcryptSalt = 10
@@ -58,7 +58,7 @@ async function createDBEntries() {
         return {
             content: faker.lorem.paragraph(),
             chat: databaseEntries.chats[i % databaseEntries.chats.length]._id,
-            author: databaseEntries.users[Math.floor(Math.random() * databaseEntries.users.length)]._id
+            author: getRandomElement(databaseEntries.chats[i % databaseEntries.chats.length].users)
         }
     }))
 }

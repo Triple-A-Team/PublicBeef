@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment';
 import { Card, Image, ListGroup, Button } from 'react-bootstrap'
 
 const Chat = ({ chat }) => {
@@ -37,6 +38,7 @@ const Chat = ({ chat }) => {
 
 const ChatMessage = ({ message }) => {
   let { author, created_at, content } = message
+  var messageTimeStamp = moment(created_at)
   return (
     <li className="chat-message d-flex justify-content-between mb-4">
       <Image tag="img" src={author.avatar || "https://via.placeholder.com/80x80text=User+Avatar"} alt="avatar" roundedCircle style={{ maxHeight: '80px', maxWidth: '80px' }} className="mx-1 z-depth-1" />
@@ -45,7 +47,7 @@ const ChatMessage = ({ message }) => {
           <div>
             <strong className="primary-font">{'@' + author.nickname}</strong>{` (${author.username}) `}
             <small className="pull-right text-muted">
-              <i className="far fa-clock" /> {created_at}
+              <i className="far fa-clock" /> {messageTimeStamp.toNow(true) + ' ago'}
             </small>
           </div>
           <hr />
