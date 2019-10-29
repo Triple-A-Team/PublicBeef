@@ -52,6 +52,7 @@ export const signupUser = (userData) => {
 export const getCurrentUser = () => {
     return service.get('/api/users/me?populate=chats')
         .then(result => {
+            if (result.error) throw new Error('User not found.')
             return result.data
         })
         .catch(error => {

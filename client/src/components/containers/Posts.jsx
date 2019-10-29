@@ -1,7 +1,7 @@
 import React from 'react'
 import PostList from '../presentational/PostList'
 import { getPosts } from '../../api/posts'
-import { getCurrentUser } from '../../api/users'
+import { getCurrentUser, isLoggedIn } from '../../api/users'
 class Posts extends React.Component {
   state = {
     posts: []
@@ -24,13 +24,10 @@ class Posts extends React.Component {
     try {
       let lat = 25.766111
       let lng = -80.196183
-      try {
+      if (isLoggedIn()) {
         let user = await getCurrentUser()
         lat = user.data.location.coordinates[0]
         lng = user.data.location.coordinates[1]
-
-      } catch (err) {
-        console.log('User is not logged in...getting default')
       }
 
       const posts = await getPosts(lat, lng)
