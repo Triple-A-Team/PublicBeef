@@ -31,31 +31,26 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectID,
         ref: "User"
     },
-    comments: [{
-        type: Schema.Types.ObjectID,
-        ref: "Comment"
-    }],
     location: {
         type: pointSchema,
-    },
+    }
 }, {
     timestamps: {
         createdAt: 'created_at',
         updatedAt: 'updated_at',
     },
+    toJSON: { virtuals: true }
 })
 
 postSchema.index({ location: "2dsphere" });
 
-function autopopulate(next) {
-    this.populate([
-        { path: 'comments' }
-    ])
-    next();
-}
+postSchema.virtual('comments', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'post',
+    justOne: false
+})
 
-postSchema.pre('find', autopopulate);
-postSchema.pre('findOne', autopopulate);
 const Post = mongoose.model('Post', postSchema)
 
 module.exports = Post
