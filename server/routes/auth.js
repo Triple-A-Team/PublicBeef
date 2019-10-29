@@ -11,9 +11,10 @@ const User = require('../models/User')
  * @example
  * POST /api/signup
  */
-router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) => {
+router.post('/signup', (req, res, next) => {
     const salt = bcrypt.genSaltSync(bcryptSalt)
     const { username, password, location, role, email, nickname, bio, city } = req.body
+    console.log({username, password, location, role, email, nickname, bio})
 
     User.findOne({ username })
         .then(userDoc => {
@@ -30,7 +31,7 @@ router.post('/signup', uploadCloud.single('profilePicture'), (req, res, next) =>
         .then(userSaved => {
             req.logIn(userSaved, () => {
                 userSaved.password = undefined
-                res.redirect('/beef')
+                res.json(userSaved)
             })
         })
         .catch(err => next(err))
@@ -59,7 +60,7 @@ router.post('/login', (req, res, next) => {
                 res.status(500).json({ message: 'Something went wrong' })
                 return
             }
-            res.status(200).redirect('/beef')
+            res.status(200).json(user)
         })
     })(req, res, next)
 })

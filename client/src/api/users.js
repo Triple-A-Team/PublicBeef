@@ -1,5 +1,18 @@
 import service from './config'
 
+export const isLoggedIn = () => {
+    return localStorage.getItem('user') != null
+}
+
+export const getLocalStorageUser = () => {
+    return JSON.parse(localStorage.getItem('user'))
+}
+
+export const logout = () => {
+    localStorage.removeItem('user')
+    return service.get('/api/logout')
+}
+
 export const updateUserLocation = (pos) => {
     return service.patch('/api/users/me', {
             location: {
@@ -7,6 +20,28 @@ export const updateUserLocation = (pos) => {
             }
         })
         .then(result => {
+            return result.data
+        })
+        .catch(error => {
+            return error
+        })
+}
+
+export const loginUser = (username, password) => {
+    return service.post('/api/login', { username, password })
+        .then(result => {
+            localStorage.setItem('user', JSON.stringify(result.data))
+            return result.data
+        })
+        .catch(error => {
+            return error
+        })
+}
+
+export const signupUser = (userData) => {
+    return service.post('/api/signup', userData)
+        .then(result => {
+            localStorage.setItem('user', JSON.stringify(result.data))
             return result.data
         })
         .catch(error => {

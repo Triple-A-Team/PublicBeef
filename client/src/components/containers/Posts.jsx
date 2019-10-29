@@ -22,13 +22,19 @@ class Posts extends React.Component {
 
   async componentDidMount() {
     try {
-      let user = getCurrentUser()
+      let lat = 25.766111
+      let lng = -80.196183
+      try {
+        let user = await getCurrentUser()
+        lat = user.data.location.coordinates[0]
+        lng = user.data.location.coordinates[1]
 
-      let lng = (user) ? user.data.location.coordinates[0] : 0
-      let lat = (user) ? user.data.location.coordinates[1] : 0
+      } catch (err) {
+        console.log('User is not logged in...getting default')
+      }
 
       const posts = await getPosts(lat, lng)
-      console.log(posts)
+      this.setState({ posts })
     }
     catch (error) {
       console.log('Ran into error trying to get posts.')

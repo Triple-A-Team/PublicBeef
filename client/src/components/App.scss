@@ -12,10 +12,6 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
 }
@@ -35,32 +31,6 @@ body {
   color: #09d3ac;
 }
 
-
-.side-nav {
-  height: 10vh;
-
-  .nav-link {
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    color: #ebfffb;
-    background-color: #032535;
-
-    .btn {
-      border-radius: 0px;
-      width: 100%;
-    }
-  }
-
-  .nav-link:hover,
-  .navbar-brand:hover {
-    color: #c9c9c9;
-  }
-
-  .fas:hover {
-    color: #c9c9c9;
-  }
-}
 
 .scrool::-webkit-scrollbar-track {
   background-color: #f5f5f5;
@@ -115,17 +85,6 @@ body {
       right: 75%;
     }
   }
-}
-
-.column-title {
-  h1 {
-    font-size: 25px;
-    margin: 0px;
-    border: 1.5px white solid;
-  }
-
-  text-align: center;
-  background-color: #032535;
 }
 
 #map {

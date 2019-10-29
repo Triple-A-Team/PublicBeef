@@ -3,7 +3,9 @@ import Post from '../presentational/Post'
 
 const PostList = ({ posts }) => {
   return (
-    posts.map(post => <Post key={post._id} post={post} />)
+    <ul className="list-unstyled">
+      {posts.map(post => <Post key={post._id} post={post} />)}
+    </ul>
   )
 }
 

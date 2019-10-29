@@ -1,26 +1,16 @@
 import React from 'react'
+import { Media } from 'react-bootstrap'
 
 const Post = ({ post }) => {
   return (
-    <div class="posts-box d-flex justify-content-around align-items-center">
-      <div class="col-6">
-        <div class="row">
-          <h1>{post.title}</h1>
-        </div>
-        <div class="row">
-          <p>{post.content}</p>
-        </div>
-      </div>
-      <div class="col-3">
+    <Media as="li">
+      {(post.image) ? <img className="mr-3" src={post.image} alt={`post ${post._id} resource`} height={96} width={96} /> : null}
+      <Media.Body>
+        <h5>{post.title}</h5>
+        <p>{post.content}</p>
         <p><span style={{ fontWeight: "bold" }}>Beefer:</span>{post.author.username}</p>
-      </div>
-      {(post.image) ?
-        <div class="col-3 d-flex">
-          <img src={post.image} alt={`post ${post._id} resource`} height="90px" width="90px;" />
-        </div>
-        :
-        null}
-    </div>
+      </Media.Body>
+    </Media>
   )
 }
 

@@ -11,8 +11,8 @@ export const createPost = postData => {
 
 }
 
-export const getPosts = (lat, lng) => {
-    return service.get(`/api/posts/search?lat=${lat}&lon=${lng}&maxDist=500`)
+export const getPosts = (lat, lng, max) => {
+    return service.get(`/api/posts/search?lat=${lat}&lon=${lng}&maxDist=${max || 2000000}`)
         .then(result => {
             return result.data
         })

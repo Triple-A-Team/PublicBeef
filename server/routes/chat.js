@@ -16,7 +16,7 @@ router.get('/', async(req, res, next) => {
 })
 
 /** 
- * Get specific chat message.
+ * Get specific chat.
  * @example
  * GET /api/chat/:id
  * */

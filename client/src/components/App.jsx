@@ -9,6 +9,7 @@ import MainNavbar from './presentational/Navbar'
 import NewPost from './forms/NewPost'
 import Signup from './forms/Signup'
 import Login from './forms/Login'
+import Logout from './forms/Logout'
 
 class App extends React.Component {
   render() {
@@ -21,6 +22,7 @@ class App extends React.Component {
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/post" exact component={NewPost} />
+          <Route path="/logout" exact component={Logout} />
         </Switch>
       </div>
     )

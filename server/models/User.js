@@ -48,6 +48,7 @@ const userSchema = new Schema({
         type: String,
         trim: true,
         minlength: 3,
+        default: "Beefer"
     },
     role: {
         type: String,
