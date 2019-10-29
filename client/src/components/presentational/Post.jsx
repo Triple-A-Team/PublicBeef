@@ -31,7 +31,7 @@ const Post = ({ post }) => {
           <h5>{post.title}</h5>
           <p>{post.content}</p>
           <p><span style={{ fontWeight: "bold" }}>Beefer: </span>{post.author.username}</p>
-          <p><span style={{ fontWeight: "bold" }}>Location: </span>{`[lat: ${post.location.coordinates[0]}, lon: ${post.location.coordinates[1]}]: ${postArea}`}</p>
+          <p><span style={{ fontWeight: "bold" }}>Location: </span>{`[lat: ${post.location.coordinates[1]}, lon: ${post.location.coordinates[0]}]: ${postArea}`}</p>
         </Media.Body>
       </Media>
     </ListGroup.Item>
