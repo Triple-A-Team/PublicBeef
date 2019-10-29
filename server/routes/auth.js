@@ -9,6 +9,16 @@ const User = require('../models/User')
 /**
  * Create a user and log that user in
  * @example
+ * GET /api/logout
+ */
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.status(200).json({ message: 'Successfully logged out.' })
+})
+
+/**
+ * Create a user and log that user in
+ * @example
  * POST /api/signup
  */
 router.post('/signup', (req, res, next) => {

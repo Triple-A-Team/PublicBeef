@@ -22,7 +22,10 @@ router.get('/', async(req, res, next) => {
  * */
 router.get('/:id', async(req, res, next) => {
     try {
-        const chat = await Chat.findById(req.params.id).populate('users messages')
+        const chat = await Chat.findById(req.params.id).populate('users messages').populate({
+            path: 'messages',
+            populate: { path: 'author' }
+        })
         if (!chat) throw new Error()
         res.status(202).json(chat)
     } catch (e) {

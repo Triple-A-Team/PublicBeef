@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Form, Button } from 'react-bootstrap'
+import { Col, Row, Form, Button, Modal } from 'react-bootstrap'
 import { signupUser } from '../../api/users'
 import { Redirect } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ class Signup extends React.Component {
   }
 
   state = {
-    loggedIn: false,
+    loggedIn: false
   }
 
   handleSubmit = async event => {
@@ -29,7 +29,7 @@ class Signup extends React.Component {
     const city = this.city.current.value
 
     await signupUser({ username, password, nickname, email, bio, city })
-    this.setState({ loggedIn: true })
+    this.setState({ loggedIn: true }, this.props.onHide())
   }
 
   render() {
@@ -38,22 +38,27 @@ class Signup extends React.Component {
     }
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Row>
-          <Col md={9}>
-            <Form.Control autoComplete="user-username" type="text" name="username" placeholder="Your name" ref={this.username} required />
-            <Form.Control autoComplete="user-nickname" type="text" name="nickname" placeholder="Your nickname (optional)" ref={this.nickname} />
-            <Form.Control autoComplete="user-password" type="password" name="password" placeholder="Your password" ref={this.password} required />
-            <Form.Control autoComplete="user-email" type="email" name="city" placeholder="email@gmail.com" ref={this.email} required />
-            <Form.Control autoComplete="user-avatar" type="file" name="avatar" placeholder="avatar (optional)" ref={this.avatar} />
-            <Form.Control autoComplete="user-bio" type="text" name="city" placeholder="Your Bio (optional)" ref={this.bio} />
-            <Form.Control autoComplete="user-city" type="text" name="city" placeholder="Your City (optional)" ref={this.city} />
-          </Col>
-          <Col md={3}>
-            <Button variant="primary" type="submit">Sign Up</Button>
-          </Col>
-        </Row>
-      </Form>
+      <Modal show={this.props.show} onHide={this.props.onHide}>
+        <Modal.Header closeButton>
+          <Modal.Title>User Signup</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={this.handleSubmit}>
+          <Row>
+            <Col md={9}>
+              <Form.Control autoComplete="user-username" type="text" name="username" placeholder="Your name" ref={this.username} required />
+              <Form.Control autoComplete="user-nickname" type="text" name="nickname" placeholder="Your nickname (optional)" ref={this.nickname} />
+              <Form.Control autoComplete="user-password" type="password" name="password" placeholder="Your password" ref={this.password} required />
+              <Form.Control autoComplete="user-email" type="email" name="city" placeholder="email@gmail.com" ref={this.email} required />
+              <Form.Control autoComplete="user-avatar" type="file" name="avatar" placeholder="avatar (optional)" ref={this.avatar} />
+              <Form.Control autoComplete="user-bio" type="text" name="city" placeholder="Your Bio (optional)" ref={this.bio} />
+              <Form.Control autoComplete="user-city" type="text" name="city" placeholder="Your City (optional)" ref={this.city} />
+            </Col>
+            <Col md={3}>
+              <Button variant="primary" type="submit">Sign Up</Button>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     )
   }
 }

@@ -26,15 +26,19 @@ class Posts extends React.Component {
       let lng = -80.196183
       if (isLoggedIn()) {
         let user = await getCurrentUser()
-        lat = user.data.location.coordinates[0]
-        lng = user.data.location.coordinates[1]
+        try {
+          lat = user.location.coordinates[0]
+          lng = user.location.coordinates[1]
+        } catch (error) {
+          console.log('User has no lat/long data...skipping.')
+        }
       }
 
       const posts = await getPosts(lat, lng)
       this.setState({ posts })
     }
     catch (error) {
-      console.log('Ran into error trying to get posts.')
+      console.log('Ran into error trying to get posts: ', error)
     }
   }
 

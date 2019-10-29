@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Form, Button } from 'react-bootstrap'
+import { Col, Row, Form, Button, Modal } from 'react-bootstrap'
 import { loginUser } from '../../api/users'
 import { Redirect } from 'react-router-dom'
 
@@ -28,17 +28,22 @@ class Login extends React.Component {
     }
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Row>
-          <Col md={9}>
-            <Form.Control autoComplete="user-username" type="text" name="username" placeholder="Your name" ref={this.username} required />
-            <Form.Control autoComplete="user-password" type="password" name="password" placeholder="Your password" ref={this.password} required />
-          </Col>
-          <Col md={3}>
-            <Button variant="primary" type="submit">Login</Button>
-          </Col>
-        </Row>
-      </Form>
+      <Modal show={this.props.show} onHide={this.props.onHide}>
+        <Modal.Header closeButton>
+          <Modal.Title>User Login</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={this.handleSubmit}>
+          <Row>
+            <Col md={9}>
+              <Form.Control autoComplete="user-username" type="text" name="username" placeholder="Your name" ref={this.username} required />
+              <Form.Control autoComplete="user-password" type="password" name="password" placeholder="Your password" ref={this.password} required />
+            </Col>
+            <Col md={3}>
+              <Button variant="primary" type="submit">Login</Button>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     )
   }
 }
