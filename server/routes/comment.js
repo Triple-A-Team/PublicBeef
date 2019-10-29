@@ -22,9 +22,9 @@ router.get('/:id', async(req, res, next) => {
     try {
         const comment = await Comment.findById(req.params.id)
         if (!comment) throw new Error()
-        res.status(202).send(comment)
+        res.status(202).json(comment)
     } catch (e) {
-        res.status(404).send(e)
+        res.status(404).json({ error: e })
     }
 })
 
@@ -38,7 +38,7 @@ router.post('/', isLoggedIn, async(req, res, next) => {
         const { content, post, author } = req.body
         const commentData = { content, post, author: author || req.user._id }
         const comment = await new Comment(commentData).save()
-        
+
         res.status(201).json(comment)
     } catch (err) {
         next(err)
@@ -55,13 +55,13 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
         const comment = await Comment.findById(req.params.id)
         if (!comment) throw new Error()
         if (!req.user._id.equals(comment.author)) {
-            res.status(403).send('You do not have permission to delete this resource.')
+            res.status(403).json('You do not have permission to delete this resource.')
             return
         }
         await comment.remove()
-        res.status(202).send(comment)
+        res.status(202).json(comment)
     } catch (e) {
-        res.status(404).send(e)
+        res.status(404).json({ error: e })
     }
 })
 
@@ -75,7 +75,7 @@ router.patch(`/:id`, async(req, res) => {
     const allowedUpdates = ['content']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
-    if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
+    if (!isValidOperation) return res.status(400).json({ error: 'Invalid updates!' })
 
     try {
         const comment = await Comment.findById(req.params.id)
@@ -84,7 +84,7 @@ router.patch(`/:id`, async(req, res) => {
         await comment.save()
         res.json(comment)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).json({ error: e })
     }
 })
 

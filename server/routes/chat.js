@@ -12,10 +12,7 @@ const router = express.Router()
  * GET /api/chat
  * */
 router.get('/', async(req, res, next) => {
-    res.json(await Chat.find().populate([
-        { path: 'users' },
-        { path: 'messages' }
-    ]))
+    res.json(await Chat.find().populate('users messages'))
 })
 
 /** 
@@ -25,14 +22,11 @@ router.get('/', async(req, res, next) => {
  * */
 router.get('/:id', async(req, res, next) => {
     try {
-        const chat = await Chat.findById(req.params.id).populate([
-            { path: 'users' },
-            { path: 'messages' }
-        ])
+        const chat = await Chat.findById(req.params.id).populate('users messages')
         if (!chat) throw new Error()
         res.status(202).json(chat)
     } catch (e) {
-        res.status(404).send(e)
+        res.status(404).json({ error: e })
     }
 })
 
@@ -64,13 +58,13 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
         const chat = await Chat.findById(req.params.id)
         if (!chat) throw new Error()
         if (!req.user._id.equals(chat.author)) {
-            res.status(403).send('You do not have permission to delete this resource.')
+            res.status(403).json({ error: 'You do not have permission to delete this resource.' })
             return
         }
         await chat.remove()
         res.status(202).json(chat)
     } catch (e) {
-        res.status(404).send(e)
+        res.status(404).json({ error: e })
     }
 })
 

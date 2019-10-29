@@ -2,6 +2,8 @@ const path = require('path')
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const User = require('./models/User')
+require('./configs/database')
 
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -14,15 +16,9 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('express-flash');
 
-const User = require('./models/User')
-const connectToDB = require('./configs/database')
-connectToDB()
-
-// default value for title local
 const app = express();
 app.locals.title = 'Public Beef';
 
-// Set "Access-Control-Allow-Origin" header
 app.use(
     cors({
         origin: (origin, cb) => {
@@ -33,8 +29,6 @@ app.use(
     })
 )
 app.use(nocache())
-
-// Auth Setup - Enable authentication using session + passport
 app.use(
     session({
         secret: process.env.SESSION_SECRET || 'insecure-secret',
@@ -71,15 +65,12 @@ app.use((req, res, next) => {
     next();
 })
 
-// Middleware Setup
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-
 app.use(express.static(path.resolve(path.join(__dirname, '../client/build/public'))));
 
-//Backend Routes
 app.use(`/api/`, require('./routes/auth'))
 app.use(`/api/users`, require('./routes/user'))
 app.use(`/api/posts`, require('./routes/post'))
@@ -87,17 +78,14 @@ app.use(`/api/chat`, require('./routes/chat'))
 app.use(`/api/messages`, require('./routes/messages'))
 app.use(`/api/comments`, require('./routes/comment'))
 
-// For any routes that starts with "/api", catch 404 and forward to error handler
 app.use('/api/*', (req, res, next) => {
     let err = new Error(`API Route Not Found: ${req.baseUrl}`)
     err.status = 404
     next(err)
 })
 
-// Error handler
 app.use((err, req, res, next) => {
     console.error(err)
-
     if (!res.headersSent) {
         res.status(err.status || 500)
         if (process.env.NODE_ENV === 'production') res.json(err)

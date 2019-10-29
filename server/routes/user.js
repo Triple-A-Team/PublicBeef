@@ -65,14 +65,14 @@ router.patch(`/me`, isLoggedIn, async(req, res) => {
     const allowedUpdates = ['name', 'email', 'password', 'avatar', 'header', 'location', 'city', 'bio', 'nickname']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
-    if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
+    if (!isValidOperation) return res.status(400).json({ error: 'Invalid updates!' })
 
     try {
         updates.forEach((update) => req.user[update] = req.body[update])
         await req.user.save()
         res.json(req.user)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).json({ error: e })
     }
 })
 
@@ -85,9 +85,9 @@ router.post(`/me/avatar`, isLoggedIn, uploadCloud.single('avatar'), async(req, r
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
-    res.send()
+    res.json({ user: req.user })
 }, (error, req, res, next) => {
-    res.status(400).send({ error: error.message })
+    res.status(400).json({ error: error.message })
 })
 
 /** 
@@ -100,9 +100,9 @@ router.get(`/:id/avatar`, async(req, res) => {
         const user = await User.findById(req.params.id)
         if (!user || !user.avatar) throw new Error()
         res.set('Content-Type', 'image/png')
-        res.send(user.avatar)
+        res.json({ avatar: user.avatar })
     } catch (e) {
-        res.status(404).send()
+        res.status(404).json({ error: e })
     }
 })
 
@@ -114,7 +114,7 @@ router.get(`/:id/avatar`, async(req, res) => {
 router.delete(`/me/avatar`, isLoggedIn, async(req, res) => {
     req.user.avatar = undefined
     await req.user.save()
-    res.send()
+    res.json({ user: req.user })
 })
 
 module.exports = router

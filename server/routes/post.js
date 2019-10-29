@@ -1,6 +1,6 @@
 const express = require('express')
 const { isLoggedIn } = require('../middleware/auth')
-const uploadCloud = require('../configs/cloudinary') 
+const uploadCloud = require('../configs/cloudinary')
 const Post = require('../models/Post')
 const router = express.Router()
 
@@ -77,9 +77,9 @@ router.get('/:id', async(req, res, next) => {
     try {
         const post = await Post.findById(req.params.id).populate('comments')
         if (!post) throw new Error()
-        res.send(post)
+        res.json(post)
     } catch (e) {
-        res.status(404).send()
+        res.status(404).json({ error: e })
     }
 })
 
@@ -91,11 +91,11 @@ router.delete(`/:id`, isLoggedIn, async(req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error()
-        if (!req.user._id.equals(post.author)) res.status(403).send('You do not have permission to delete this resource.')
+        if (!req.user._id.equals(post.author)) res.status(403).json({ error: 'You do not have permission to delete this resource.' })
         await post.remove()
-        res.status(202).send(post)
+        res.status(202).json(post)
     } catch (e) {
-        res.status(404).send(e)
+        res.status(404).json({ error: e })
     }
 })
 
@@ -108,7 +108,7 @@ router.patch(`/:id`, async(req, res) => {
     const allowedUpdates = ['title', 'content', 'image']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
-    if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
+    if (!isValidOperation) return res.status(400).json({ error: 'Invalid updates!' })
 
     try {
         const post = await Post.findById(req.params.id)
@@ -117,7 +117,7 @@ router.patch(`/:id`, async(req, res) => {
         await post.save()
         res.json(post)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).json({ error: e })
     }
 })
 module.exports = router
