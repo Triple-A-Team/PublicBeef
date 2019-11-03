@@ -7,7 +7,6 @@ const service = axios.create({
     withCredentials: true,
 })
 
-
 /** 
  * Reverse lookup on lat long.
  * @example

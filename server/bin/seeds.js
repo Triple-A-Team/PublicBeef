@@ -23,24 +23,24 @@ async function createDBEntries() {
             password: bcrypt.hashSync(faker.internet.password(), bcrypt.genSaltSync(bcryptSalt)),
             email: faker.internet.email(),
             avatar: faker.internet.avatar(),
-            location: { coordinates: [faker.random.number({ min: -180, max: 180 }), faker.random.number({ min: -90, max: 90 })] }
+            location: { coordinates: [faker.finance.amount(-80.03, -81.84, 6), faker.finance.amount(25.13, 27.12, 6)] }
         }
     }))
 
-    await submitDocuments('posts', Post, Array.from({ length: 300 }).map((e, i) => {
+    await submitDocuments('posts', Post, Array.from({ length: 1000 }).map((e, i) => {
         const user = databaseEntries.users[i % databaseEntries.users.length]
         return {
-            title: faker.lorem.sentence(),
+            title: `${faker.hacker.verb()} ${faker.company.catchPhraseDescriptor()} ${faker.hacker.adjective()} ${faker.hacker.noun()}`,
             content: faker.lorem.paragraph(),
-            image: faker.image.nightlife(),
+            image: `https://loremflickr.com/320/240?lock=${Math.floor(Math.random()*1000)}&random=${Math.floor(Math.random()*1000)}`,
             author: user._id,
             location: user.location
         }
     }))
 
-    await submitDocuments('comments', Comment, Array.from({ length: 1000 }).map((e, i) => {
+    await submitDocuments('comments', Comment, Array.from({ length: 5000 }).map((e, i) => {
         return {
-            content: faker.lorem.paragraph(),
+            content: faker.hacker.phrase(),
             post: databaseEntries.posts[i % databaseEntries.posts.length]._id,
             author: databaseEntries.users[Math.floor(Math.random() * databaseEntries.users.length)]._id
         }
@@ -49,14 +49,14 @@ async function createDBEntries() {
     await submitDocuments('chats', Chat, Array.from({ length: 30 }).map(() => {
         const userIndices = generateUniqueNumberList(Math.floor(Math.random() * 10), 0, databaseEntries.users.length)
         return {
-            name: faker.lorem.word(),
+            name: faker.company.catchPhraseDescriptor(),
             users: userIndices.map(user => databaseEntries.users[user]._id)
         }
     }))
 
     await submitDocuments('messages', Message, Array.from({ length: 1000 }).map((e, i) => {
         return {
-            content: faker.lorem.paragraph(),
+            content: faker.hacker.phrase(),
             chat: databaseEntries.chats[i % databaseEntries.chats.length]._id,
             author: getRandomElement(databaseEntries.chats[i % databaseEntries.chats.length].users)
         }

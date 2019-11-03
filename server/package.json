@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "dev": "DEBUG=publicbeef:* nodemon ./bin/www",
-    "dev-windows": "nodemon ./bin/www"
+    "dev-windows": "nodemon ./bin/www",
+    "seed": "cd bin && node seeds.js && cd .."
   },
   "dependencies": {
     "api-query-params": "^4.14.0",

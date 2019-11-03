@@ -21,7 +21,7 @@ const Post = ({ post }) => {
     getMapData(post.location.coordinates[0], post.location.coordinates[1])
       .then(postArea => setPostArea(postArea))
 
-  }, []);
+  }, [post.location.coordinates]);
 
   return (
     <ListGroup.Item>
