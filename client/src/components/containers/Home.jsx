@@ -4,24 +4,37 @@ import ProfileCard from '../presentational/ProfileCard'
 import Chats from './Chats'
 import NewPost from '../forms/NewPost'
 import { getPosts } from '../../api/posts'
-import { Col, Row, Container, Media } from 'react-bootstrap'
+import { Col, Row, Container } from 'react-bootstrap'
 import { getLocalStorageUser, getCurrentUser, isLoggedIn } from '../../api/users'
-import { Circle, Map, GoogleApiWrapper, Marker } from 'google-maps-react';
-
-const mapStyles = {
-  width: '300px',
-  height: '300px',
-};
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props)
+    this.profileCardRef = React.createRef();
+  }
+
   state = {
     user: null,
     posts: [],
+    mapWidth: { width: '100px', height: '100px' },
     coords: { lat: 25.766111, lng: -80.196183 }
   }
 
-  onMapClicked = () => {
-    console.log('clicked!')
+  componentDidMount = () => {
+    const user = getLocalStorageUser()
+    this.setPosition()
+    const posts = this.getPosts()
+    posts.then(
+      result => {
+        this.setState({
+          posts: result,
+          user
+        })
+      }
+    )
+    this.setComputedMapSize()
+    window.addEventListener("resize", this.setComputedMapSize);
   }
 
   setPosition = async () => {
@@ -38,37 +51,6 @@ class Home extends React.Component {
     return posts
   }
 
-  componentDidMount = () => {
-    const user = getLocalStorageUser()
-    this.setPosition()
-    const posts = this.getPosts()
-    posts.then(
-      result => {
-        this.setState({
-          posts: result,
-          user
-        })
-      }
-    )
-  }
-
-  displayCircle = () => {
-    return (
-      <Circle
-        radius={1200}
-        center={this.state.coords}
-        onMouseover={() => console.log('mouseover')}
-        onClick={() => console.log('click')}
-        onMouseout={() => console.log('mouseout')}
-        strokeColor='transparent'
-        strokeOpacity={0}
-        strokeWeight={5}
-        fillColor='#FF0000'
-        fillOpacity={0.2}
-      />
-    )
-  }
-
   displayMarkers = () => {
     return this.state.posts.map((post, index) => {
       const position = {
@@ -79,8 +61,8 @@ class Home extends React.Component {
     })
   }
 
-  userCoords = () => {
-    return { lat: 25.766111, lng: -80.196183 }
+  setComputedMapSize = () => {
+    this.setState({ mapWidth: this.profileCardRef.current ? this.profileCardRef.current.clientWidth : '100px' })
   }
 
   render = () => {
@@ -89,12 +71,12 @@ class Home extends React.Component {
         <Col mx={0} px={0} md={4}>
           <Container>
             <h1>Public Beefs</h1>
-            <Posts posts={this.state.posts} />
+            <Posts posts={this.state.posts} userPos={this.state.coords} />
             <NewPost />
           </Container>
         </Col>
         <Col mx={0} px={0} md={4}>
-          <Container style={{ height: '100%' }}>
+          <Container style={{ height: '95%' }}>
             <h1>Private Beefs</h1>
             <Chats />
           </Container>
@@ -102,24 +84,12 @@ class Home extends React.Component {
         <Col mx={0} px={0} md={4}>
           <Container>
             <h1>Beefer</h1>
-            <ProfileCard user={this.state.user} />
-            <Media>
-              <Map google={this.props.google} zoom={8} mapStyles={mapStyles} initialCenter={this.state.coords} onClick={this.onMapClicked}>
-                {this.state.posts && this.displayMarkers()}
-                {/* <Circle
-                  radius={1200}
-                  center={this.state.coords}
-                  onMouseover={() => console.log('mouseover')}
-                  onClick={() => console.log('click')}
-                  onMouseout={() => console.log('mouseout')}
-                  strokeColor='transparent'
-                  strokeOpacity={0}
-                  strokeWeight={5}
-                  fillColor='#FF0000'
-                  fillOpacity={0.2}
-                /> */}
-              </Map>
-            </Media>
+            <div ref={this.profileCardRef} className="media">
+              <ProfileCard style={{ width: this.state.mapWidth, height: '50vh' }} user={this.state.user} />
+            </div>
+            <Map google={this.props.google} zoom={8} style={{ position: "relative", width: this.state.mapWidth, height: '32vh' }} initialCenter={this.state.coords} onClick={this.onMapClicked}>
+              {this.state.posts && this.displayMarkers()}
+            </Map>
           </Container>
         </Col>
       </Row >

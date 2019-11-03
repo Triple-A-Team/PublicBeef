@@ -13,7 +13,7 @@ import { ListGroup } from 'react-bootstrap'
 //   })
 // }
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, userPos }) => {
   const updateScrollHeight = () => {
     const postListUL = document.getElementById('postList');
     postListUL.scrollTop = postListUL.scrollHeight;
@@ -26,7 +26,7 @@ const PostList = ({ posts }) => {
 
   return (
     <ListGroup id="postList" style={{ maxHeight: '70vh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' }} variant="flush">
-      {posts.map(post => <Post key={post._id} post={post} />)}
+      {posts.map(post => <Post key={post._id} userPos={userPos} post={post} />)}
     </ListGroup>
   )
 }

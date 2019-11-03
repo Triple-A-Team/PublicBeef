@@ -30,7 +30,11 @@ router.get('/search', async(req, res, next) => {
             sort: { "createdAt": 1 }
         })
         .limit(limit)
-        .populate('author')
+        .populate('author comments')
+        .populate({
+            path: 'comments',
+            populate: { path: 'author' }
+        })
         .then(posts => {
             res.json(posts)
         })

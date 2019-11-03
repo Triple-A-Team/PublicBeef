@@ -40,7 +40,7 @@ const ChatMessage = ({ message }) => {
   let { author, created_at, content } = message
   var messageTimeStamp = moment(created_at)
   return (
-    <li className="chat-message d-flex justify-content-between mb-4">
+    <li className="chat-message d-flex mb-2">
       <Image tag="img" src={author.avatar || "https://via.placeholder.com/80x80text=User+Avatar"} alt="avatar" roundedCircle style={{ maxHeight: '80px', maxWidth: '80px' }} className="mx-1 z-depth-1" />
       <Card>
         <Card.Body>

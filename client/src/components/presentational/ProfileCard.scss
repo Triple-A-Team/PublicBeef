@@ -1,8 +1,15 @@
 .profile-avatar {
-  width: 200px !important;
-  height: 200px !important;
+  width: 100px !important;
   align-self: center;
   position: absolute;
-  top: 30%;
+  top: 100px;
   border-radius: 100% !important
+}
+
+.profile-banner {
+  height: 150px;
+}
+
+.profile-body {
+  z-index: 11;
 }
