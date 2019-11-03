@@ -24,7 +24,7 @@ const Chat = ({ chat }) => {
           </Card.Body>
         </Card >
       </li>
-      {chat.messages.map(message => <ChatMessage key={message.author._id + message.created_at} message={message} />)}
+      {chat.messages.map(message => <ChatMessage key={chat._id + message.author._id + message.created_at} message={message} />)}
       <li>
         <div className="form-group basic-textarea">
           <textarea className="form-control pl-2 my-0" id="exampleFormControlTextarea2" rows="3" placeholder="Type your message here..." />
