@@ -8,7 +8,40 @@ document.addEventListener('DOMContentLoaded', () => {
 var map, infoWindow;
 var pos = {};
 
+function updateUserLocation(pos) {
+  axios.patch('/api/users/me', {
+      location: {
+        coordinates: [pos.lng, pos.lat]
+      }
+    })
+    .then(result => {
+      console.log(result.data)
+    })
+
+}
+
+function getPosition() {
+  pos = {
+    lng: -80.196183,
+    lat: 25.766111
+  }
+  infoWindow = new google.maps.InfoWindow
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        pos.lat = position.coords.latitude,
+          pos.lng = position.coords.longitude,
+          infoWindow.setPosition(pos);
+      },
+      function () {
+        console.log("Couldn't find position")
+      })
+  }
+  return pos
+}
 function initMap() {
+
+  pos = getPosition()
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: pos.lat,
@@ -16,48 +49,26 @@ function initMap() {
     },
     zoom: 12
   });
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      pos.lat = position.coords.latitude,
-        pos.lng = position.coords.longitude,
-        infoWindow.setPosition(pos);
-      let location = [pos.lng, pos.lat]
 
-      axios.patch('/api/users/me', { location: { coordinates: location } })
-      .then(result =>{
-        console.log(result.data)
-      })
+  //User Func
+  updateUserLocation(pos);
 
-      map.setCenter(pos);
 
-      var cityCircle = new google.maps.Circle({
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.35,
-        map: map,
-        center: {
-          lat: pos.lat,
-          lng: pos.lng
-        },
-        radius: 800 //Math.sqrt(citymap[city].population) * 100
-      });
-    }, function () {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
+  map.setCenter(pos);
 
-  infoWindow = new google.maps.InfoWindow;
+  var circle = map.setCenter(pos);
 
-  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-      'Error: The Geolocation service failed.' :
-      'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-  }
+  new google.maps.Circle({
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+    map: map,
+    center: {
+      lat: pos.lat,
+      lng: pos.lng
+    },
+    radius: 800 //Math.sqrt(citymap[city].population) * 100
+  });
 }

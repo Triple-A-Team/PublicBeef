@@ -36,8 +36,23 @@ router.get('/search', (req, res, next) => {
  * @example
  * GET /api/users/me
  */
-router.get(`/me`,(req, res) => {
-    res.json(req.user)
+router.get(`/me`, isLoggedIn, async(req, res) => {
+    let user = await User.findById(req.user._id).populate('chats')
+    res.json(user)
+})
+
+/** 
+ * Obtains a copy of the current logged in user model
+ * @example
+ * GET /api/users
+ */
+router.get(`/`, isLoggedIn, async(req, res, next) => {
+    try {
+        let users = await User.find()
+        res.json(users)
+    } catch (err) {
+        next(err)
+    }
 })
 
 /** 

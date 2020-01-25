@@ -11,7 +11,7 @@ const pointSchema = new mongoose.Schema({
     coordinates: {
         type: [Number],
         index: '2dsphere',
-        default: [25.766111, -80.196183],
+        default: [-80.196183, 25.766111],
         required: true
     }
 });
@@ -130,9 +130,11 @@ userSchema.virtual('chats', {
     ref: 'Chat',
     localField: '_id',
     foreignField: 'users',
-    justOne: true
+    justOne: false
 })
 
+userSchema.set('toObject', { virtuals: true })
+userSchema.set('toJSON', { virtuals: true })
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
