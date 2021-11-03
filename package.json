@@ -32,7 +32,7 @@
     "serve-favicon": "^2.5.0",
     "sharp": "^0.23.0",
     "simplebar": "^4.2.3-corejs2",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"
